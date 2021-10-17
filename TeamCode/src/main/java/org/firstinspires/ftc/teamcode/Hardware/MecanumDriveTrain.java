@@ -1,12 +1,13 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Hardware;
 
 
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
+import org.firstinspires.ftc.teamcode.Hardware.MecanumWheels;
 
 
 /**
@@ -40,7 +41,7 @@ public class MecanumDriveTrain {
 
     // Constructors
 
-    MecanumDriveTrain(HardwareFF robot, Gamepad gamepadinput, Telemetry telemetry) {
+    public MecanumDriveTrain(HardwareFF robot, Gamepad gamepadinput, Telemetry telemetry) {
         frontLeft = robot.frontLeft;
         frontRight = robot.frontRight;
         backLeft = robot.backLeft;

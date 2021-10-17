@@ -1,8 +1,10 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
+import org.firstinspires.ftc.teamcode.Hardware.MecanumDriveTrain;
 
 @TeleOp(name="Testing", group="UltimateGoal")
 public class Testing extends OpMode {
