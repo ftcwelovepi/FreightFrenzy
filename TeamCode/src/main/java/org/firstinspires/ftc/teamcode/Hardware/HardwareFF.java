@@ -10,11 +10,20 @@ public class HardwareFF {
     public DcMotor frontRight;
     public DcMotor backRight;
 
+    private boolean wheels;
+
     HardwareMap hwMap = null;
 
-    public void init (HardwareMap awhMap) {
-
+    public void setHardwareMap (HardwareMap awhMap) {
         hwMap = awhMap;
+        wheels = false;
+    }
+
+    public void initWheels () {
+
+        if (wheels) {
+            return;
+        }
 
         frontLeft = hwMap.get(DcMotor.class, "front_left");
         frontRight = hwMap.get(DcMotor.class, "front_right");
@@ -26,6 +35,7 @@ public class HardwareFF {
         backRight.setDirection(DcMotor.Direction.FORWARD);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
 
+        wheels = true;
 
     }
 
