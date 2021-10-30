@@ -71,6 +71,8 @@ public class Testing extends OpMode {
         if (!switching) {
             framework.loop();
         }
+
+
     }
 
     public void switchConfig() {

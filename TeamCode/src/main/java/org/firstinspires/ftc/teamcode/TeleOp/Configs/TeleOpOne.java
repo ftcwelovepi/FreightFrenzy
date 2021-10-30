@@ -13,6 +13,13 @@ public class TeleOpOne extends Template {
 
     }
 
+    @Override
+    public void a(boolean pressed) {
+        if (pressed) {
+
+        }
+    }
+
     public void updateTelemetryDM() {
         telemetryDM.put( "Testing", "Testing 2" );
     }
