@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class HardwareFF {
 
@@ -9,6 +11,8 @@ public class HardwareFF {
     public DcMotor backLeft;
     public DcMotor frontRight;
     public DcMotor backRight;
+
+    public Servo bucket;
 
     private boolean wheels;
 
@@ -34,6 +38,8 @@ public class HardwareFF {
         frontRight.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         backRight.setDirection(DcMotor.Direction.FORWARD);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
+
+        bucket = hwMap.get(Servo.class, "bucket");
 
         wheels = true;
 

@@ -13,6 +13,22 @@ public class TeleOpOne extends Template {
 
     }
 
+    @Override
+    public void a(boolean pressed) {
+        if (pressed) {
+            robot.bucket.setPosition(0);
+
+        }
+    }
+
+    @Override
+    public void b(boolean pressed) {
+        if (pressed) {
+            robot.bucket.setPosition(1);
+
+        }
+    }
+
     public void updateTelemetryDM() {
         telemetryDM.put( "Testing", "Testing 2" );
     }
