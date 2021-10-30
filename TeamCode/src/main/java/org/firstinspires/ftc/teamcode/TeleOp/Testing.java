@@ -78,7 +78,7 @@ public class Testing extends OpMode {
         if (Template.canPress() && gamepad2.dpad_up && indexOfConfig!=0) indexOfConfig--;
         int i = 0;
         for (Class<? extends Template> frameWork: listOfTemplates) {
-            
+
             telemetry.addData( (i!=indexOfConfig ? " " : ">"), frameWork );
             i++;
         }
