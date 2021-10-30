@@ -2,8 +2,7 @@ package org.firstinspires.ftc.teamcode.TeleOp.Configs;
 
 import androidx.annotation.NonNull;
 
-public class TeleOpOne extends Template {
-
+public class FinalConfigV1 extends Template{
 
     public void init() {
         robot.initWheels();
@@ -13,17 +12,13 @@ public class TeleOpOne extends Template {
 
     }
 
-    public void updateTelemetryDM() {
-        telemetryDM.put( "Testing", "Testing 2" );
-    }
-
     public String getName() {
-        return "First Class";
+        return "1st final config version";
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "First Class";
+        return "Final Config";
     }
 }

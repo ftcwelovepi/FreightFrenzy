@@ -12,7 +12,7 @@ public class HardwareFF {
 
     private boolean wheels;
 
-    HardwareMap hwMap = null;
+    public HardwareMap hwMap = null;
 
     public void setHardwareMap (HardwareMap awhMap) {
         hwMap = awhMap;
@@ -36,6 +36,8 @@ public class HardwareFF {
         backLeft.setDirection(DcMotor.Direction.REVERSE);
 
         wheels = true;
+
+
 
     }
 
