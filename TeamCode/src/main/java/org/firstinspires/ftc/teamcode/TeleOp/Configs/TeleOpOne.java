@@ -10,6 +10,7 @@ public class TeleOpOne extends Template {
 
     public void init() {
         robot.initWheels();
+        robot.initComponents();
     }
 
     public void loop() {

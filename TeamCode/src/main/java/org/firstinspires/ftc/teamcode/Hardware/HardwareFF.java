@@ -13,14 +13,28 @@ public class HardwareFF {
     public DcMotor backRight;
 
     public Servo bucket;
+    public CRServo spinner;
 
     private boolean wheels;
+    private boolean components;
 
     public HardwareMap hwMap = null;
 
     public void setHardwareMap (HardwareMap awhMap) {
         hwMap = awhMap;
         wheels = false;
+        components = false;
+    }
+
+    public void initComponents () {
+        if (components) {
+            return;
+        }
+
+        bucket = hwMap.get(Servo.class, "bucket");
+        spinner = hwMap.get(CRServo.class, "spinner");
+
+        components = true;
     }
 
     public void initWheels () {
@@ -38,8 +52,6 @@ public class HardwareFF {
         frontRight.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         backRight.setDirection(DcMotor.Direction.FORWARD);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
-
-        bucket = hwMap.get(Servo.class, "bucket");
 
         wheels = true;
 
