@@ -4,28 +4,41 @@ import androidx.annotation.NonNull;
 
 public class TeleOpOne extends Template {
 
+    public double bucketTimeIncrement = 25;
+    public double pauseTime = System.currentTimeMillis();
+    public boolean bucketBack = true;
 
     public void init() {
         robot.initWheels();
     }
 
     public void loop() {
+        setBucket();
+    }
 
+    private void setBucket () {
+        if (pauseTime+bucketTimeIncrement > System.currentTimeMillis()) {
+            return;
+        }
+        if (bucketBack && robot.bucket.getPosition()<1) {
+            robot.bucket.setPosition( robot.bucket.getPosition()+0.05 );
+        } else if (!bucketBack && robot.bucket.getPosition()>0) {
+            robot.bucket.setPosition( robot.bucket.getPosition()-0.05 );
+        }
+        pauseTime = System.currentTimeMillis();
     }
 
     @Override
     public void a(boolean pressed) {
         if (pressed) {
-            robot.bucket.setPosition(0);
-
+            bucketBack = false;
         }
     }
 
     @Override
     public void b(boolean pressed) {
         if (pressed) {
-            robot.bucket.setPosition(1);
-
+            bucketBack = true;
         }
     }
 

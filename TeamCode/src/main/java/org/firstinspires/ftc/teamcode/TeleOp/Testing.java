@@ -64,7 +64,10 @@ public class Testing extends OpMode {
             switchConfig();
         }
         else if(Template.canPress()) {
+            framework.a( gamepad2.a );
+            framework.b( gamepad2.b );
             telemetry.addData( "Caption", framework.getName() );
+            telemetry.addData( "Bucket ", robot.bucket.getPosition() );
             telemetry.update();
         }
 
