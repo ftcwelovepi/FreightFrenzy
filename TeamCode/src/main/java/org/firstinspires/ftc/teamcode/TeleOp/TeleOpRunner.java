@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.TeleOp.Configs.Template;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-@TeleOp(name="Testing", group="UltimateGoal")
+@TeleOp(name="TelwOp Runner", group="UltimateGoal")
 public class TeleOpRunner extends OpMode {
 
     // declaring variables
@@ -66,6 +66,9 @@ public class TeleOpRunner extends OpMode {
         else if(Template.canPress()) {
             framework.a( gamepad2.a );
             framework.b( gamepad2.b );
+            framework.x( gamepad2.x );
+            framework.y( gamepad2.y );
+            framework.lt( gamepad2.left_trigger );
             telemetry.addData( "Caption", framework.getName() );
             telemetry.addData( "Bucket ", robot.bucket.getPosition() );
             telemetry.update();

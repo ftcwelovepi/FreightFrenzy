@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -34,6 +35,8 @@ public class HardwareFF {
 
         bucket = hwMap.get(Servo.class, "bucket");
         spinner = hwMap.get(DcMotor.class, "spinner");
+
+        spinner.setDirection(DcMotor.Direction.FORWARD);
 
         components = true;
     }
