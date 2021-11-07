@@ -5,8 +5,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Bucket_Servo {
     private static Servo s;
-    private static double bucketTime = 2000;
-    private static double bucketTimeIncrement = bucketTime;
+    private static double bucketTimeIncrement = 25;
     private static double pauseTime = System.currentTimeMillis();
     private static boolean bucketBack = true;
 
@@ -14,6 +13,9 @@ public class Bucket_Servo {
     private static double high = 1;
 
     private static double position = 0.0;
+    private static double glideTarget = 0.0;
+
+    private static boolean gliding = false;
 
     public static void initialize(HardwareMap hwMap) {
         if (s == null && !hwMap.allDeviceMappings.contains( s )){
@@ -22,15 +24,41 @@ public class Bucket_Servo {
     }
 
     public static void update() {
+        if (gliding) {
+            if (pauseTime + bucketTimeIncrement > System.currentTimeMillis()) {
+                return;
+            }
+            if (glideTarget < position) {
+                position -= 0.05;
+            } else if (glideTarget > position) {
+                position += 0.05;
+            } else {
+                gliding = false;
+            }
+
+            pauseTime = System.currentTimeMillis();
+        }
         setPosition( position );
     }
 
-    public static void glide() {
-
+    public static void glide(boolean oppositeEnd) {
+        bucketTimeIncrement = 25;
+        gliding = true;
+        if (oppositeEnd) {
+            glideTarget = (getPosition() < 0.5 ? 1 : 0);
+        } else {
+            glideTarget = 1-getPosition();
+        }
     }
 
-    public static void glide(double totalTimeMilis) {
-
+    public static void glide(boolean oppositeEnd, double milis) {
+        bucketTimeIncrement = milis;
+        gliding = false;
+        if (oppositeEnd) {
+            glideTarget = (getPosition() < 0.5 ? 1 : 0);
+        } else {
+            glideTarget = 1-getPosition();
+        }
     }
 
     public static void switchRelative () {
