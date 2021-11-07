@@ -13,7 +13,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 @TeleOp(name="Testing", group="UltimateGoal")
-public class Testing extends OpMode {
+public class TeleOpRunner extends OpMode {
 
     // declaring variables
     MecanumDriveTrain vroom;

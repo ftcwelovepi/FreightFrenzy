@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Bucket_Servo {
     private static Servo s;
     private static double bucketTime = 2000;
-    private static double bucketTimeIncrement = bucketTime/;
+    private static double bucketTimeIncrement = bucketTime;
     private static double pauseTime = System.currentTimeMillis();
     private static boolean bucketBack = true;
 

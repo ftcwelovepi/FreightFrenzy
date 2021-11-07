@@ -7,6 +7,7 @@ public class TeleOpOne extends Template {
     public double bucketTimeIncrement = 25;
     public double pauseTime = System.currentTimeMillis();
     public boolean bucketBack = true;
+    public int direction = 1;
 
     public void init() {
         robot.initWheels();
@@ -40,6 +41,20 @@ public class TeleOpOne extends Template {
     public void b(boolean pressed) {
         if (pressed) {
             bucketBack = true;
+        }
+    }
+
+    @Override
+    public void x (boolean pressed) {
+        if (pressed) {
+            robot.spinner.setPower( (robot.spinner.getPower()==0 ? direction : 0) );
+        }
+    }
+
+    @Override
+    public void y (boolean pressed) {
+        if (pressed) {
+            direction = -direction;
         }
     }
 

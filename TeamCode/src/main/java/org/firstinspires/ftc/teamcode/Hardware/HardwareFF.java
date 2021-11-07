@@ -12,8 +12,9 @@ public class HardwareFF {
     public DcMotor frontRight;
     public DcMotor backRight;
 
+    public DcMotor spinner;
+
     public Servo bucket;
-    public CRServo spinner;
 
     private boolean wheels;
     private boolean components;
@@ -32,7 +33,7 @@ public class HardwareFF {
         }
 
         bucket = hwMap.get(Servo.class, "bucket");
-        spinner = hwMap.get(CRServo.class, "spinner");
+        spinner = hwMap.get(DcMotor.class, "spinner");
 
         components = true;
     }
