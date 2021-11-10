@@ -71,6 +71,7 @@ public class TeleOpOne extends Template {
 
     public void updateTelemetryDM() {
         telemetryDM.put( "Testing", "Testing 2" );
+        telemetryDM.put( "Bucket Position", String.valueOf( robot.bucket.getPosition() ) );
     }
 
     public String getName() {
