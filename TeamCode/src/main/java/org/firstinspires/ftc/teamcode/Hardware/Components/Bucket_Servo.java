@@ -18,9 +18,7 @@ public class Bucket_Servo {
     private static boolean gliding = false;
 
     public static void initialize(HardwareMap hwMap) {
-        if (s == null && !hwMap.allDeviceMappings.contains( s )){
-            s = hwMap.get( Servo.class, "bucket" );
-        }
+        s = hwMap.get( Servo.class, "bucket" );
     }
 
     public static void update() {
@@ -39,6 +37,22 @@ public class Bucket_Servo {
             pauseTime = System.currentTimeMillis();
         }
         setPosition( position );
+    }
+
+    public static void moveForward () {
+        moveForward(0.05);
+    }
+
+    public static void moveForward (double amount) {
+        position += (position!=1.0 ? amount : 0);
+    }
+
+    public static void moveBackward () {
+        moveBackward(0.05);
+    }
+
+    public static void moveBackward (double amount) {
+        position -= (position!=1.0 ? amount : 0);
     }
 
     public static void glide(boolean oppositeEnd) {
