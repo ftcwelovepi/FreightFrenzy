@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.TeleOp.Configs.Template;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-@TeleOp(name="TelwOp Runner", group="UltimateGoal")
+@TeleOp(name="TeleOp Runner", group="UltimateGoal")
 public class TeleOpRunner extends OpMode {
 
     // declaring variables
@@ -68,9 +68,21 @@ public class TeleOpRunner extends OpMode {
             framework.b( gamepad2.b );
             framework.x( gamepad2.x );
             framework.y( gamepad2.y );
+
+            framework.dd( gamepad2.dpad_down );
+            framework.du( gamepad2.dpad_up );
+            framework.dl( gamepad2.dpad_left );
+            framework.dr( gamepad2.dpad_right );
+
             framework.lt( gamepad2.left_trigger );
-            telemetry.addData( "Caption", framework.getName() );
-            telemetry.addData( "Bucket ", robot.bucket.getPosition() );
+            framework.rt( gamepad2.right_trigger );
+
+            framework.updateTelemetryDM();
+
+            for (String key: framework.telemetryDM.keySet()) {
+                telemetry.addData( key, framework.telemetryDM.get( key ) );
+            }
+
             telemetry.update();
         }
 
@@ -87,7 +99,7 @@ public class TeleOpRunner extends OpMode {
         int i = 0;
         for (Class<? extends Template> frameWork: listOfTemplates) {
 
-            telemetry.addData( (i!=indexOfConfig ? " " : ">"), frameWork );
+            telemetry.addData( (i!=indexOfConfig ? " " : ">"), frameWork.toString().split( "\\." )[frameWork.toString().split( "\\." ).length - 1] );
             i++;
         }
         if (Template.canPress() && gamepad2.x) setConfig(indexOfConfig);
