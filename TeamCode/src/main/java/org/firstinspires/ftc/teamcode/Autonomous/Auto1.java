@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 import org.firstinspires.ftc.teamcode.Hardware.MecanumWheels;
 
+@Autonomous(name = "Auto 1", group = "Frieght Frenzy")
 public class Auto1 extends LinearOpMode{
     static final double     COUNTS_PER_MOTOR_REV    = /*767.2*/ 383.5 ;
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
@@ -19,11 +21,11 @@ public class Auto1 extends LinearOpMode{
         robot.setHardwareMap(hardwareMap);
         robot.initComponents();
         robot.initWheels();
-        while (!isStopRequested())
-        {
-            sleep(50);
-            idle();
-        }
+//        while (!isStopRequested())
+//        {
+//            sleep(50);
+//            idle();
+//        }
         telemetry.addData("Ready! ", "Let's go");    //
         telemetry.update();
 
@@ -191,8 +193,16 @@ public class Auto1 extends LinearOpMode{
 
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         initHardware();
-        encoderMecanumDrive(0.4, 10, 3, -1, 0);
+        telemetry.addData( "Ray", "han" );
+        telemetry.update();
+
+        waitForStart();
+        if (opModeIsActive()) {
+            encoderMecanumDrive(0.4, 70, 3, 0.25, 1);
+            robot.spinner.setPower( 1 );
+            sleep( 5000 );
+        }
     }
 }
