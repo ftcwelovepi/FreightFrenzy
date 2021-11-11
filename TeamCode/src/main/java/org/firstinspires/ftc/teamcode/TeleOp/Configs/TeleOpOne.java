@@ -19,15 +19,12 @@ public class TeleOpOne extends Template {
         robot.initWheels();
         robot.initComponents();
         robot.initSlides();
+        robot.initIntake();
     }
 
     public void loop() {
         setBucket();
-        if (rb || lb) {
-            robot.slides.setPower( power );
-        } else {
-            robot.slides.setPower( 0 );
-        }
+
     }
 
     private void setBucket () {
@@ -43,21 +40,13 @@ public class TeleOpOne extends Template {
     }
 
     @Override
-    public void lb(boolean pressed) {
-        if (pressed) {
-            power = 0.2;
-            lb = true;
-        }
-        lb = false;
+    public void rjoy(float x, float y) {
+        robot.slides.setPower( y*0.2 );
     }
 
     @Override
-    public void rb(boolean pressed) {
-        if (pressed) {
-            power = -0.2;
-            rb = true;
-        }
-        rb = false;
+    public void ljoy(float x, float y) {
+        robot.intake.setPower( y );
     }
 
     @Override

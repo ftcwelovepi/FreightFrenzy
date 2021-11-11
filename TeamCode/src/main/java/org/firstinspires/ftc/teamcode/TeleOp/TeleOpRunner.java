@@ -56,7 +56,6 @@ public class TeleOpRunner extends OpMode {
     @Override
     public void loop() {
         vroom.loop();
-        framework.loop();
 
         if (gamepad2.start) {
             switching = true;
@@ -83,13 +82,15 @@ public class TeleOpRunner extends OpMode {
             for (String key: framework.telemetryDM.keySet()) {
                 telemetry.addData( key, framework.telemetryDM.get( key ) );
             }
-
+            telemetry.addData( "Slides", String.valueOf( robot.slides.getPower() ) );
             telemetry.update();
             Template.resetButton();
         }
 
         if (!switching) {
             framework.loop();
+            framework.rjoy( gamepad2.right_stick_x, gamepad2.right_stick_y );
+            framework.ljoy( gamepad2.left_stick_x, gamepad2.left_stick_y );
         }
 
 
