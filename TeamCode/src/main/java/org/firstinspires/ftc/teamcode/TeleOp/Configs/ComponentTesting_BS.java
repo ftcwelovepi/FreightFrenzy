@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import org.firstinspires.ftc.teamcode.Hardware.Components.Bucket_Servo;
 
-public class ComponentTesting extends Template{
+public class ComponentTesting_BS extends Template{
     public void init() {
         robot.initWheels();
         Bucket_Servo.initialize( robot );

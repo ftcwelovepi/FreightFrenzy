@@ -14,11 +14,12 @@ public class HardwareFF {
     public DcMotor backRight;
 
     public DcMotor spinner;
-
+    public DcMotor slides;
     public Servo bucket;
 
     private static boolean wheels;
     private static boolean components;
+    private static boolean slide;
 
     public HardwareMap hwMap = null;
 
@@ -26,12 +27,11 @@ public class HardwareFF {
         hwMap = awhMap;
         wheels = false;
         components = false;
+        slide = false;
     }
 
     public void initComponents () {
-        if (components) {
-            return;
-        }
+        if (components) return;
 
         bucket = hwMap.get(Servo.class, "bucket");
         spinner = hwMap.get(DcMotor.class, "spinner");
@@ -41,11 +41,17 @@ public class HardwareFF {
         components = true;
     }
 
+    public void initSlides () {
+        if (slide) return;
+
+        slides = hwMap.get( DcMotor.class, "slides" );
+
+        slide = true;
+    }
+
     public void initWheels () {
 
-        if (wheels) {
-            return;
-        }
+        if (wheels) return;
 
         frontLeft = hwMap.get(DcMotor.class, "front_left");
         frontRight = hwMap.get(DcMotor.class, "front_right");

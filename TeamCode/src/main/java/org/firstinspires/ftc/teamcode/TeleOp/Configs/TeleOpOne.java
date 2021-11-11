@@ -11,14 +11,23 @@ public class TeleOpOne extends Template {
     public double pauseTime = System.currentTimeMillis();
     public boolean bucketBack = true;
     public DcMotor.Direction direction = DcMotor.Direction.FORWARD;
+    public double power;
+
+    public boolean lb = false, rb = false;
 
     public void init() {
         robot.initWheels();
         robot.initComponents();
+        robot.initSlides();
     }
 
     public void loop() {
         setBucket();
+        if (rb || lb) {
+            robot.slides.setPower( power );
+        } else {
+            robot.slides.setPower( 0 );
+        }
     }
 
     private void setBucket () {
@@ -31,6 +40,24 @@ public class TeleOpOne extends Template {
             robot.bucket.setPosition( robot.bucket.getPosition()-0.05 );
         }
         pauseTime = System.currentTimeMillis();
+    }
+
+    @Override
+    public void lb(boolean pressed) {
+        if (pressed) {
+            power = 0.2;
+            lb = true;
+        }
+        lb = false;
+    }
+
+    @Override
+    public void rb(boolean pressed) {
+        if (pressed) {
+            power = -0.2;
+            rb = true;
+        }
+        rb = false;
     }
 
     @Override
