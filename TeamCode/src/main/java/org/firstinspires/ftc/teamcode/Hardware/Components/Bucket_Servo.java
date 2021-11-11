@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.Hardware.Components;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Hardware;
+
+import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 
 public class Bucket_Servo {
     private static Servo s;
@@ -17,8 +20,8 @@ public class Bucket_Servo {
 
     private static boolean gliding = false;
 
-    public static void initialize(HardwareMap hwMap) {
-        s = hwMap.get( Servo.class, "bucket" );
+    public static void initialize(HardwareFF robot) {
+        s = robot.bucket;
     }
 
     public static void update() {
@@ -26,9 +29,9 @@ public class Bucket_Servo {
             if (pauseTime + bucketTimeIncrement > System.currentTimeMillis()) {
                 return;
             }
-            if (glideTarget < position) {
+            if (glideTarget+0.05 < position) {
                 position -= 0.05;
-            } else if (glideTarget > position) {
+            } else if (glideTarget-0.05 > position) {
                 position += 0.05;
             } else {
                 gliding = false;
@@ -36,7 +39,7 @@ public class Bucket_Servo {
 
             pauseTime = System.currentTimeMillis();
         }
-        setPosition( position );
+        setPosition(  );
     }
 
     public static void moveForward () {
@@ -59,9 +62,9 @@ public class Bucket_Servo {
         bucketTimeIncrement = 25;
         gliding = true;
         if (oppositeEnd) {
-            glideTarget = (getPosition() < 0.5 ? 1 : 0);
+            glideTarget = (s.getPosition() < 0.5 ? 1 : 0);
         } else {
-            glideTarget = 1-getPosition();
+            glideTarget = 1-s.getPosition();
         }
     }
 
@@ -69,27 +72,26 @@ public class Bucket_Servo {
         bucketTimeIncrement = milis;
         gliding = false;
         if (oppositeEnd) {
-            glideTarget = (getPosition() < 0.5 ? 1 : 0);
+            glideTarget = (s.getPosition() < 0.5 ? 1 : 0);
         } else {
-            glideTarget = 1-getPosition();
+            glideTarget = 1-s.getPosition();
         }
     }
 
     public static void switchRelative () {
-        position = 1-getPosition();
+        position = 1-s.getPosition();
     }
 
     public static void switchToOppositeEnd () {
-        if (getPosition() < 0.5) {
+        if (s.getPosition() < 0.5) {
             position = 1;
         } else {
             position = 0;
         }
     }
 
-    public static void setPosition (double pos) {
-        if (!(pos >= 0 && pos <= 1)) return;
-        position = pos;
+    public static void setPosition () {
+        if ((position >= 0 && position <= 1)) s.setPosition( position );
     }
 
     public static double getTargetPosition () {

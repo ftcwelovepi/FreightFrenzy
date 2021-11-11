@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Hardware.Components.Bucket_Servo;
 public class ComponentTesting extends Template{
     public void init() {
         robot.initWheels();
-        Bucket_Servo.initialize( robot.hwMap );
+        Bucket_Servo.initialize( robot );
     }
 
     public void a(boolean pressed) {
@@ -17,9 +17,7 @@ public class ComponentTesting extends Template{
     }
 
     public void b (boolean pressed) {
-        if (pressed) {
-            Bucket_Servo.glide( false );
-        }
+
     }
 
     public void du(boolean pressed) {
