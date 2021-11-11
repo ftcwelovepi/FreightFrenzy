@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -22,6 +23,7 @@ public class HardwareFF {
     private static boolean components;
     private static boolean slide;
     private static boolean intakeB;
+    public BNO055IMU imu;
 
     public HardwareMap hwMap = null;
 

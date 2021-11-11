@@ -4,16 +4,24 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 import org.firstinspires.ftc.teamcode.Hardware.MecanumWheels;
 
-@Autonomous(name = "Auto 1", group = "Frieght Frenzy")
+import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
+
+@Autonomous(name = "Auto 1", group = "Freight Frenzy")
 public class Auto1 extends LinearOpMode{
     static final double     COUNTS_PER_MOTOR_REV    = /*767.2*/ 383.5 ;
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_CM       = 9.6 ;     // This measurement is more exact than inches
     static final double     COUNTS_PER_CM         = ((COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_CM * Math.PI));
+    static final double     HEADING_THRESHOLD       = 1 ;
+    static final double     P_TURN_COEFF            = 0.03;
     HardwareFF robot;
     ElapsedTime runtime = new ElapsedTime();
     public void initHardware() {
@@ -192,6 +200,78 @@ public class Auto1 extends LinearOpMode{
     }
 
 
+
+    public void gyroTurn (  double speed, double angle) {
+
+        // keep looping while we are still active, and not on heading.
+        while (opModeIsActive() && !onHeading(speed, angle, P_TURN_COEFF)) {
+            // Update telemetry & Allow time for other processes to run.
+            telemetry.addData("current_heading", getAverageGyro());
+            telemetry.update();
+        }
+    }
+
+    public double getSteer(double error, double PCoeff) {
+        return Range.clip(error * PCoeff, -1, 1);
+    }
+
+    boolean onHeading(double speed, double angle, double PCoeff) {
+        double   error ;
+        double   steer ;
+        boolean  onTarget = false ;
+        double leftSpeed;
+        double rightSpeed;
+
+        // determine turn power based on +/- error
+        error = getError(angle);
+
+        if (Math.abs(error) <= HEADING_THRESHOLD) {
+            steer = 0.0;
+            leftSpeed  = 0.0;
+            rightSpeed = 0.0;
+            onTarget = true;
+        }
+        else {
+            steer = getSteer(error, PCoeff);
+            rightSpeed  = speed * steer;
+            leftSpeed   = -rightSpeed;
+        }
+
+        // Send desired speeds to motors.
+        robot.frontLeft.setPower(leftSpeed);
+        robot.frontRight.setPower(rightSpeed);
+        robot.backLeft.setPower(leftSpeed);
+        robot.backRight.setPower(rightSpeed);
+
+
+        // Display it for the driver.
+        telemetry.addData("Target", "%5.2f", angle);
+        telemetry.addData("Err/St", "%5.2f/%5.2f", error, steer);
+        telemetry.addData("Speed.", "%5.2f:%5.2f", leftSpeed, rightSpeed);
+
+        return onTarget;
+    }
+
+    public double getError(double targetAngle) {
+
+        double robotError;
+
+        // calculate error in -179 to +180 range  (
+        robotError = targetAngle - getAverageGyro();
+        while (robotError > 180)  robotError -= 360;
+        while (robotError <= -180) robotError += 360;
+        return robotError;
+    }
+
+    public double getAverageGyro(){
+        /*int sum = robot.realgyro.getIntegratedZValue() + robot.realgyro2.getIntegratedZValue();
+        return sum/2;*/
+        Orientation angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, DEGREES);
+        double heading = angles.firstAngle;
+        return heading;
+    }
+
+
     @Override
     public void runOpMode() {
         initHardware();
@@ -203,6 +283,9 @@ public class Auto1 extends LinearOpMode{
             encoderMecanumDrive(0.4, 70, 3, 0.25, 1);
             robot.spinner.setPower( 1 );
             sleep( 5000 );
+            gyroTurn(.4,110);
+            encoderMecanumDrive(0.4, 100, 3, 0,1);
+
         }
     }
 }
