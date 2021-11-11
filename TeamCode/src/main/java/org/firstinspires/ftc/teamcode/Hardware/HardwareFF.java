@@ -17,8 +17,8 @@ public class HardwareFF {
 
     public Servo bucket;
 
-    private boolean wheels;
-    private boolean components;
+    private static boolean wheels;
+    private static boolean components;
 
     public HardwareMap hwMap = null;
 

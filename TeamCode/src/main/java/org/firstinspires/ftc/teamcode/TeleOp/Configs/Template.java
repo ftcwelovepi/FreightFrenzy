@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 abstract public class Template {
 
-    static final int milisButtonTimeOut = 500;
+    static final int milisButtonTimeOut = 250;
     static long pauseMilis = System.currentTimeMillis();
 
 
