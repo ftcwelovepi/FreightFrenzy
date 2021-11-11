@@ -14,7 +14,7 @@ public class MecanumWheels {
     private double move_y;
     private double turn;
 
-    double[] wheelPowers = new double[4];
+    public double[] wheelPowers = new double[4];
 
     // Override Default constructor
     public MecanumWheels() {
