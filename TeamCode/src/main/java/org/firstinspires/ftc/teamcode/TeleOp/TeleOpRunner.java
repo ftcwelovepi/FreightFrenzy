@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 import org.firstinspires.ftc.teamcode.Hardware.MecanumDriveTrain;
+import org.firstinspires.ftc.teamcode.TeleOp.Configs.ComponentTesting;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.FinalConfigV1;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.TeleOpOne;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.Template;
@@ -40,6 +41,7 @@ public class TeleOpRunner extends OpMode {
 
         listOfTemplates.add( TeleOpOne.class );
         listOfTemplates.add( FinalConfigV1.class );
+        listOfTemplates.add( ComponentTesting.class );
 
         framework = new TeleOpOne();
 
@@ -84,6 +86,7 @@ public class TeleOpRunner extends OpMode {
             }
 
             telemetry.update();
+            Template.resetButton();
         }
 
         if (!switching) {
@@ -94,12 +97,18 @@ public class TeleOpRunner extends OpMode {
     }
 
     public void switchConfig() {
-        if (Template.canPress() && gamepad2.dpad_down && indexOfConfig!=listOfTemplates.size()-1) indexOfConfig++;
-        if (Template.canPress() && gamepad2.dpad_up && indexOfConfig!=0) indexOfConfig--;
+        if (Template.canPress() && gamepad2.dpad_down && indexOfConfig!=listOfTemplates.size()-1) {
+            indexOfConfig++;
+            Template.resetButton();
+        }
+        if (Template.canPress() && gamepad2.dpad_up && indexOfConfig!=0) {
+            indexOfConfig--;
+            Template.resetButton();
+        }
         int i = 0;
         for (Class<? extends Template> frameWork: listOfTemplates) {
 
-            telemetry.addData( (i!=indexOfConfig ? " " : ">"), frameWork.toString().split( "\\." )[frameWork.toString().split( "\\." ).length - 1] );
+            telemetry.addData( (i!=indexOfConfig ? "  " : ">"), frameWork.toString().split( "\\." )[frameWork.toString().split( "\\." ).length - 1] );
             i++;
         }
         if (Template.canPress() && gamepad2.x) setConfig(indexOfConfig);
@@ -115,7 +124,12 @@ public class TeleOpRunner extends OpMode {
             case 1:
                 framework = new FinalConfigV1();
                 break;
+            case 2:
+                framework = new ComponentTesting();
+                break;
         }
+
+        framework.init();
 
         switching = false;
     }
