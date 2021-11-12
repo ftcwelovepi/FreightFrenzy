@@ -29,6 +29,7 @@ public class Auto1 extends LinearOpMode{
         robot.setHardwareMap(hardwareMap);
         robot.initComponents();
         robot.initWheels();
+        robot.initImu();
 //        while (!isStopRequested())
 //        {
 //            sleep(50);
@@ -275,6 +276,7 @@ public class Auto1 extends LinearOpMode{
     @Override
     public void runOpMode() {
         initHardware();
+
         telemetry.addData( "Ray", "han" );
         telemetry.update();
 
@@ -282,9 +284,9 @@ public class Auto1 extends LinearOpMode{
         if (opModeIsActive()) {
             encoderMecanumDrive(0.4, 70, 3, 0.25, 1);
             robot.spinner.setPower( 1 );
-            sleep( 5000 );
-            gyroTurn(.4,110);
-            encoderMecanumDrive(0.4, 100, 3, 0,1);
+            sleep( 4000 );
+            gyroTurn(.4,30);
+//            encoderMecanumDrive(0.4, 100, 3, 0,1);
 
         }
     }
