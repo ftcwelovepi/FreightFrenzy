@@ -44,6 +44,8 @@ public class HardwareFF {
         parameters.loggingEnabled      = false;
 
         imu = hwMap.get(BNO055IMU.class, "imu");
+
+        imu.initialize(parameters);
     }
 
     public void initIntake() {
