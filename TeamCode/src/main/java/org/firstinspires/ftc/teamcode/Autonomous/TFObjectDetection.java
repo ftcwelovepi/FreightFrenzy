@@ -118,7 +118,7 @@ public class TFObjectDetection extends LinearOpMode {
             // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
             // should be set to the value of the images used to create the TensorFlow Object Detection model
             // (typically 16/9).
-            tfod.setZoom(2.5, 16.0/9.0); 
+            tfod.setZoom(1.5, 16.0/9.0);
         }
 
         /** Wait for the game to begin */
@@ -143,6 +143,11 @@ public class TFObjectDetection extends LinearOpMode {
                                     recognition.getLeft(), recognition.getTop());
                             telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                     recognition.getRight(), recognition.getBottom());
+                            //we need a way to find 1/3 of the camera frame
+//                            if ((recognition.getLeft() + recognition.getRight())/2 >= tfod.) {
+//
+//
+//                            }
                             i++;
                         }
                         telemetry.update();

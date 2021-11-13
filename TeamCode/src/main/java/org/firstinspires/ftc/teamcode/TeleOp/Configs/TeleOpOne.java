@@ -41,7 +41,7 @@ public class TeleOpOne extends Template {
 
     @Override
     public void rjoy(float x, float y) {
-        robot.slides.setPower( y*0.2 );
+        robot.slides.setPower( y*0.5 );
     }
 
     @Override

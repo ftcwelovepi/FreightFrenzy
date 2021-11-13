@@ -9,8 +9,8 @@ public class Slides {
 
     private static DcMotor s;
     private static int targetEncoders;
-    private static double max = 1, min = -1, power = 0, scale = 1, scaleUp = 1;
-    private static boolean enhancedSlide = false;
+    private static double max = 1, min = -1, power = 0, scale = 0.7;
+    private static boolean enhancedSlide = true;
 
     public static void initialize (HardwareFF robot) {
         s = robot.slides;
@@ -37,7 +37,7 @@ public class Slides {
     }
 
     public static void resetPowerScale() {
-        scale = 1;
+        scale = 0.7;
         min = -1;
         max = 1;
     }
@@ -55,7 +55,15 @@ public class Slides {
     }
 
     public static void setPower (double power) {
-        Slides.power = power*=scale;
+        if (enhancedSlide) {
+            if (power > 0) {
+                Slides.power = power*=scale;
+            } else {
+                Slides.power = power*=scale-0.5;
+            }
+        } else {
+            Slides.power = power*=scale;
+        }
     }
 
     public static void update () {

@@ -70,7 +70,7 @@ public class HardwareFF {
         if (slide) return;
 
         slides = hwMap.get( DcMotor.class, "slides" );
-        slides.setDirection( DcMotor.Direction.FORWARD );
+        slides.setDirection( DcMotor.Direction.REVERSE );
 
         slide = true;
     }

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 import org.firstinspires.ftc.teamcode.Hardware.MecanumDriveTrain;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.ComponentTesting_BS;
+import org.firstinspires.ftc.teamcode.TeleOp.Configs.ComponentTesting_SL;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.FinalConfigV1;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.TeleOpOne;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.Template;
@@ -41,6 +42,7 @@ public class TeleOpRunner extends OpMode {
         listOfTemplates.add( TeleOpOne.class );
         listOfTemplates.add( FinalConfigV1.class );
         listOfTemplates.add( ComponentTesting_BS.class );
+        listOfTemplates.add( ComponentTesting_SL.class );
 
         framework = new TeleOpOne();
 
@@ -126,6 +128,9 @@ public class TeleOpRunner extends OpMode {
                 break;
             case 2:
                 framework = new ComponentTesting_BS();
+                break;
+            case 3:
+                framework = new ComponentTesting_SL();
                 break;
         }
 
