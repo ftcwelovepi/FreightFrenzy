@@ -287,8 +287,8 @@ public class Auto1 extends LinearOpMode{
             sleep( 3500 );
             robot.spinner.setPower( 0 );
             encoderMecanumDrive(0.4, 10, 3, 0,-1);
-            gyroTurn(0.7,110);
-            encoderMecanumDrive(0.4, 70, 3, 0,-1);
+            gyroTurn(0.7,130);
+            encoderMecanumDrive(0.4, 85, 3, 0,-1);
 
         }
     }
