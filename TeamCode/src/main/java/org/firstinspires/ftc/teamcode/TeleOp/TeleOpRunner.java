@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.TeleOp.Configs.Template;
 
 import java.util.ArrayList;
 
-@TeleOp(name="TeleOp Runner", group="UltimateGoal")
+@TeleOp(name="TeleOp Runner", group="FrieghtFrenzy")
 public class TeleOpRunner extends OpMode {
 
     // declaring variables
@@ -78,6 +78,9 @@ public class TeleOpRunner extends OpMode {
 
             framework.lt( gamepad2.left_trigger );
             framework.rt( gamepad2.right_trigger );
+
+            framework.rb( gamepad2.right_bumper );
+            framework.lb( gamepad2.left_bumper );
 
             framework.updateTelemetryDM();
 

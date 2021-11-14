@@ -24,17 +24,27 @@ public class FinalConfigV1 extends Template{
     @Override
     public void a(boolean pressed) {
         if (pressed) {
+            if (bucketStage>3) {
+                bucketStage = 0;
+            }
             switch (++bucketStage) {
                 case 1:
                     Bucket_Servo.glideToPosition( 0 );
                     break;
                 case 2:
-                    Bucket_Servo.glideToPosition( 0.3 );
+                    Bucket_Servo.glideToPosition( 0.4 );
                     break;
                 case 3:
                     Bucket_Servo.glideToPosition( 1 );
                     break;
             }
+        }
+    }
+
+    @Override
+    public void b(boolean pressed) {
+        if (pressed) {
+            Intake.flipSwitch();
         }
     }
 
