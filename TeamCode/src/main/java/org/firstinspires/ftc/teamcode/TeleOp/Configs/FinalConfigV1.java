@@ -56,6 +56,13 @@ public class FinalConfigV1 extends Template{
     }
 
     @Override
+    public void dl(boolean pressed) {
+        if (pressed) {
+            Slides.flipSwitch();
+        }
+    }
+
+    @Override
     public void du(boolean pressed) {
         if (pressed) {
             Bucket_Servo.glideToPosition( 1 );

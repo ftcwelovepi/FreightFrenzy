@@ -37,7 +37,7 @@ public class ComponentTesting_SL extends Template{
     @Override
     public void updateTelemetryDM() {
         telemetryDM.put( "Encoders", String.valueOf( Slides.getEncoders() ) );
-        telemetryDM.put( "Distance", String.valueOf( Slides.getDistance() ) );
+//        telemetryDM.put( "Distance", String.valueOf( Slides.getDistance() ) );
     }
 
     public void a(boolean pressed) {

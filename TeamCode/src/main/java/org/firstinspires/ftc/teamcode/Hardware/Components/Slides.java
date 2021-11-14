@@ -11,14 +11,14 @@ public class Slides {
 
     private static DcMotor s;
     private static DistanceSensor d;
-    private static int stage = 0;
     private static double max = 1, min = -1, power = 0, scale = 0.7;
     private static boolean enhancedSlide = true;
+    private static int lowerboundMid = 450, lowerboundHigh = 600;
 
     public static void initialize (HardwareFF robot) {
         s = robot.slides;
         runWithEncoders();
-        d = robot.distanceSensor;
+//        d = robot.distanceSensor;
     }
 
     public static void setEnhancedSlide (boolean f) {
@@ -27,7 +27,7 @@ public class Slides {
 
     public static void runWithEncoders() {
         s.setMode( DcMotor.RunMode.STOP_AND_RESET_ENCODER );
-        s.setMode( DcMotor.RunMode.RUN_TO_POSITION );
+        s.setMode( DcMotor.RunMode.RUN_USING_ENCODER );
     }
 
     public static void runWithoutEncoders() {
@@ -75,27 +75,13 @@ public class Slides {
         }
     }
 
-    public static double getDistance() {
-        return d.getDistance( DistanceUnit.MM );
-    }
-
-    public static boolean stopMovingUp() {
-        if (d.getDistance( DistanceUnit.MM ) < 25) {
-            if (stage == 2)
-                return true;
-            stage = 1;
-        }
-        if (d.getDistance( DistanceUnit.MM ) > 35 && stage == 1) {
-            if (d.getDistance( DistanceUnit.MM ) > 100) {
-                stage = 0;
-                return false;
-            }
-            stage = 2;
-        }
-        return false;
+    public static void flipSwitch() {
+        if (power != 0) setPower( 1 );
+        else setPower( 0 );
     }
 
     public static void update () {
+        if (s.getCurrentPosition() > lowerboundHigh + 30 && power > 0) power = 0;
         s.setPower( power );
     }
 
