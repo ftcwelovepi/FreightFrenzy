@@ -56,6 +56,7 @@ public class HardwareFF {
         if (intakeB || components) return;
 
         intake = hwMap.get( DcMotor.class, "intake" );
+        intake.setDirection( DcMotor.Direction.REVERSE );
         intakeB = true;
     }
 

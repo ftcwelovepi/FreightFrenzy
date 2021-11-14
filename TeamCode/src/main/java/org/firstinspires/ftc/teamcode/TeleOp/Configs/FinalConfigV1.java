@@ -58,13 +58,20 @@ public class FinalConfigV1 extends Template{
     @Override
     public void du(boolean pressed) {
         if (pressed) {
-            Bucket_Servo.moveForward();
+            Bucket_Servo.glideToPosition( 1 );
+        }
+    }
+
+    @Override
+    public void dr(boolean pressed) {
+        if (pressed) {
+            Bucket_Servo.glideToPosition(0.4);
         }
     }
 
     public void dd(boolean pressed) {
         if (pressed) {
-            Bucket_Servo.moveBackward();
+            Bucket_Servo.glideToPosition( 0 );
         }
     }
 
