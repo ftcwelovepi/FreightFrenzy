@@ -76,12 +76,13 @@ public class Slides {
     }
 
     public static void flipSwitch() {
-        if (power != 0) setPower( 1 );
-        else setPower( 0 );
+        if (power <= 0 ) setPower( 1 );
+        else setPower( -1 );
     }
 
     public static void update () {
-        if (s.getCurrentPosition() > lowerboundHigh + 30 && power > 0) power = 0;
+        if (s.getCurrentPosition() > lowerboundHigh + 15 && power > 0) power = 0;
+        if (s.getCurrentPosition() > 10 && power < 0) power = 0;
         s.setPower( power );
     }
 
