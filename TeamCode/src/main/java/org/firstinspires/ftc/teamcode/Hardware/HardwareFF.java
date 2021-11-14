@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -25,6 +27,10 @@ public class HardwareFF {
     private static boolean intakeB;
     private static boolean spinnerB;
     private static boolean bucketB;
+
+    public DistanceSensor distanceSensor;
+    public Rev2mDistanceSensor sensorTimeOfFlight;
+
     public BNO055IMU imu;
 
     public HardwareMap hwMap = null;
@@ -37,6 +43,11 @@ public class HardwareFF {
         intakeB = false;
         spinnerB = false;
         bucketB = false;
+    }
+
+    public void initSensor() {
+        distanceSensor = hwMap.get( DistanceSensor.class, "distance" );
+        sensorTimeOfFlight = (Rev2mDistanceSensor) distanceSensor;
     }
 
     public void initImu() {
@@ -81,6 +92,7 @@ public class HardwareFF {
         initSpinner();
         initIntake();
         initSlides();
+        initSensor();
 
         spinner.setDirection(DcMotor.Direction.REVERSE);
 

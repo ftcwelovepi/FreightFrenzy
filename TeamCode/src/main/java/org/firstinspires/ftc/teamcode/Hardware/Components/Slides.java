@@ -2,18 +2,23 @@ package org.firstinspires.ftc.teamcode.Hardware.Components;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 
 public class Slides {
 
     private static DcMotor s;
-    private static int targetEncoders;
+    private static DistanceSensor d;
+    private static int stage = 0;
     private static double max = 1, min = -1, power = 0, scale = 0.7;
     private static boolean enhancedSlide = true;
 
     public static void initialize (HardwareFF robot) {
         s = robot.slides;
+        runWithEncoders();
+        d = robot.distanceSensor;
     }
 
     public static void setEnhancedSlide (boolean f) {
@@ -54,6 +59,10 @@ public class Slides {
         return power;
     }
 
+    public static int getEncoders() {
+        return s.getCurrentPosition();
+    }
+
     public static void setPower (double power) {
         if (enhancedSlide) {
             if (power > 0) {
@@ -64,6 +73,26 @@ public class Slides {
         } else {
             Slides.power = power*=scale;
         }
+    }
+
+    public static double getDistance() {
+        return d.getDistance( DistanceUnit.MM );
+    }
+
+    public static boolean stopMovingUp() {
+        if (d.getDistance( DistanceUnit.MM ) < 25) {
+            if (stage == 2)
+                return true;
+            stage = 1;
+        }
+        if (d.getDistance( DistanceUnit.MM ) > 35 && stage == 1) {
+            if (d.getDistance( DistanceUnit.MM ) > 100) {
+                stage = 0;
+                return false;
+            }
+            stage = 2;
+        }
+        return false;
     }
 
     public static void update () {

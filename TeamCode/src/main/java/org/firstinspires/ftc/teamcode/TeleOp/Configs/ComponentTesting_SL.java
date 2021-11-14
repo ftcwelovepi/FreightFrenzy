@@ -34,12 +34,18 @@ public class ComponentTesting_SL extends Template{
         }
     }
 
+    @Override
+    public void updateTelemetryDM() {
+        telemetryDM.put( "Encoders", String.valueOf( Slides.getEncoders() ) );
+        telemetryDM.put( "Distance", String.valueOf( Slides.getDistance() ) );
+    }
+
     public void a(boolean pressed) {
-        if (pressed) Slides.setEnhancedSlide(true);
+        if (pressed)
+            Slides.setPower( 1 );
     }
 
     public void loop() {
-        if (!isRTPressed && !isLTPressed) Slides.setPower( 0 );
         Slides.update();
     }
 

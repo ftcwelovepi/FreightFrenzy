@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 
 public class Bucket_Servo {
     private static Servo s;
-    private static double bucketTimeIncrement = 25;
+    private static double bucketTimeIncrement = 35;
     private static double pauseTime = System.currentTimeMillis();
     private static boolean bucketBack = true;
 
