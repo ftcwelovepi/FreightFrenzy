@@ -58,6 +58,11 @@ public class Bucket_Servo {
         position -= (position!=1.0 ? amount : 0);
     }
 
+    public static void glideToPosition (double position) {
+        gliding = true;
+        glideTarget = position;
+    }
+
     public static void glide(boolean oppositeEnd) {
         bucketTimeIncrement = 25;
         gliding = true;
@@ -70,7 +75,7 @@ public class Bucket_Servo {
 
     public static void glide(boolean oppositeEnd, double milis) {
         bucketTimeIncrement = milis;
-        gliding = false;
+        gliding = true;
         if (oppositeEnd) {
             glideTarget = (s.getPosition() < 0.5 ? 1 : 0);
         } else {

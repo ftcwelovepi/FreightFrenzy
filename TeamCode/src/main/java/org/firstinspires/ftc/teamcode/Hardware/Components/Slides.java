@@ -32,14 +32,10 @@ public class Slides {
     public static void scalePower(double factor) {
         if (factor > 1 || factor < 0) return;
         scale = factor;
-        min*=scale;
-        max*=scale;
     }
 
     public static void resetPowerScale() {
         scale = 0.7;
-        min = -1;
-        max = 1;
     }
 
     public static void stop() {
@@ -52,6 +48,10 @@ public class Slides {
         } else {
             s.setDirection( DcMotor.Direction.FORWARD );
         }
+    }
+
+    public static double getPower() {
+        return power;
     }
 
     public static void setPower (double power) {

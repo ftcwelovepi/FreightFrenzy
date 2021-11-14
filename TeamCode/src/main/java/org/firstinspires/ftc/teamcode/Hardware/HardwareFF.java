@@ -23,6 +23,8 @@ public class HardwareFF {
     private static boolean components;
     private static boolean slide;
     private static boolean intakeB;
+    private static boolean spinnerB;
+    private static boolean bucketB;
     public BNO055IMU imu;
 
     public HardwareMap hwMap = null;
@@ -33,6 +35,8 @@ public class HardwareFF {
         components = false;
         slide = false;
         intakeB = false;
+        spinnerB = false;
+        bucketB = false;
     }
 
     public void initImu() {
@@ -49,17 +53,33 @@ public class HardwareFF {
     }
 
     public void initIntake() {
-        if (intakeB) return;
+        if (intakeB || components) return;
 
         intake = hwMap.get( DcMotor.class, "intake" );
         intakeB = true;
     }
 
+    public void initSpinner() {
+        if (spinnerB || components) return;
+
+        spinner = hwMap.get(DcMotor.class, "spinner");
+
+        spinnerB = true;
+    }
+
+    public void initBucket () {
+        if (bucketB || components) return;
+        bucket = hwMap.get(Servo.class, "bucket");
+        bucketB = true;
+    }
+
     public void initComponents () {
         if (components) return;
 
-        bucket = hwMap.get(Servo.class, "bucket");
-        spinner = hwMap.get(DcMotor.class, "spinner");
+        initBucket();
+        initSpinner();
+        initIntake();
+        initSlides();
 
         spinner.setDirection(DcMotor.Direction.REVERSE);
 
@@ -67,7 +87,7 @@ public class HardwareFF {
     }
 
     public void initSlides () {
-        if (slide) return;
+        if (slide || components) return;
 
         slides = hwMap.get( DcMotor.class, "slides" );
         slides.setDirection( DcMotor.Direction.REVERSE );
