@@ -13,12 +13,24 @@ public class Slides {
     private static DistanceSensor d;
     private static double max = 1, min = -1, power = 0, scale = 0.7;
     private static boolean enhancedSlide = true;
-    private static int lowerboundMid = 450, lowerboundHigh = 600;
+    private static int lowerboundMid = 450, lowerboundHigh = 600, transferPoint = 100;
 
     public static void initialize (HardwareFF robot) {
         s = robot.slides;
-        runWithEncoders();
+//        runWithEncoders();
 //        d = robot.distanceSensor;
+    }
+
+    public static int getTransferPoint () {
+        return transferPoint;
+    }
+
+    public static int getHigh () {
+        return lowerboundHigh;
+    }
+
+    public static int getMid () {
+        return lowerboundMid;
     }
 
     public static void setEnhancedSlide (boolean f) {
@@ -63,16 +75,20 @@ public class Slides {
         return s.getCurrentPosition();
     }
 
-    public static void setPower (double power) {
+    public static void setPower (double powerw) {
         if (enhancedSlide) {
             if (power > 0) {
-                Slides.power = power*=scale;
+                power = powerw * scale;
             } else {
-                Slides.power = power*=scale-0.5;
+                power = powerw * (scale - 0.3);
             }
         } else {
-            Slides.power = power*=scale;
+            power = powerw * scale;
         }
+    }
+
+    public static boolean secureBlock () {
+        return (s.getCurrentPosition() > 100 && power > 0);
     }
 
     public static void flipSwitch() {
@@ -81,8 +97,8 @@ public class Slides {
     }
 
     public static void update () {
-        if (s.getCurrentPosition() > lowerboundHigh + 15 && power > 0) power = 0;
-        if (s.getCurrentPosition() > 10 && power < 0) power = 0;
+        if (s.getCurrentPosition() > lowerboundHigh && power > 0) power = 0;
+        if (s.getCurrentPosition() < 10 && power < 0) power = 0;
         s.setPower( power );
     }
 

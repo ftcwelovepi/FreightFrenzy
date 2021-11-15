@@ -82,6 +82,7 @@ public class HardwareFF {
     public void initBucket () {
         if (bucketB || components) return;
         bucket = hwMap.get(Servo.class, "bucket");
+        bucket.setPosition( 0.0 );
         bucketB = true;
     }
 
@@ -104,6 +105,8 @@ public class HardwareFF {
 
         slides = hwMap.get( DcMotor.class, "slides" );
         slides.setDirection( DcMotor.Direction.REVERSE );
+        slides.setMode( DcMotor.RunMode.STOP_AND_RESET_ENCODER );
+        slides.setMode( DcMotor.RunMode.RUN_USING_ENCODER );
 
         slide = true;
     }

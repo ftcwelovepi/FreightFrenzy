@@ -44,7 +44,7 @@ public class TeleOpRunner extends OpMode {
         listOfTemplates.add( ComponentTesting_BS.class );
         listOfTemplates.add( ComponentTesting_SL.class );
 
-        framework = new TeleOpOne();
+        framework = new FinalConfigV1();
 
         framework.init();
         framework.updateTelemetryDM();
@@ -99,6 +99,11 @@ public class TeleOpRunner extends OpMode {
         }
 
 
+    }
+
+    @Override
+    public void stop() {
+        listOfTemplates = new ArrayList<>();
     }
 
     public void switchConfig() {
