@@ -9,8 +9,12 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Hardware.Components.Bucket_Servo;
+import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
+import org.firstinspires.ftc.teamcode.Hardware.Components.SynchronizedMovement;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 import org.firstinspires.ftc.teamcode.Hardware.MecanumWheels;
+import org.firstinspires.ftc.teamcode.ThreadedWait;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 
@@ -22,6 +26,7 @@ public class BlueSideAuto extends LinearOpMode {
     static final double     COUNTS_PER_CM         = ((COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_CM * Math.PI));
     static final double     HEADING_THRESHOLD       = 1 ;
     static final double     P_TURN_COEFF            = 0.03;
+    double startingAngle;
     HardwareFF robot;
     ElapsedTime runtime = new ElapsedTime();
     public void initHardware() {
@@ -275,20 +280,70 @@ public class BlueSideAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
         initHardware();
+        Slides.initialize(robot);
+        Bucket_Servo.initialize(robot);
 
-        telemetry.addData( "Auto", "han" );
+        telemetry.addData( "Autotest", "han" );
         telemetry.update();
 
         waitForStart();
+        startingAngle = getAverageGyro();
+        telemetry.addData("Starting angle", startingAngle);
+        telemetry.update();
         if (opModeIsActive()) {
             encoderMecanumDrive(0.4, 85, 3, -0.40, 1);
             robot.spinner.setPower( -1 );
             sleep( 3500 );
             robot.spinner.setPower( 0 );
             encoderMecanumDrive(0.4, 10, 3, 0,-1);
-            gyroTurn(0.7, 50);
-            robot.slides.setPower( 1*0.5 );
+
+            gyroTurn(0.7,startingAngle-40);
+//            gyroTurn(0.7,90);
             encoderMecanumDrive(0.4, 85, 3, 0,-1);
+            //extend linear slidehan
+            SynchronizedMovement.move(SynchronizedMovement.UP);
+            while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
+
+                SynchronizedMovement.run();
+                Slides.update();
+                Bucket_Servo.update();
+                telemetry.addData("Stage", SynchronizedMovement.getStage());
+                telemetry.addData("Encoder", Slides.getEncoders());
+                telemetry.addData("Power", Slides.getPower());
+//                telemetry.addData("")
+                telemetry.update();
+            }
+            ThreadedWait waits = new ThreadedWait(1000);
+            waits.start();
+
+            while (!waits.get()) {
+                Bucket_Servo.update();
+            }
+
+            SynchronizedMovement.move(SynchronizedMovement.DOWN);
+            while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
+
+                SynchronizedMovement.run();
+                Slides.update();
+                Bucket_Servo.update();
+                telemetry.addData("Stage", SynchronizedMovement.getStage());
+                telemetry.addData("Encoder", Slides.getEncoders());
+                telemetry.addData("Power", Slides.getPower());
+//                telemetry.addData("")
+                telemetry.update();
+            }
+            waits = new ThreadedWait(1000);
+            waits.start();
+
+            while (!waits.get()) {
+                Bucket_Servo.update();
+            }
+
+//            Slides.update();
+//            Bucket_Servo.update();
+            gyroTurn(0.7, startingAngle + 40);
+            encoderMecanumDrive(.4,113,3,1,-1);
+            encoderMecanumDrive(.4,80,3,0,-1);
 
         }
     }
