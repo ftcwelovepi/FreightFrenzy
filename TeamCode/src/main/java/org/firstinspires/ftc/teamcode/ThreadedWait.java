@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
+/**
+ * Threaded Wait Class
+ * Starts a timer that does not interrupt the main thread
+ */
 public class ThreadedWait extends Thread{
 
     private double wait;

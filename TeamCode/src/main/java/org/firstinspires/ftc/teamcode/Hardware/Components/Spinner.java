@@ -4,6 +4,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 
+/**
+ * Spinner Component
+ * Has all the necessary methods for the Spinner
+ */
 public class Spinner {
 
     private static DcMotor s;

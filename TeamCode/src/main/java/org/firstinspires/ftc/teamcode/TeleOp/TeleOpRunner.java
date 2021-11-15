@@ -85,6 +85,8 @@ public class TeleOpRunner extends OpMode {
         if (switching) {
             switchConfig();
         }
+        /* Can Press Method is button Timeout
+        * When button is pressed input is given as pulses */
         else if(Template.canPress()) {
             framework.a( gamepad2.a );
             framework.b( gamepad2.b );
@@ -124,12 +126,15 @@ public class TeleOpRunner extends OpMode {
 
     }
 
+    //Clear List once Opmode is stopped
     @Override
     public void stop() {
         listOfTemplates = new ArrayList<>();
     }
 
+    //Method for Switching Configurations
     public void switchConfig() {
+        //Move Up and Down (index) on Telemetry using D-UP and D-DOWN
         if (Template.canPress() && gamepad2.dpad_down && indexOfConfig!=listOfTemplates.size()-1) {
             indexOfConfig++;
             Template.resetButton();
@@ -139,6 +144,7 @@ public class TeleOpRunner extends OpMode {
             Template.resetButton();
         }
         int i = 0;
+        //Display all Configs with selected one
         for (Class<? extends Template> frameWork: listOfTemplates) {
 
             telemetry.addData( (i!=indexOfConfig ? "  " : ">"), frameWork.toString().split( "\\." )[frameWork.toString().split( "\\." ).length - 1] );
@@ -149,6 +155,8 @@ public class TeleOpRunner extends OpMode {
         telemetry.update();
     }
 
+    //Selects the Configuration
+    //Pre condition: index must be within the size of listoftemplates
     public void setConfig(int index) {
         switch (index) {
             case 0:
@@ -165,6 +173,7 @@ public class TeleOpRunner extends OpMode {
                 break;
         }
 
+        //Initialize the framework
         framework.init();
 
         switching = false;

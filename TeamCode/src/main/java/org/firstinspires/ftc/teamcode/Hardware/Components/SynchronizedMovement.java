@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.Hardware.Components;
 
 import org.firstinspires.ftc.teamcode.ThreadedWait;
 
+/** Contains all the combined movement using slides and Bucket Servo
+ *
+ */
 public enum SynchronizedMovement {
     UP, DOWN, STALL, MID;
 
