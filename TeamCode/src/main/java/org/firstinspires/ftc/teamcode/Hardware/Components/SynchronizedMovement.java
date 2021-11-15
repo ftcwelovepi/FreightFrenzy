@@ -1,10 +1,14 @@
 package org.firstinspires.ftc.teamcode.Hardware.Components;
 
+import org.firstinspires.ftc.teamcode.ThreadedWait;
+
 public enum SynchronizedMovement {
     UP, DOWN, STALL, MID;
 
     static int stageProgression = 0;
     static SynchronizedMovement s;
+
+    static ThreadedWait waits = new ThreadedWait(1000);
 
     public static void move (SynchronizedMovement g) {
         s = g;
@@ -35,7 +39,14 @@ public enum SynchronizedMovement {
                 case 2:
                     if (Slides.getEncoders() >= Slides.getHigh()-10) {
                         Bucket_Servo.glideToPosition( 1 );
+                        stageProgression++;
+                        break;
+                    }
+                case 3:
+                    if (waits.get()) {
                         stageProgression = 0;
+                    } else if (!waits.isAlive() && !waits.get()) {
+                        waits.start();
                     }
                     break;
             }
@@ -48,15 +59,15 @@ public enum SynchronizedMovement {
                     break;
                 case 1:
                     if (Slides.getEncoders() >= Slides.getTransferPoint()-50) {
-                        Bucket_Servo.glideToPosition(0);
+                        Bucket_Servo.glideToPosition(0.3);
                     }
                     stageProgression++;
                     break;
                 case 2:
                     if (Slides.getPower() == 0) {
                         stageProgression = 0;
-                        break;
                     }
+                    break;
             }
         } else if (s.equals( MID )) {
             switch (stageProgression) {
@@ -75,7 +86,14 @@ public enum SynchronizedMovement {
                     if (Slides.getEncoders() >= Slides.getMid()) {
                         Bucket_Servo.glideToPosition( 1 );
                         Slides.setPower( 0 );
+                        stageProgression++;
+                        break;
+                    }
+                case 3:
+                    if (waits.get()) {
                         stageProgression = 0;
+                    } else if (!waits.isAlive() && !waits.get()) {
+                        waits.start();
                     }
                     break;
             }

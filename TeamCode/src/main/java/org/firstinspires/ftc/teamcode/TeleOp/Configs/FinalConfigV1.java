@@ -12,6 +12,7 @@ public class FinalConfigV1 extends Template{
 
     String stage = "Nothing Yet";
     int bucketStage = 1;
+    public boolean overrideSlides = false;
 
     public void init() {
         robot.initWheels();
@@ -53,6 +54,12 @@ public class FinalConfigV1 extends Template{
     }
 
     @Override
+    public void ljoyb(boolean pressed) {
+        if (pressed)
+            overrideSlides = !overrideSlides;
+    }
+
+    @Override
     public void rb(boolean pressed) {
         if (pressed) {
             Spinner.flipSwitch();
@@ -86,9 +93,11 @@ public class FinalConfigV1 extends Template{
         }
     }
 
+
+
     @Override
     public void ljoy(float x, float y) {
-        Slides.setPower( y );
+        if (overrideSlides) Slides.setPower( -y );
     }
 
     public void loop() {
