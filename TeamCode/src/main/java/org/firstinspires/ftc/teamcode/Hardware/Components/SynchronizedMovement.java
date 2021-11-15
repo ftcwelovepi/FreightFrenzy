@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.ThreadedWait;
  *
  */
 public enum SynchronizedMovement {
-    UP, DOWN, STALL, MID;
+    UP, DOWN, STALL, MID, LOW;
 
     static int stageProgression = 0;
     static SynchronizedMovement s;
@@ -87,6 +87,34 @@ public enum SynchronizedMovement {
                     break;
                 case 2:
                     if (Slides.getEncoders() >= Slides.getMid()) {
+                        Bucket_Servo.glideToPosition( 1 );
+                        Slides.setPower( 0 );
+                        stageProgression++;
+                        break;
+                    }
+                case 3:
+                    if (waits.get()) {
+                        stageProgression = 0;
+                    } else if (!waits.isAlive() && !waits.get()) {
+                        waits.start();
+                    }
+                    break;
+            }
+        } else if (s.equals( LOW )) {
+            switch (stageProgression) {
+                case 0:
+                    Slides.setPower( 1 );
+                    Bucket_Servo.glideToPosition( 0.4 );
+                    stageProgression++;
+                    break;
+                case 1:
+                    if (Slides.getEncoders() >= Slides.getTransferPoint()) {
+                        Bucket_Servo.glideToPosition( 0.7 );
+                        stageProgression++;
+                    }
+                    break;
+                case 2:
+                    if (Slides.getEncoders() >= Slides.getLow()) {
                         Bucket_Servo.glideToPosition( 1 );
                         Slides.setPower( 0 );
                         stageProgression++;

@@ -13,7 +13,7 @@ public class Slides {
     private static DistanceSensor d;
     private static double max = 1, min = -1, power = 0, scale = 0.7;
     private static boolean enhancedSlide = true;
-    private static int lowerboundMid = 450, lowerboundHigh = 600, transferPoint = 100;
+    private static int lowerboundMid = 450, lowerboundHigh = 600, transferPoint = 100, lowerboundLow = 200;
 
     public static void initialize (HardwareFF robot) {
         s = robot.slides;
@@ -31,6 +31,10 @@ public class Slides {
 
     public static int getMid () {
         return lowerboundMid;
+    }
+
+    public static int getLow () {
+        return lowerboundLow;
     }
 
     public static void setEnhancedSlide (boolean f) {
