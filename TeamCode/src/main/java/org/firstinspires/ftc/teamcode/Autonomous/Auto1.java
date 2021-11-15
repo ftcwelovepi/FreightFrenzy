@@ -293,6 +293,7 @@ public class Auto1 extends LinearOpMode{
     @Override
     public void runOpMode() {
         initHardware();
+        initializeOpenCV();
         Slides.initialize(robot);
         Bucket_Servo.initialize(robot);
 
@@ -300,10 +301,27 @@ public class Auto1 extends LinearOpMode{
         telemetry.update();
 
         waitForStart();
+        sleep(500);
+        telemetry.addData("Position", pipeline.position.toString());
+        telemetry.update();
+        sleep(500);
+        if (pipeline.position== SkystoneDeterminationPipeline.DuckPosition.LEFT){
+            SynchronizedMovement.move(SynchronizedMovement.UP);
+            telemetry.addData("Going with TOP", "LEFT");
+        }
+        else if (pipeline.position== SkystoneDeterminationPipeline.DuckPosition.MIDDLE) {
+            SynchronizedMovement.move(SynchronizedMovement.MID);
+            telemetry.addData("Going with MID", "MIDDLE");
+        }
+        else {
+            SynchronizedMovement.move(SynchronizedMovement.LOW);
+            telemetry.addData("Going with BOTTOM", "RIGHT");
+        }
         startingAngle = getAverageGyro();
         telemetry.addData("Starting angle", startingAngle);
         telemetry.update();
         if (opModeIsActive()) {
+
             encoderMecanumDrive(0.4, 85, 3, 0.40, 1);
             robot.spinner.setPower( 1 );
             sleep( 3500 );
@@ -314,49 +332,30 @@ public class Auto1 extends LinearOpMode{
 //            gyroTurn(0.7,90);
             encoderMecanumDrive(0.4, 85, 3, 0,-1);
             //extend linear slidehan
-//            SynchronizedMovement.move(SynchronizedMovement.UP);
-//            while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
-//
-//                SynchronizedMovement.run();
-//                Slides.update();
-//                Bucket_Servo.update();
-//                telemetry.addData("Stage", SynchronizedMovement.getStage());
-//                telemetry.addData("Encoder", Slides.getEncoders());
-//                telemetry.addData("Power", Slides.getPower());
-////                telemetry.addData("")
-//                telemetry.update();
-//            }
-//            ThreadedWait waits = new ThreadedWait(1000);
-//            waits.start();
-//
-//            while (!waits.get()) {
-//                Bucket_Servo.update();
-//            }
-//
-//            SynchronizedMovement.move(SynchronizedMovement.DOWN);
-//            while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
-//
-//                SynchronizedMovement.run();
-//                Slides.update();
-//                Bucket_Servo.update();
-//                telemetry.addData("Stage", SynchronizedMovement.getStage());
-//                telemetry.addData("Encoder", Slides.getEncoders());
-//                telemetry.addData("Power", Slides.getPower());
-////                telemetry.addData("")
-//                telemetry.update();
-//            }
-//            waits = new ThreadedWait(1000);
-//            waits.start();
-//
-//            while (!waits.get()) {
-//                Bucket_Servo.update();
-//            }
 
-//            Slides.update();
-//            Bucket_Servo.update();
-            gyroTurn(0.7, startingAngle - 40);
-            encoderMecanumDrive(.4,113,3,-1,-1);
-            encoderMecanumDrive(.4,80,3,0,-1);
+            while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
+
+                SynchronizedMovement.run();
+                Slides.update();
+                Bucket_Servo.update();
+                telemetry.addData("Stage", SynchronizedMovement.getStage());
+                telemetry.addData("Encoder", Slides.getEncoders());
+                telemetry.addData("Power", Slides.getPower());
+//                telemetry.addData("")
+                telemetry.update();
+            }
+            ThreadedWait waits = new ThreadedWait(1000);
+            waits.run();
+
+            while (!waits.get()) {
+                Bucket_Servo.update();
+            }
+
+            Slides.update();
+            Bucket_Servo.update();
+            gyroTurn(0.7, startingAngle);
+            encoderMecanumDrive(.4,110,3,-1,-0.4);
+            encoderMecanumDrive(.4,170,3,0,-1);
 
         }
     }

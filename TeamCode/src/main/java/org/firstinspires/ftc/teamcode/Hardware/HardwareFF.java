@@ -82,6 +82,7 @@ public class HardwareFF {
     public void initBucket () {
         if (bucketB || components) return;
         bucket = hwMap.get(Servo.class, "bucket");
+        bucket.setPosition(0.4);
         bucketB = true;
     }
 

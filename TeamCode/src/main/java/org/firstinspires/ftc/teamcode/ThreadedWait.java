@@ -20,6 +20,7 @@ public class ThreadedWait extends Thread{
 
     @Override
     public void run() {
+        end = false;
         double beginTime = System.currentTimeMillis();
         while (beginTime+wait > System.currentTimeMillis()) {
 

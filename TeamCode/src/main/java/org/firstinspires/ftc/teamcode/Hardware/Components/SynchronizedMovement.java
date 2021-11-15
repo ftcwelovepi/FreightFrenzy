@@ -9,7 +9,7 @@ public enum SynchronizedMovement {
     UP, DOWN, STALL, MID, LOW;
 
     static int stageProgression = 0;
-    static SynchronizedMovement s;
+    static SynchronizedMovement s = SynchronizedMovement.STALL;
 
     static ThreadedWait waits = new ThreadedWait(1000);
 
@@ -30,7 +30,7 @@ public enum SynchronizedMovement {
             switch (stageProgression) {
                 case 0:
                     Slides.setPower( 1 );
-                    Bucket_Servo.glideToPosition(0.4);
+                    Bucket_Servo.glideToPosition(0.5);
                     stageProgression++;
                     break;
                 case 1:
@@ -41,7 +41,7 @@ public enum SynchronizedMovement {
                     break;
                 case 2:
                     if (Slides.getEncoders() >= Slides.getHigh()-10) {
-                        Bucket_Servo.glideToPosition( 1 );
+                        Bucket_Servo.glideToPosition( 0.9 );
                         stageProgression++;
                         break;
                     }
@@ -49,6 +49,7 @@ public enum SynchronizedMovement {
                     if (waits.get()) {
                         stageProgression = 0;
                     } else if (!waits.isAlive() && !waits.get()) {
+                        waits = new ThreadedWait(1000);
                         waits.start();
                     }
                     break;
@@ -57,7 +58,7 @@ public enum SynchronizedMovement {
             switch (stageProgression) {
                 case 0:
                     Slides.setPower( -1 );
-                    Bucket_Servo.glideToPosition( 0.4 );
+                    Bucket_Servo.glideToPosition( 0.5 );
                     stageProgression++;
                     break;
                 case 1:
@@ -76,7 +77,7 @@ public enum SynchronizedMovement {
             switch (stageProgression) {
                 case 0:
                     Slides.setPower( 1 );
-                    Bucket_Servo.glideToPosition(0.4);
+                    Bucket_Servo.glideToPosition(0.5);
                     stageProgression++;
                     break;
                 case 1:
@@ -96,6 +97,7 @@ public enum SynchronizedMovement {
                     if (waits.get()) {
                         stageProgression = 0;
                     } else if (!waits.isAlive() && !waits.get()) {
+                        waits = new ThreadedWait(1000);
                         waits.start();
                     }
                     break;
@@ -124,6 +126,7 @@ public enum SynchronizedMovement {
                     if (waits.get()) {
                         stageProgression = 0;
                     } else if (!waits.isAlive() && !waits.get()) {
+                        waits = new ThreadedWait(1000);
                         waits.start();
                     }
                     break;
