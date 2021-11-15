@@ -16,8 +16,8 @@ public class Bucket_Servo {
     private static double low = 0;
     private static double high = 1;
 
-    private static double position = 0.0;
-    private static double glideTarget = 0.0;
+    private static double position = 0.4;
+    private static double glideTarget = 0.4;
 
     private static boolean gliding = false;
 

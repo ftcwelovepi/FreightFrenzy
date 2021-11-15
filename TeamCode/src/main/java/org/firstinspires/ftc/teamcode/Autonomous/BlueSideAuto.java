@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Hardware.MecanumWheels;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 
+@Autonomous(name = "Blue Side Auto", group = "Freight Frenzy")
 public class BlueSideAuto extends LinearOpMode {
     static final double     COUNTS_PER_MOTOR_REV    = /*767.2*/ 383.5 ;
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
@@ -28,6 +30,7 @@ public class BlueSideAuto extends LinearOpMode {
         robot.initComponents();
         robot.initWheels();
         robot.initImu();
+        robot.initSlides();
 //        while (!isStopRequested())
 //        {
 //            sleep(50);
@@ -284,6 +287,7 @@ public class BlueSideAuto extends LinearOpMode {
             robot.spinner.setPower( 0 );
             encoderMecanumDrive(0.4, 10, 3, 0,-1);
             gyroTurn(0.7, 50);
+            robot.slides.setPower( 1*0.5 );
             encoderMecanumDrive(0.4, 85, 3, 0,-1);
 
         }

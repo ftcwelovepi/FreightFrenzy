@@ -10,11 +10,20 @@ public enum SynchronizedMovement {
         s = g;
     }
 
+    public static SynchronizedMovement get() {
+        return s;
+    }
+
+    public static int getStage() {
+        return stageProgression;
+    }
+
     public static void run () {
         if (s.equals( UP )) {
             switch (stageProgression) {
                 case 0:
                     Slides.setPower( 1 );
+                    Bucket_Servo.glideToPosition(0.4);
                     stageProgression++;
                     break;
                 case 1:
@@ -24,7 +33,7 @@ public enum SynchronizedMovement {
                     }
                     break;
                 case 2:
-                    if (Slides.getEncoders() >= Slides.getHigh()) {
+                    if (Slides.getEncoders() >= Slides.getHigh()-10) {
                         Bucket_Servo.glideToPosition( 1 );
                         stageProgression = 0;
                     }
@@ -34,11 +43,11 @@ public enum SynchronizedMovement {
             switch (stageProgression) {
                 case 0:
                     Slides.setPower( -1 );
-                    Bucket_Servo.glideToPosition( 0.3 );
+                    Bucket_Servo.glideToPosition( 0.4 );
                     stageProgression++;
                     break;
                 case 1:
-                    if (Slides.getEncoders() >= Slides.getTransferPoint()) {
+                    if (Slides.getEncoders() >= Slides.getTransferPoint()-50) {
                         Bucket_Servo.glideToPosition(0);
                     }
                     stageProgression++;
@@ -53,6 +62,7 @@ public enum SynchronizedMovement {
             switch (stageProgression) {
                 case 0:
                     Slides.setPower( 1 );
+                    Bucket_Servo.glideToPosition(0.4);
                     stageProgression++;
                     break;
                 case 1:
