@@ -13,6 +13,10 @@ import org.firstinspires.ftc.teamcode.TeleOp.Configs.Template;
 
 import java.util.ArrayList;
 
+/**
+ * TeleOp Runner, switches through all the configurations in org.firstinspires.ftc.teamcode.TeleOp.Configs
+ * Limitations: need to manually add all the classes in
+ */
 @TeleOp(name="TeleOp Runner", group="FrieghtFrenzy")
 public class TeleOpRunner extends OpMode {
 
@@ -25,40 +29,56 @@ public class TeleOpRunner extends OpMode {
     /* Declare Template that will be used */
     Template framework;
 
+    //List of templates for cycling when GP2 presses Start
     static ArrayList<Class<? extends Template>> listOfTemplates = new ArrayList<>();
 
+    //Initialize variables for looping, switching stops GP2 from using the buttons
     boolean switching = false;
     int indexOfConfig = 0;
 
     @Override
     public void init() {
-        telemetry.addData("What", "Do u want");
+        telemetry.addData("Status", "Initializing");
         telemetry.update();
-        telemetry.addData("Haddi", "Haddi");
 
+        //Sets up the hardwaremap
         robot.setHardwareMap( hardwareMap );
+
+        telemetry.addData("Status", "Setting Up GP2");
+        telemetry.update();
+
+        //This is for teh configurations
+        //Configs extend the Template class and use a common hardwareMap
         Template.setHardwareMap(robot);
 
+        //Adding all the classes
         listOfTemplates.add( TeleOpOne.class );
         listOfTemplates.add( FinalConfigV1.class );
         listOfTemplates.add( ComponentTesting_BS.class );
         listOfTemplates.add( ComponentTesting_SL.class );
 
+        //First configuration that pops up
         framework = new FinalConfigV1();
 
+        //Initializing the selected Config
         framework.init();
         framework.updateTelemetryDM();
 
+        telemetry.addData("Status", "Setting Up GP 1");
+        telemetry.update();
+
+        //initializing GP1 Functions for driving
         vroom = new MecanumDriveTrain(robot, gamepad1,telemetry);
 
-        telemetry.addData("Haddi", "Haddi");
+        telemetry.addData("Status", "Initialization Complete");
         telemetry.update();
     }
 
     @Override
     public void loop() {
-        vroom.loop();
+        vroom.loop(); //GP 1
 
+        //Starts teh switching configs
         if (gamepad2.start) {
             switching = true;
         }
@@ -81,6 +101,9 @@ public class TeleOpRunner extends OpMode {
 
             framework.rb( gamepad2.right_bumper );
             framework.lb( gamepad2.left_bumper );
+
+            framework.ljoyb( gamepad2.left_stick_button );
+            framework.rjoyb( gamepad2.right_stick_button );
 
             framework.updateTelemetryDM();
 
