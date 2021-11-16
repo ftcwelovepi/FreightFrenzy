@@ -152,9 +152,9 @@ public class EOCVFF extends LinearOpMode {
         int targetblue = 0;
         int targetgreen = 255;
 
-        float avg1Distance;
-        float avg2Distance;
-        float avg3Distance;
+        int avg1Count = 0;
+        int avg2Count = 0;
+        int avg3Count = 0;
 
         Mat dst1 = new Mat();
         Mat dst11 = new Mat();
@@ -206,27 +206,39 @@ public class EOCVFF extends LinearOpMode {
         public int getDistance(int x1, int x2, int y1, int y2, int z1, int z2){
             return (int) Math.pow((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2) + Math.pow(z2 - z1, 2) * 1.0), 0.5);
         }
+        public int countPixels(double tolerance, int targetred, int targetgreen, int targetblue, Mat image){
+            int counter = 0;
+            for (int x = 0; x < image.rows(); x++){ //loop through rows
+                for (int y = 0; y < image.cols(); y++){ // loop through columns
+                    Scalar pixel = Core.mean(image.row(x).col(y));
+                    int red = (int)pixel.val[0];
+                    int green = (int)pixel.val[1];
+                    int blue = (int)pixel.val[2];
 
+                    if (getDistance(red,targetred,green,targetgreen,blue,targetblue)<= tolerance){
+                        counter++;
+                    }
+                }
+            }
+            return counter;
+        }
         @Override
         public Mat processFrame(Mat input)
         {
             inputToCb(input);
-
-            avg1red = (int) Core.mean(region1_Cb).val[0];
-            avg1green = (int) Core.mean(region1_Cb).val[1];
-            avg1blue = (int) Core.mean(region1_Cb).val[2];
-            avg1Distance = getDistance(avg1red, targetred, avg1green, targetgreen, avg1blue, targetblue);
+            double tolerance = 200;
+            avg1Count = countPixels();
 
             avg2red = (int) Core.mean(region2_Cb).val[0];
             avg2green = (int) Core.mean(region2_Cb).val[1];
             avg2blue = (int) Core.mean(region2_Cb).val[2];
-            avg2Distance = getDistance(avg2red, targetred, avg2green, targetgreen, avg2blue, targetblue);
+            //avg2Distance = getDistance(avg2red, targetred, avg2green, targetgreen, avg2blue, targetblue);
 
 
             avg3red = (int) Core.mean(region3_Cb).val[0];
             avg3green = (int) Core.mean(region3_Cb).val[1];
             avg3blue = (int) Core.mean(region3_Cb).val[2];
-            avg3Distance = getDistance(avg3red, targetred, avg3green, targetgreen, avg3blue, targetblue);
+            //avg3Distance = getDistance(avg3red, targetred, avg3green, targetgreen, avg3blue, targetblue);
 
 
 
@@ -277,7 +289,7 @@ public class EOCVFF extends LinearOpMode {
 
         public String getAnalysis()
         {
-//            return "Left: " + avg1 + " Mid: " + avg2 + " Right: " + avg3 + "sex: " + region1_Cb;
+//            return "Left: " + avg1 + " Mid: " + avg2 + " Right: " + avg3;
            return "Left: " + avg1Distance + " Mid: " + avg2Distance + " Right: " + avg3Distance;
 
         }
