@@ -45,10 +45,10 @@ public class HardwareFF {
         bucketB = false;
     }
 
-//    public void initSensor() {
-//        distanceSensor = hwMap.get( DistanceSensor.class, "distance" );
-//        sensorTimeOfFlight = (Rev2mDistanceSensor) distanceSensor;
-//    }
+    public void initSensor() {
+        distanceSensor = hwMap.get( DistanceSensor.class, "distance" );
+        sensorTimeOfFlight = (Rev2mDistanceSensor) distanceSensor;
+    }
 
     public void initImu() {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -82,7 +82,7 @@ public class HardwareFF {
     public void initBucket () {
         if (bucketB || components) return;
         bucket = hwMap.get(Servo.class, "bucket");
-        bucket.setPosition(0.4);
+        bucket.setPosition(0.0);
         bucketB = true;
     }
 
@@ -93,7 +93,7 @@ public class HardwareFF {
         initSpinner();
         initIntake();
         initSlides();
-//        initSensor();
+        initSensor();
 
         spinner.setDirection(DcMotor.Direction.REVERSE);
 

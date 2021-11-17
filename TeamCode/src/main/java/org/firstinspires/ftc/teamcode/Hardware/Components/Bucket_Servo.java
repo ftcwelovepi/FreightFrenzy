@@ -21,7 +21,7 @@ public class Bucket_Servo {
 
     private static boolean gliding = false;
 
-    private static ThreadedWait wait = new ThreadedWait(25);
+    private static ThreadedWait wait = new ThreadedWait(35);
 
     public static void initialize(HardwareFF robot) {
         s = robot.bucket;
@@ -36,9 +36,9 @@ public class Bucket_Servo {
             if (!wait.get()) {
                 return;
             }
-            if (glideTarget+0.02 < position) {
+            if (glideTarget+0.01 < position) {
                 position -= 0.05;
-            } else if (glideTarget-0.02 > position) {
+            } else if (glideTarget-0.01 > position) {
                 position += 0.05;
             } else {
                 gliding = false;
@@ -53,7 +53,7 @@ public class Bucket_Servo {
     }
 
     public static void update (boolean autoSecure) {
-        update(autoSecure, 25);
+        update(autoSecure, 35);
     }
 
     public static void moveForward () {
@@ -79,7 +79,7 @@ public class Bucket_Servo {
     }
 
     public static void glide(boolean oppositeEnd) {
-        bucketTimeIncrement = 25;
+        bucketTimeIncrement = 35;
         if (oppositeEnd) {
             glideTarget = (s.getPosition() < 0.5 ? 1 : 0);
         } else {

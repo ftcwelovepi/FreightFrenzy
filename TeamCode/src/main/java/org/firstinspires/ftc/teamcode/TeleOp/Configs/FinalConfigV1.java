@@ -13,6 +13,7 @@ public class FinalConfigV1 extends Template{
     String stage = "Nothing Yet";
     int bucketStage = 1;
     public boolean overrideSlides = false;
+    public boolean up = false;
 
     public void init() {
         robot.initWheels();
@@ -56,7 +57,12 @@ public class FinalConfigV1 extends Template{
     @Override
     public void ljoyb(boolean pressed) {
         if (pressed)
-            overrideSlides = !overrideSlides;
+            overrideSlides = true;
+    }
+
+    public void rjoyb (boolean pressed) {
+        if (pressed)
+            overrideSlides = false;
     }
 
     @Override
@@ -69,7 +75,7 @@ public class FinalConfigV1 extends Template{
     @Override
     public void dl(boolean pressed) {
         if (pressed) {
-            Bucket_Servo.glideToPosition(0.7);
+            SynchronizedMovement.move( SynchronizedMovement.MID );
         }
     }
 
@@ -80,10 +86,9 @@ public class FinalConfigV1 extends Template{
         }
     }
 
-    @Override
-    public void dr(boolean pressed) {
+    public void dr (boolean pressed) {
         if (pressed) {
-            Bucket_Servo.glideToPosition(0.4);
+            SynchronizedMovement.move( SynchronizedMovement.LOW );
         }
     }
 

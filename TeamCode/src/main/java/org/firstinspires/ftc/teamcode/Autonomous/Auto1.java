@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Bucket_Servo;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
@@ -306,16 +307,16 @@ public class Auto1 extends LinearOpMode{
         telemetry.update();
         sleep(500);
         if (pipeline.position== SkystoneDeterminationPipeline.DuckPosition.LEFT){
-            SynchronizedMovement.move(SynchronizedMovement.UP);
-            telemetry.addData("Going with TOP", "LEFT");
+            SynchronizedMovement.move(SynchronizedMovement.LOW);
+            telemetry.addData("Going with BOTTOM", "LEFT");
         }
         else if (pipeline.position== SkystoneDeterminationPipeline.DuckPosition.MIDDLE) {
             SynchronizedMovement.move(SynchronizedMovement.MID);
             telemetry.addData("Going with MID", "MIDDLE");
         }
         else {
-            SynchronizedMovement.move(SynchronizedMovement.LOW);
-            telemetry.addData("Going with BOTTOM", "RIGHT");
+            SynchronizedMovement.move(SynchronizedMovement.UP);
+            telemetry.addData("Going with TOP", "RIGHT");
         }
         startingAngle = getAverageGyro();
         telemetry.addData("Starting angle", startingAngle);
@@ -330,7 +331,7 @@ public class Auto1 extends LinearOpMode{
 
             gyroTurn(0.7,startingAngle+40);
 //            gyroTurn(0.7,90);
-            encoderMecanumDrive(0.4, 85, 3, 0,-1);
+            encoderMecanumDrive(0.4, 90, 3, 0,-1);
             //extend linear slidehan
 
             while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
@@ -341,22 +342,46 @@ public class Auto1 extends LinearOpMode{
                 telemetry.addData("Stage", SynchronizedMovement.getStage());
                 telemetry.addData("Encoder", Slides.getEncoders());
                 telemetry.addData("Power", Slides.getPower());
-//                telemetry.addData("")
                 telemetry.update();
             }
-            ThreadedWait waits = new ThreadedWait(1000);
-            waits.run();
-
-            while (!waits.get()) {
-                Bucket_Servo.update();
-            }
-
             Slides.update();
             Bucket_Servo.update();
+            SynchronizedMovement.move( SynchronizedMovement.DOWN );
+            while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
+
+                SynchronizedMovement.run();
+                Slides.update();
+                Bucket_Servo.update();
+                telemetry.addData("Stage", SynchronizedMovement.getStage());
+                telemetry.addData("Encoder", Slides.getEncoders());
+                telemetry.addData("Power", Slides.getPower());
+                telemetry.update();
+            }
             gyroTurn(0.7, startingAngle);
             encoderMecanumDrive(.4,110,3,-1,-0.4);
-            encoderMecanumDrive(.4,170,3,0,-1);
+            gyroTurn(0.7, startingAngle);
+            moveConstGyroandDist( .4, 170, -1, 0, startingAngle );
+//            encoderMecanumDrive(.4,170,3,0,-1);
+            encoderMecanumDrive( .4, 50, 3, 1, -0.4 );
+            gyroTurn( 0.7, startingAngle + 180 );
 
+        }
+    }
+
+    public void moveConstGyroandDist (double speed, double distance, double move_y, double distanceMM, double heading) {
+        int increment = 1;
+        double start = distance/10;
+        while (opModeIsActive() && increment<=10) {
+            double movex = -(robot.distanceSensor.getDistance( DistanceUnit.MM )-distanceMM)/100;
+            double dist = start;
+            if (movex < 0.1) {
+                increment++;
+                dist *= 2;
+            }
+            encoderMecanumDrive( speed, dist, 3, movex, move_y );
+            if (!(getAverageGyro()-1 < heading && getAverageGyro()+1 > heading))
+                gyroTurn( 0.7, heading );
+            increment++;
         }
     }
 

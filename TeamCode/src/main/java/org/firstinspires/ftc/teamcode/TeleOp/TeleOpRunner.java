@@ -2,7 +2,12 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 import org.firstinspires.ftc.teamcode.Hardware.MecanumDriveTrain;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.ComponentTesting_BS;
@@ -13,12 +18,21 @@ import org.firstinspires.ftc.teamcode.TeleOp.Configs.Template;
 
 import java.util.ArrayList;
 
+import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
+
 /**
  * TeleOp Runner, switches through all the configurations in org.firstinspires.ftc.teamcode.TeleOp.Configs
  * Limitations: need to manually add all the classes in
  */
 @TeleOp(name="TeleOp Runner", group="FrieghtFrenzy")
 public class TeleOpRunner extends OpMode {
+
+    static final double     COUNTS_PER_MOTOR_REV    = /*767.2*/ 383.5 ;
+    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
+    static final double     WHEEL_DIAMETER_CM       = 9.6 ;     // This measurement is more exact than inches
+    static final double     COUNTS_PER_CM         = ((COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_CM * Math.PI));
+    static final double     HEADING_THRESHOLD       = 1 ;
+    static final double     P_TURN_COEFF            = 0.03;
 
     // declaring variables
     MecanumDriveTrain vroom;
@@ -35,6 +49,8 @@ public class TeleOpRunner extends OpMode {
     //Initialize variables for looping, switching stops GP2 from using the buttons
     boolean switching = false;
     int indexOfConfig = 0;
+
+    double startingAngle;
 
     @Override
     public void init() {
@@ -59,6 +75,7 @@ public class TeleOpRunner extends OpMode {
 
         //First configuration that pops up
         framework = new FinalConfigV1();
+        robot.initImu();
 
         //Initializing the selected Config
         framework.init();
@@ -70,6 +87,9 @@ public class TeleOpRunner extends OpMode {
         //initializing GP1 Functions for driving
         vroom = new MecanumDriveTrain(robot, gamepad1,telemetry);
 
+        startingAngle = getAverageGyro();
+
+        telemetry.addData( "Slides Initialized Position", Slides.getEncoders() );
         telemetry.addData("Status", "Initialization Complete");
         telemetry.update();
     }
@@ -77,6 +97,13 @@ public class TeleOpRunner extends OpMode {
     @Override
     public void loop() {
         vroom.loop(); //GP 1
+
+        if (gamepad1.a) {
+            gyroTurn( 0.7, startingAngle );
+        }
+        if (gamepad1.b) {
+            gyroTurn( 0.7, startingAngle+90 );
+        }
 
         //Starts teh switching configs
         if (gamepad2.start) {
@@ -177,6 +204,77 @@ public class TeleOpRunner extends OpMode {
         framework.init();
 
         switching = false;
+    }
+
+    public double getAverageGyro(){
+        /*int sum = robot.realgyro.getIntegratedZValue() + robot.realgyro2.getIntegratedZValue();
+        return sum/2;*/
+        Orientation angles = robot.imu.getAngularOrientation( AxesReference.INTRINSIC, AxesOrder.ZYX, DEGREES);
+        double heading = angles.firstAngle;
+        return heading;
+    }
+
+    public void gyroTurn (  double speed, double angle) {
+        telemetry.addData("starting angle", getAverageGyro());
+        telemetry.update();
+        // keep looping while we are still active, and not on heading.
+        while (!onHeading(speed, angle, P_TURN_COEFF)) {
+            // Update telemetry & Allow time for other processes to run.
+            telemetry.addData("current_heading", getAverageGyro());
+            telemetry.update();
+        }
+    }
+
+    boolean onHeading(double speed, double angle, double PCoeff) {
+        double   error ;
+        double   steer ;
+        boolean  onTarget = false ;
+        double leftSpeed;
+        double rightSpeed;
+
+        // determine turn power based on +/- error
+        error = getError(angle);
+
+        if (Math.abs(error) <= HEADING_THRESHOLD) {
+            steer = 0.0;
+            leftSpeed  = 0.0;
+            rightSpeed = 0.0;
+            onTarget = true;
+        }
+        else {
+            steer = getSteer(error, PCoeff);
+            rightSpeed  = speed * steer;
+            leftSpeed   = -rightSpeed;
+        }
+
+        // Send desired speeds to motors.
+        robot.frontLeft.setPower(leftSpeed);
+        robot.frontRight.setPower(rightSpeed);
+        robot.backLeft.setPower(leftSpeed);
+        robot.backRight.setPower(rightSpeed);
+
+
+        // Display it for the driver.
+        telemetry.addData("Target", "%5.2f", angle);
+        telemetry.addData("Err/St", "%5.2f/%5.2f", error, steer);
+        telemetry.addData("Speed.", "%5.2f:%5.2f", leftSpeed, rightSpeed);
+
+        return onTarget;
+    }
+
+    public double getSteer(double error, double PCoeff) {
+        return Range.clip(error * PCoeff, -1, 1);
+    }
+
+    public double getError(double targetAngle) {
+
+        double robotError;
+
+        // calculate error in -179 to +180 range  (
+        robotError = targetAngle - getAverageGyro();
+        while (robotError > 180)  robotError -= 360;
+        while (robotError <= -180) robotError += 360;
+        return robotError;
     }
 
 

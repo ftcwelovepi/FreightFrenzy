@@ -58,10 +58,9 @@ public class MecanumDriveTrain {
         double left_x = 0.0;
         double left_y = 0.0;
         double right_x = 0.0;
-        double left_toggle = 0.55;
-        double right_toggle = 0.3;
+        double left_toggle = 0.75;
+        double right_toggle = 0.45;
         double gamepadSum = gamepad1.left_stick_x + gamepad1.left_stick_y + gamepad1.right_stick_x;
-
 
         // dpad overrides other joysticks
         if (gamepad1.dpad_left) {
