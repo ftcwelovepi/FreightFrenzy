@@ -11,6 +11,8 @@ public enum SynchronizedMovement {
     static int stageProgression = 0;
     static SynchronizedMovement s = SynchronizedMovement.STALL;
 
+    static double bucketPos, slidesPoint;
+
     static ThreadedWait waits = new ThreadedWait(1000);
 
     public static void move (SynchronizedMovement g) {
@@ -23,6 +25,79 @@ public enum SynchronizedMovement {
 
     public static int getStage() {
         return stageProgression;
+    }
+
+    //Sets the position till which the Slides move
+    public static void run2 () {
+        if (s.equals( UP )) {
+            sequence(Slides.getHigh());
+        } else if (s.equals( MID )) {
+            sequence(Slides.getMid());
+        } else if (s.equals( LOW )) {
+            sequence(Slides.getLow());
+        }
+        if (stageProgression==0) {
+            s = STALL;
+        }
+    }
+
+    //The uniform sequence taken by the bucket and slides
+    public static void sequence (double encoders) {
+        switch (stageProgression) {
+            case 0:
+                stageProgression++;
+                break;
+            case 1:
+                Slides.setPower( 1 );
+                if (Slides.getEncoders() >= 10) {
+                    Intake.setPower( -0.2 );
+                    stageProgression++;
+                }
+                break;
+            case 2:
+                Bucket_Servo.glideToPosition( 0.5 );
+                stageProgression++;
+                break;
+            case 3:
+                if (Slides.getEncoders() >= Slides.getTransferPoint()) {
+                    Bucket_Servo.glideToPosition( 0.7 );
+                    Intake.setPower( 0 );
+                    stageProgression++;
+                }
+                break;
+            case 4:
+                if (Slides.getEncoders() >= encoders) {
+                    Bucket_Servo.glideToPosition( 1 );
+                    stageProgression++;
+                }
+                break;
+            case 5:
+                if (waits.get()) {
+                    stageProgression++;
+                } else if (!waits.isAlive() && !waits.get()) {
+                    waits = new ThreadedWait( 1500 );
+                    waits.start();
+                }
+                break;
+            case 6:
+                Slides.setPower( -1 );
+                Bucket_Servo.glideToPosition( 0.5 );
+                stageProgression++;
+                break;
+            case 7:
+                if (Slides.getEncoders() <= Slides.getTransferPoint()-50) {
+                    Intake.setPower( -0.2 );
+                    Bucket_Servo.glideToPosition( 0.3 );
+                    stageProgression++;
+                }
+                break;
+            case 8:
+                if (Slides.getPower() == 0) {
+                    Intake.setPower( 0 );
+                    stageProgression = 0;
+                }
+                break;
+        }
     }
 
     public static void run () {
@@ -73,12 +148,14 @@ public enum SynchronizedMovement {
                     break;
                 case 1:
                     if (Slides.getEncoders() <= Slides.getTransferPoint()-50) {
+                        Intake.setPower( -0.2 );
                         Bucket_Servo.glideToPosition( 0.3 );
                         stageProgression++;
                     }
                     break;
                 case 2:
                     if (Slides.getPower() == 0) {
+                        Intake.setPower( 0 );
                         stageProgression = 0;
                     }
                     break;

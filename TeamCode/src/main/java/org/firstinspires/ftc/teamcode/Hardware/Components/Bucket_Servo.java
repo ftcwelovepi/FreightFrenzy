@@ -19,9 +19,27 @@ public class Bucket_Servo {
     private static double position = 0.4;
     private static double glideTarget = 0.4;
 
+    private static double lowRest = 0.3, lowSecure = 0.5, highSecure = 0.7, highDrop = 1;
+
     private static boolean gliding = false;
 
     private static ThreadedWait wait = new ThreadedWait(35);
+
+    public static double getLowRest () {
+        return lowRest;
+    }
+
+    public static double getLowSecure () {
+        return lowSecure;
+    }
+
+    public static double getHighSecure () {
+        return highSecure;
+    }
+
+    public static double getHighDrop () {
+        return highDrop;
+    }
 
     public static void initialize(HardwareFF robot) {
         s = robot.bucket;
