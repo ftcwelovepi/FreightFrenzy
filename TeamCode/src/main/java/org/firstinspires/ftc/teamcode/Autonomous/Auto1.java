@@ -342,7 +342,7 @@ public class Auto1 extends LinearOpMode{
 
             gyroTurn(0.7,startingAngle+40);
 //            gyroTurn(0.7,90);
-            encoderMecanumDrive(0.4, 90, 3, 0,-1);
+            encoderMecanumDrive(0.4, 70, 3, 0,-1);
             //extend linear slidehan
 
             while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
@@ -358,9 +358,9 @@ public class Auto1 extends LinearOpMode{
             Slides.update();
             Bucket_Servo.update();
             gyroTurn(0.7, startingAngle);
-            encoderMecanumDrive(.4,120,3,-1,-0.4);
+            encoderMecanumDrive(.4,135,3,-1,-0.4);
             gyroTurn(0.7, startingAngle);
-            moveConstGyroandDist( .4, 130, -1, 0, startingAngle );
+            moveConstGyroandDist( .4, 110, -1, 0, startingAngle );
 //            encoderMecanumDrive(.4,170,3,0,-1);
             encoderMecanumDrive( .4, 50, 3, 1, -0.4 );
             gyroTurn( 0.7, startingAngle + 180 );

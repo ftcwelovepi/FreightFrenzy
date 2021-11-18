@@ -75,7 +75,7 @@ public enum SynchronizedMovement {
                 break;
             case 5:
                 if (!startedThread) {
-                    waits = new ThreadedWait( 1500 );
+                    waits = new ThreadedWait( 3000 );
                     waits.start();
                     startedThread = true;
                 }
@@ -90,7 +90,7 @@ public enum SynchronizedMovement {
                 stageProgression++;
                 break;
             case 7:
-                if (Slides.getEncoders() <= Slides.getTransferPoint()-50) {
+                if (Slides.getEncoders() <= Slides.getTransferPoint()) {
                     Intake.setPower( -0.2 );
                     Bucket_Servo.glideToPosition( 0.3 );
                     stageProgression++;
