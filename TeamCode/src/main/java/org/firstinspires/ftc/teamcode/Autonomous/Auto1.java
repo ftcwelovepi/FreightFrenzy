@@ -322,12 +322,23 @@ public class Auto1 extends LinearOpMode{
         telemetry.addData("Starting angle", startingAngle);
         telemetry.update();
         if (opModeIsActive()) {
+            robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
+            robot.backRight.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
+            robot.frontLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
+            robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
 
-            encoderMecanumDrive(0.4, 85, 3, 0.40, 1);
+            encoderMecanumDrive(0.4, 80, 3, 0.40, 1);
+
             robot.spinner.setPower( 1 );
+            robot.intake.setPower( 0.7 );
             sleep( 3500 );
+            robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
+            robot.backRight.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
+            robot.frontLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
+            robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
             robot.spinner.setPower( 0 );
             encoderMecanumDrive(0.4, 10, 3, 0,-1);
+            robot.intake.setPower( 0 );
 
             gyroTurn(0.7,startingAngle+40);
 //            gyroTurn(0.7,90);
@@ -346,21 +357,10 @@ public class Auto1 extends LinearOpMode{
             }
             Slides.update();
             Bucket_Servo.update();
-            SynchronizedMovement.move( SynchronizedMovement.DOWN );
-            while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
-
-                SynchronizedMovement.run();
-                Slides.update();
-                Bucket_Servo.update();
-                telemetry.addData("Stage", SynchronizedMovement.getStage());
-                telemetry.addData("Encoder", Slides.getEncoders());
-                telemetry.addData("Power", Slides.getPower());
-                telemetry.update();
-            }
             gyroTurn(0.7, startingAngle);
-            encoderMecanumDrive(.4,110,3,-1,-0.4);
+            encoderMecanumDrive(.4,120,3,-1,-0.4);
             gyroTurn(0.7, startingAngle);
-            moveConstGyroandDist( .4, 170, -1, 0, startingAngle );
+            moveConstGyroandDist( .4, 130, -1, 0, startingAngle );
 //            encoderMecanumDrive(.4,170,3,0,-1);
             encoderMecanumDrive( .4, 50, 3, 1, -0.4 );
             gyroTurn( 0.7, startingAngle + 180 );
@@ -370,17 +370,12 @@ public class Auto1 extends LinearOpMode{
 
     public void moveConstGyroandDist (double speed, double distance, double move_y, double distanceMM, double heading) {
         int increment = 1;
-        double start = distance/10;
-        while (opModeIsActive() && increment<=10) {
-            double movex = -(robot.distanceSensor.getDistance( DistanceUnit.MM )-distanceMM)/100;
+        double start = distance/7;
+        while (opModeIsActive() && increment<=7) {
+//            double movex = -(robot.distanceSensor.getDistance( DistanceUnit.MM )-distanceMM)/100;
             double dist = start;
-            if (movex < 0.1) {
-                increment++;
-                dist *= 2;
-            }
-            encoderMecanumDrive( speed, dist, 3, movex, move_y );
-            if (!(getAverageGyro()-1 < heading && getAverageGyro()+1 > heading))
-                gyroTurn( 0.7, heading );
+            encoderMecanumDrive( speed, dist, 3, 0, move_y );
+            gyroTurn( 0.7, heading );
             increment++;
         }
     }
@@ -512,9 +507,9 @@ public class Auto1 extends LinearOpMode{
         int targetblue = 0;
         int targetgreen = 255;
 
-        float avg1Distance;
-        float avg2Distance;
-        float avg3Distance;
+        int avg1Count = 0;
+        int avg2Count = 0;
+        int avg3Count = 0;
 
         Mat dst1 = new Mat();
         Mat dst11 = new Mat();
@@ -566,27 +561,43 @@ public class Auto1 extends LinearOpMode{
         public int getDistance(int x1, int x2, int y1, int y2, int z1, int z2){
             return (int) Math.pow((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2) + Math.pow(z2 - z1, 2) * 1.0), 0.5);
         }
+        public int countPixels(double tolerance, int targetred, int targetgreen, int targetblue, Mat image){
+            int counter = 0;
+            for (int x = 0; x < image.rows(); x++){ //loop through rows
+                for (int y = 0; y < image.cols(); y++){ // loop through columns
+                    Scalar pixel = Core.mean(image.row(x).col(y));
+                    int red = (int)pixel.val[0];
+                    int green = (int)pixel.val[1];
+                    int blue = (int)pixel.val[2];
 
+                    if (getDistance(red,targetred,green,targetgreen,blue,targetblue)<= tolerance){
+                        counter++;
+                    }
+                }
+            }
+            return counter;
+        }
         @Override
         public Mat processFrame(Mat input)
         {
             inputToCb(input);
-
-            avg1red = (int) Core.mean(region1_Cb).val[0];
-            avg1green = (int) Core.mean(region1_Cb).val[1];
-            avg1blue = (int) Core.mean(region1_Cb).val[2];
-            avg1Distance = getDistance(avg1red, targetred, avg1green, targetgreen, avg1blue, targetblue);
+            double tolerance = 200;
+            avg1Count = countPixels(tolerance, targetred,targetgreen,targetblue,region1_Cb);
 
             avg2red = (int) Core.mean(region2_Cb).val[0];
             avg2green = (int) Core.mean(region2_Cb).val[1];
             avg2blue = (int) Core.mean(region2_Cb).val[2];
-            avg2Distance = getDistance(avg2red, targetred, avg2green, targetgreen, avg2blue, targetblue);
+            avg2Count = countPixels(tolerance, targetred,targetgreen,targetblue,region2_Cb);
+
+            //avg2Distance = getDistance(avg2red, targetred, avg2green, targetgreen, avg2blue, targetblue);
 
 
             avg3red = (int) Core.mean(region3_Cb).val[0];
             avg3green = (int) Core.mean(region3_Cb).val[1];
             avg3blue = (int) Core.mean(region3_Cb).val[2];
-            avg3Distance = getDistance(avg3red, targetred, avg3green, targetgreen, avg3blue, targetblue);
+            avg3Count = countPixels(tolerance, targetred,targetgreen,targetblue,region3_Cb);
+
+            //avg3Distance = getDistance(avg3red, targetred, avg3green, targetgreen, avg3blue, targetblue);
 
 
 
@@ -602,9 +613,9 @@ public class Auto1 extends LinearOpMode{
                     2); // Thickness of the rectangle lines
 
             position = SkystoneDeterminationPipeline.DuckPosition.MIDDLE; // Record our analysis
-            if(avg1Distance < avg2Distance && avg1Distance < avg3Distance){
+            if(avg1Count > avg2Count && avg1Count > avg3Count){
                 position = SkystoneDeterminationPipeline.DuckPosition.LEFT;
-            }else if (avg2Distance < avg1Distance && avg2Distance < avg3Distance){
+            }else if (avg2Count > avg1Count && avg2Count > avg3Count){
                 position = SkystoneDeterminationPipeline.DuckPosition.MIDDLE;
             }else{
                 position = SkystoneDeterminationPipeline.DuckPosition.RIGHT;
@@ -637,8 +648,9 @@ public class Auto1 extends LinearOpMode{
 
         public String getAnalysis()
         {
-//            return "Left: " + avg1 + " Mid: " + avg2 + " Right: " + avg3 + "sex: " + region1_Cb;
-            return "Left: " + avg1Distance + " Mid: " + avg2Distance + " Right: " + avg3Distance;
+            return avg1Count + " " + avg2Count + " " + avg3Count;
+//            return "Left: " + avg1 + " Mid: " + avg2 + " Right: " + avg3;
+//           return "Left: " + avg1Distance + " Mid: " + avg2Distance + " Right: " + avg3Distance;
 
         }
     }

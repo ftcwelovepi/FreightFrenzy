@@ -227,17 +227,21 @@ public class EOCVFF extends LinearOpMode {
         {
             inputToCb(input);
             double tolerance = 200;
-            avg1Count = countPixels();
+            avg1Count = countPixels(tolerance, targetred,targetgreen,targetblue,region1_Cb);
 
             avg2red = (int) Core.mean(region2_Cb).val[0];
             avg2green = (int) Core.mean(region2_Cb).val[1];
             avg2blue = (int) Core.mean(region2_Cb).val[2];
+            avg2Count = countPixels(tolerance, targetred,targetgreen,targetblue,region2_Cb);
+
             //avg2Distance = getDistance(avg2red, targetred, avg2green, targetgreen, avg2blue, targetblue);
 
 
             avg3red = (int) Core.mean(region3_Cb).val[0];
             avg3green = (int) Core.mean(region3_Cb).val[1];
             avg3blue = (int) Core.mean(region3_Cb).val[2];
+            avg3Count = countPixels(tolerance, targetred,targetgreen,targetblue,region3_Cb);
+
             //avg3Distance = getDistance(avg3red, targetred, avg3green, targetgreen, avg3blue, targetblue);
 
 
@@ -254,9 +258,9 @@ public class EOCVFF extends LinearOpMode {
                     2); // Thickness of the rectangle lines
 
             position = DuckPosition.MIDDLE; // Record our analysis
-            if(avg1Distance < avg2Distance && avg1Distance < avg3Distance){
+            if(avg1Count > avg2Count && avg1Count > avg3Count){
                 position = DuckPosition.LEFT;
-            }else if (avg2Distance < avg1Distance && avg2Distance < avg3Distance){
+            }else if (avg2Count > avg1Count && avg2Count > avg3Count){
                 position = DuckPosition.MIDDLE;
             }else{
                 position = DuckPosition.RIGHT;
@@ -289,8 +293,9 @@ public class EOCVFF extends LinearOpMode {
 
         public String getAnalysis()
         {
+            return avg1Count + " " + avg2Count + " " + avg3Count;
 //            return "Left: " + avg1 + " Mid: " + avg2 + " Right: " + avg3;
-           return "Left: " + avg1Distance + " Mid: " + avg2Distance + " Right: " + avg3Distance;
+//           return "Left: " + avg1Distance + " Mid: " + avg2Distance + " Right: " + avg3Distance;
 
         }
     }

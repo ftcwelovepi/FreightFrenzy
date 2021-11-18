@@ -102,7 +102,7 @@ public class TeleOpRunner extends OpMode {
             gyroTurn( 0.7, startingAngle );
         }
         if (gamepad1.b) {
-            gyroTurn( 0.7, startingAngle+90 );
+            startingAngle = getAverageGyro();
         }
 
         //Starts teh switching configs

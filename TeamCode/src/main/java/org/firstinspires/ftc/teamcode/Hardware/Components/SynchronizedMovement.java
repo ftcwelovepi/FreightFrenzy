@@ -13,6 +13,8 @@ public enum SynchronizedMovement {
 
     static double bucketPos, slidesPoint;
 
+    static boolean startedThread = false;
+
     static ThreadedWait waits = new ThreadedWait(1000);
 
     public static void move (SynchronizedMovement g) {
@@ -28,7 +30,7 @@ public enum SynchronizedMovement {
     }
 
     //Sets the position till which the Slides move
-    public static void run2 () {
+    public static void run () {
         if (s.equals( UP )) {
             sequence(Slides.getHigh());
         } else if (s.equals( MID )) {
@@ -50,7 +52,7 @@ public enum SynchronizedMovement {
             case 1:
                 Slides.setPower( 1 );
                 if (Slides.getEncoders() >= 10) {
-                    Intake.setPower( -0.2 );
+                    Intake.setPower( -0.3 );
                     stageProgression++;
                 }
                 break;
@@ -72,11 +74,14 @@ public enum SynchronizedMovement {
                 }
                 break;
             case 5:
-                if (waits.get()) {
-                    stageProgression++;
-                } else if (!waits.isAlive() && !waits.get()) {
+                if (!startedThread) {
                     waits = new ThreadedWait( 1500 );
                     waits.start();
+                    startedThread = true;
+                }
+                if (waits.get()) {
+                    stageProgression++;
+                    startedThread = false;
                 }
                 break;
             case 6:
@@ -100,7 +105,7 @@ public enum SynchronizedMovement {
         }
     }
 
-    public static void run () {
+    public static void run2 () {
         if (s.equals( UP )) {
             switch (stageProgression) {
                 case 0:
