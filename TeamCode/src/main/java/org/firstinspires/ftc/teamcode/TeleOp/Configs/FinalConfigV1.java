@@ -53,6 +53,12 @@ public class FinalConfigV1 extends Template{
             Intake.flipSwitch();
         }
     }
+    @Override
+    public void y(boolean pressed) {
+        if (pressed) {
+            Intake.flipSwitchREVERSE();
+        }
+    }
 
     @Override
     public void ljoyb(boolean pressed) {
