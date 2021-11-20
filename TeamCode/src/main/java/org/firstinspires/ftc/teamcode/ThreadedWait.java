@@ -8,6 +8,7 @@ public class ThreadedWait extends Thread{
 
     private double wait;
     private boolean end;
+    private double beginTime;
 
     public ThreadedWait(double millis) {
         wait = millis;
@@ -18,10 +19,14 @@ public class ThreadedWait extends Thread{
         return end;
     }
 
+    public double time() {
+        return beginTime+wait - System.currentTimeMillis();
+    }
+
     @Override
     public void run() {
         end = false;
-        double beginTime = System.currentTimeMillis();
+        beginTime = System.currentTimeMillis();
         while (beginTime+wait > System.currentTimeMillis()) {
 
         }

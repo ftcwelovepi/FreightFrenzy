@@ -10,17 +10,12 @@ abstract public class Template {
 
     static final int milisButtonTimeOut = 250;
     static long pauseMilis = System.currentTimeMillis();
-
-
     static HardwareFF robot;
     public HashMap<String, String> telemetryDM = new HashMap<>();
-
     public static void setHardwareMap(HardwareFF robotR) {
         robot = robotR;
     }
-
     public abstract void init();
-
     String className;
 
     //Four buttons

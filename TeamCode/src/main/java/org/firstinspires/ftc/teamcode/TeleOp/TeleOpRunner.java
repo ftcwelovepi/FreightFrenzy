@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.TeleOp.Configs.ComponentTesting_SL;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.FinalConfigV1;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.TeleOpOne;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.Template;
+import org.firstinspires.ftc.teamcode.ThreadedWait;
 
 import java.util.ArrayList;
 
@@ -105,7 +106,7 @@ public class TeleOpRunner extends OpMode {
             startingAngle = getAverageGyro();
         }
 
-        //Starts teh switching configs
+        //Starts the switching configs
         if (gamepad2.start) {
             switching = true;
         }
@@ -217,10 +218,13 @@ public class TeleOpRunner extends OpMode {
     public void gyroTurn (  double speed, double angle) {
         telemetry.addData("starting angle", getAverageGyro());
         telemetry.update();
+        ThreadedWait wait = new ThreadedWait( 500 );
+        wait.start();
         // keep looping while we are still active, and not on heading.
-        while (!onHeading(speed, angle, P_TURN_COEFF)) {
+        while (!wait.get() && !onHeading(speed, angle, P_TURN_COEFF)) {
             // Update telemetry & Allow time for other processes to run.
             telemetry.addData("current_heading", getAverageGyro());
+            telemetry.addData( "Timer", wait.time() );
             telemetry.update();
         }
     }
