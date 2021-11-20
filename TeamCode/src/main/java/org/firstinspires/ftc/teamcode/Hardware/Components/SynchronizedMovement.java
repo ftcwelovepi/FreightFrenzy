@@ -70,12 +70,13 @@ public enum SynchronizedMovement {
             case 4:
                 if (Slides.getEncoders() >= encoders) {
                     Bucket_Servo.glideToPosition( 1 );
+                    Slides.setPower(0);
                     stageProgression++;
                 }
                 break;
             case 5:
                 if (!startedThread) {
-                    waits = new ThreadedWait( 3000 );
+                    waits = new ThreadedWait( 1000 );
                     waits.start();
                     startedThread = true;
                 }

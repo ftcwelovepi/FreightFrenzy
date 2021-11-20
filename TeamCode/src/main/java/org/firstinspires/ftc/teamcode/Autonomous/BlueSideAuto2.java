@@ -31,8 +31,8 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 
-@Autonomous(name = "Blue Side Auto", group = "Freight Frenzy")
-public class BlueSideAuto extends LinearOpMode{
+@Autonomous(name = "Blue Side Auto 2", group = "Freight Frenzy")
+public class BlueSideAuto2 extends LinearOpMode{
     static final double     COUNTS_PER_MOTOR_REV    = /*767.2*/ 383.5 ;
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_CM       = 9.6 ;     // This measurement is more exact than inches
@@ -298,11 +298,11 @@ public class BlueSideAuto extends LinearOpMode{
         Slides.initialize(robot);
         Bucket_Servo.initialize(robot);
 
-        telemetry.addData( "Blueslideautotest", "han" );
+        telemetry.addData( "Autotest", "han" );
         telemetry.update();
 
         waitForStart();
-        sleep(1000);
+        sleep(1500);
         telemetry.addData("Position", pipeline.position.toString());
         telemetry.update();
         sleep(500);
@@ -321,31 +321,32 @@ public class BlueSideAuto extends LinearOpMode{
         startingAngle = getAverageGyro();
         telemetry.addData("Starting angle", startingAngle);
         telemetry.update();
-        if (opModeIsActive()) {
+        if (opModeIsActive()){
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
             robot.backRight.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
             robot.frontLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
-            encoderMecanumDrive(0.4, 20,3, 1, 0);
-            gyroTurn(0.7, startingAngle+80);
-            encoderMecanumDrive(0.4, 53, 3, -1, 0);
 
-           robot.spinner.setPower( -1 );
-//           robot.intake.setPower( 0.7 );
-           sleep( 3500 );
-            robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
-            robot.backRight.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
-            robot.frontLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
-            robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
-            robot.spinner.setPower( 0 );
+            encoderMecanumDrive(0.4, 20, 3, 1, 0);
+            gyroTurn(0.4, startingAngle+60);
+            encoderMecanumDrive(0.4,55,3,0,-1);
+
+//            robot.spinner.setPower( 1 );
+//            robot.intake.setPower( 0.7 );
+//            sleep( 3500 );
+//            robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
+//            robot.backRight.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
+//            robot.frontLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
+//            robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
+//            robot.spinner.setPower( 0 );
 //            encoderMecanumDrive(0.4, 10, 3, 0,-1);
-////            robot.intake.setPower( 0 );
-////
-            gyroTurn(0.7,startingAngle+140);
-////            gyroTurn(0.7,90);
-            encoderMecanumDrive(0.4, 100, 3, 0,-1);
-////            //extend linear slidehan
-////
+//            robot.intake.setPower( 0 );
+//
+//            gyroTurn(0.7,startingAngle+40);
+//            gyroTurn(0.7,90);
+//            encoderMecanumDrive(0.4, 70, 3, 0,-1);
+//            //extend linear slidehan
+//
             while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
 
                 SynchronizedMovement.run();
@@ -358,13 +359,18 @@ public class BlueSideAuto extends LinearOpMode{
             }
             Slides.update();
             Bucket_Servo.update();
-            encoderMecanumDrive(0.4, 10, 3, 0,1);
-            gyroTurn(0.5, startingAngle);
-            encoderMecanumDrive(.4,150,3,-1,0.7);
-//            encoderMecanumDrive(0.4,130, 3, 0, 1);
+            encoderMecanumDrive(0.4,10,3,0,1);
+            gyroTurn(.4,startingAngle);
+            encoderMecanumDrive(.4,70,3,-1,0);
+            encoderMecanumDrive(.4,110,3,0,1);
+            encoderMecanumDrive(.4,60,3,1,0);
+//            gyroTurn(0.4, startingAngle+180);
+
+            //            gyroTurn(0.7, startingAngle);
+//            encoderMecanumDrive(.4,135,3,-1,-0.4);
 //            gyroTurn(0.7, startingAngle);
-            moveConstGyroandDist( .4, 120, 1, 0, startingAngle );
-//            encoderMecanumDrive(.4,170,3,0,-1);
+//            moveConstGyroandDist( .4, 110, -1, 0, startingAngle );
+////            encoderMecanumDrive(.4,170,3,0,-1);
 //            encoderMecanumDrive( .4, 50, 3, 1, -0.4 );
 //            gyroTurn( 0.7, startingAngle + 180 );
 

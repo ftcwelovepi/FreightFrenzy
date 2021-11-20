@@ -107,6 +107,7 @@ public class HardwareFF {
         slides.setDirection( DcMotor.Direction.REVERSE );
         slides.setMode( DcMotor.RunMode.STOP_AND_RESET_ENCODER );
         slides.setMode( DcMotor.RunMode.RUN_USING_ENCODER );
+        slides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         slide = true;
     }
