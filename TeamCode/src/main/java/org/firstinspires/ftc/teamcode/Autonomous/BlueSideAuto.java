@@ -328,7 +328,7 @@ public class BlueSideAuto extends LinearOpMode{
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
             encoderMecanumDrive(0.4, 20,3, 1, 0);
             gyroTurn(0.7, startingAngle+80);
-            encoderMecanumDrive(0.4, 65, 3, -1, 0);
+            encoderMecanumDrive(0.4, 53, 3, -1, 0);
 
            robot.spinner.setPower( -1 );
 //           robot.intake.setPower( 0.7 );
@@ -338,14 +338,14 @@ public class BlueSideAuto extends LinearOpMode{
             robot.frontLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
             robot.spinner.setPower( 0 );
-            encoderMecanumDrive(0.4, 10, 3, 0,-1);
-//            robot.intake.setPower( 0 );
-//
-            gyroTurn(0.7,startingAngle+50);
-//            gyroTurn(0.7,90);
-            encoderMecanumDrive(0.4, 70, 3, 0,-1);
-//            //extend linear slidehan
-//
+//            encoderMecanumDrive(0.4, 10, 3, 0,-1);
+////            robot.intake.setPower( 0 );
+////
+            gyroTurn(0.7,startingAngle+140);
+////            gyroTurn(0.7,90);
+            encoderMecanumDrive(0.4, 100, 3, 0,-1);
+////            //extend linear slidehan
+////
             while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
 
                 SynchronizedMovement.run();
@@ -358,13 +358,15 @@ public class BlueSideAuto extends LinearOpMode{
             }
             Slides.update();
             Bucket_Servo.update();
-            gyroTurn(0.7, startingAngle);
-            encoderMecanumDrive(.4,135,3,1,-0.4);
-            gyroTurn(0.7, startingAngle);
-            moveConstGyroandDist( .4, 110, -1, 0, startingAngle );
+            encoderMecanumDrive(0.4, 10, 3, 0,1);
+            gyroTurn(0.5, startingAngle);
+            encoderMecanumDrive(.4,130,3,-1,0.4);
+//            encoderMecanumDrive(0.4,130, 3, 0, 1);
+//            gyroTurn(0.7, startingAngle);
+            moveConstGyroandDist( .4, 110, 1, 0, startingAngle );
 //            encoderMecanumDrive(.4,170,3,0,-1);
-            encoderMecanumDrive( .4, 50, 3, 1, -0.4 );
-            gyroTurn( 0.7, startingAngle + 180 );
+//            encoderMecanumDrive( .4, 50, 3, 1, -0.4 );
+//            gyroTurn( 0.7, startingAngle + 180 );
 
         }
     }
