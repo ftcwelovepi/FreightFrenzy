@@ -35,6 +35,14 @@ public class Intake {
         }
     }
 
+    public static void flipSwitchREVERSE (double powerw) {
+        if (power == 0) {
+            power = -powerw;
+        } else {
+            power = 0;
+        }
+    }
+
     public static void stop() {
         power = 0;
     }

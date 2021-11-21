@@ -96,6 +96,13 @@ public class Bucket_Servo {
         wait.start();
     }
 
+    public static void glideFlipSwitch () {
+        if (position < 0.5)
+            glideToPosition( 1 );
+        else
+            glideToPosition( 0 );
+    }
+
     public static void glide(boolean oppositeEnd) {
         bucketTimeIncrement = 35;
         if (oppositeEnd) {

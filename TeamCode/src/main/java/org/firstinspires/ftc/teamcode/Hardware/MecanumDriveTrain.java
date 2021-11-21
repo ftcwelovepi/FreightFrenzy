@@ -95,6 +95,8 @@ public class MecanumDriveTrain {
             left_x = +left_x;
         }
 
+        right_x*=0.8;
+
         if (gamepad1.right_bumper && !malinPastState){
             malinDrive = !malinDrive;
         }

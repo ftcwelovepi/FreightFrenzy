@@ -17,6 +17,8 @@ public enum SynchronizedMovement {
 
     static ThreadedWait waits = new ThreadedWait(1000);
 
+    public static boolean turn = true;
+
     public static void move (SynchronizedMovement g) {
         s = g;
     }
@@ -51,19 +53,21 @@ public enum SynchronizedMovement {
                 break;
             case 1:
                 Slides.setPower( 1 );
-                if (Slides.getEncoders() >= 10) {
+                if (turn)
                     Intake.setPower( -0.3 );
+                if (Slides.getEncoders() >= 20) {
                     stageProgression++;
                 }
                 break;
             case 2:
-                Bucket_Servo.glideToPosition( 0.5 );
+                Bucket_Servo.glideToPosition( 0.7 );
                 stageProgression++;
                 break;
             case 3:
                 if (Slides.getEncoders() >= Slides.getTransferPoint()) {
-                    Bucket_Servo.glideToPosition( 0.7 );
-                    Intake.setPower( 0 );
+//                    Bucket_Servo.glideToPosition( 0.8 );
+                    if (turn)
+                        Intake.setPower( 0 );
                     stageProgression++;
                 }
                 break;
@@ -76,7 +80,7 @@ public enum SynchronizedMovement {
                 break;
             case 5:
                 if (!startedThread) {
-                    waits = new ThreadedWait( 1000 );
+                    waits = new ThreadedWait( 500 );
                     waits.start();
                     startedThread = true;
                 }

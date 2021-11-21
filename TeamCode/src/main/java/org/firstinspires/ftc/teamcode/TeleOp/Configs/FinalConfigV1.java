@@ -78,6 +78,11 @@ public class FinalConfigV1 extends Template{
         }
     }
 
+    public void x (boolean pressed) {
+        if (pressed)
+            Intake.flipSwitchREVERSE(0.3);
+    }
+
     @Override
     public void dl(boolean pressed) {
         if (pressed) {
