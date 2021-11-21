@@ -328,7 +328,7 @@ public class BlueSideAuto extends LinearOpMode{
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
             encoderMecanumDrive(0.4, 20,3, 1, 0);
             gyroTurn(0.7, startingAngle+80);
-            encoderMecanumDrive(0.4, 53, 3, -1, 0);
+            encoderMecanumDrive(0.4, 56, 3, -1, 0);
 
            robot.spinner.setPower( -1 );
 //           robot.intake.setPower( 0.7 );
@@ -341,9 +341,9 @@ public class BlueSideAuto extends LinearOpMode{
 //            encoderMecanumDrive(0.4, 10, 3, 0,-1);
 ////            robot.intake.setPower( 0 );
 ////
-            gyroTurn(0.7,startingAngle+140);
+            gyroTurn(0.4,startingAngle+143);
 ////            gyroTurn(0.7,90);
-            encoderMecanumDrive(0.4, 100, 3, 0,-1);
+            encoderMecanumDrive(0.4, 105, 3, 0,-1);
 ////            //extend linear slidehan
 ////
             while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
@@ -360,10 +360,10 @@ public class BlueSideAuto extends LinearOpMode{
             Bucket_Servo.update();
             encoderMecanumDrive(0.4, 10, 3, 0,1);
             gyroTurn(0.5, startingAngle);
-            encoderMecanumDrive(.4,150,3,-1,0.7);
+            encoderMecanumDrive(.4,160,3,-1,0.7);
 //            encoderMecanumDrive(0.4,130, 3, 0, 1);
 //            gyroTurn(0.7, startingAngle);
-            moveConstGyroandDist( .4, 120, 1, 0, startingAngle );
+            moveConstGyroandDist( .5, 120, 1, 0, startingAngle );
 //            encoderMecanumDrive(.4,170,3,0,-1);
 //            encoderMecanumDrive( .4, 50, 3, 1, -0.4 );
 //            gyroTurn( 0.7, startingAngle + 180 );
