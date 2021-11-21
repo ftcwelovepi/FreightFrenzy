@@ -29,6 +29,13 @@ public class Spinner {
             power = 0;
         }
     }
+    public static void flipSwitchREVERSE () {
+        if (power == 0) {
+            power = -1;
+        } else {
+            power = 0;
+        }
+    }
 
     public static void reverseDirection() {
         if (s.getDirection().equals( DcMotor.Direction.FORWARD )) {
