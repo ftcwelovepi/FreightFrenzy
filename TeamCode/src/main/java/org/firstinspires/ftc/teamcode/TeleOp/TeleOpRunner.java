@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
+import org.firstinspires.ftc.teamcode.Hardware.Components.SynchronizedMovement;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 import org.firstinspires.ftc.teamcode.Hardware.MecanumDriveTrain;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.ComponentTesting_BS;
@@ -89,6 +90,7 @@ public class TeleOpRunner extends OpMode {
         vroom = new MecanumDriveTrain(robot, gamepad1,telemetry);
 
         startingAngle = getAverageGyro();
+        SynchronizedMovement.turn = false;
 
         telemetry.addData( "Slides Initialized Position", Slides.getEncoders() );
         telemetry.addData("Status", "Initialization Complete");
