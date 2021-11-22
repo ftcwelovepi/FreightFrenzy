@@ -364,7 +364,12 @@ public class Auto1 extends LinearOpMode{
 //            encoderMecanumDrive(.4,170,3,0,-1);
             encoderMecanumDrive( .4, 20, 3, 1, -0.4 );
             gyroTurn( 0.7, startingAngle + 180 );
-
+            //robot dance
+            gyroTurn(.7, startingAngle + 170);
+            gyroTurn(.7, startingAngle + 190);
+            gyroTurn(.7, startingAngle + 170);
+            gyroTurn(.7, startingAngle+190);
+            gyroTurn(.7, startingAngle + 180);
         }
     }
 
