@@ -9,12 +9,11 @@ import org.firstinspires.ftc.teamcode.ThreadedWait;
 
 public class Bucket_Servo {
     private static Servo s;
-    private static double bucketTimeIncrement = 35;
+    private static double bucketTimeIncrement = 45;
     private static double pauseTime = System.currentTimeMillis();
     private static boolean bucketBack = true;
 
-    private static double low = 0;
-    private static double high = 1;
+    private static double milis = 45;
 
     private static double position = 0.4;
     private static double glideTarget = 0.4;
@@ -71,7 +70,7 @@ public class Bucket_Servo {
     }
 
     public static void update (boolean autoSecure) {
-        update(autoSecure, 35);
+        update(autoSecure, milis);
     }
 
     public static void moveForward () {
@@ -125,6 +124,22 @@ public class Bucket_Servo {
         }
     }
 
+    public static int iterationsTotal = 10;
+    public static int iterations = 10;
+
+    public static void jitterSet (int iterationsM) {
+        iterationsTotal = iterationsM;
+        iterations = 0;
+    }
+    private static void jitter () {
+        if (!wait.isAlive()&&iterations<iterationsTotal) {
+            wait = new ThreadedWait( 100 );
+            wait.start();
+            glideToPosition( (position!=0 ? 0 : 0.4) );
+            iterations++;
+        }
+    }
+
     public static void setPosition () {
         if ((position >= 0 && position <= 1)) s.setPosition( position );
     }
@@ -135,14 +150,5 @@ public class Bucket_Servo {
 
     public static double getPosition () {
         return s.getPosition();
-    }
-
-    public static void scaleServo(double min, double max) {
-        s.scaleRange( min, max );
-    }
-
-    public static void scaleLocal(double min, double max) {
-        low = min;
-        high = max;
     }
 }

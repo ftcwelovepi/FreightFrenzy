@@ -18,6 +18,7 @@ public enum SynchronizedMovement {
     static ThreadedWait waits = new ThreadedWait(1000);
 
     public static boolean turn = true;
+    public static boolean down = true;
 
     public static void move (SynchronizedMovement g) {
         s = g;

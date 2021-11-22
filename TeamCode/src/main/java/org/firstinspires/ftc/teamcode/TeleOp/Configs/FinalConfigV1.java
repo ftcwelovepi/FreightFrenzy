@@ -7,13 +7,16 @@ import org.firstinspires.ftc.teamcode.Hardware.Components.Intake;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Spinner;
 import org.firstinspires.ftc.teamcode.Hardware.Components.SynchronizedMovement;
+import org.firstinspires.ftc.teamcode.ThreadedWait;
 
 public class FinalConfigV1 extends Template{
 
     String stage = "Nothing Yet";
     int bucketStage = 1;
     public boolean overrideSlides = false;
-    public boolean up = false;
+    public boolean press = false;
+    public int spinnerFlip = 1;
+    ThreadedWait wait = new ThreadedWait( 300 );
 
     public void init() {
         robot.initWheels();
@@ -72,16 +75,25 @@ public class FinalConfigV1 extends Template{
     }
 
     @Override
-    public void rb(boolean pressed) {
+    public void lb(boolean pressed) {
         if (pressed) {
             Spinner.flipSwitch();
         }
     }
 
     @Override
-    public void lb(boolean pressed) {
+    public void rb(boolean pressed) {
         if (pressed) {
-            Spinner.flipSwitchREVERSE();
+            spinnerFlip = -1*spinnerFlip;
+        }
+    }
+
+    @Override
+    public void rt(float pressure) {
+        if (pressure > 0.1) {
+            Spinner.setPower( pressure*spinnerFlip );
+        } else {
+            Spinner.setPower( 0 );
         }
     }
 
@@ -112,7 +124,13 @@ public class FinalConfigV1 extends Template{
 
     public void dd(boolean pressed) {
         if (pressed) {
-            SynchronizedMovement.move( SynchronizedMovement.DOWN );
+            Bucket_Servo.glideToPosition( 0.4 );
+            wait = new ThreadedWait( 300 );
+            wait.start();
+            press = true;
+        }
+        if (wait.get() && press) {
+            Bucket_Servo.glideToPosition( 0 );
         }
     }
 

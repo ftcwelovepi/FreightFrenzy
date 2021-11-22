@@ -11,7 +11,7 @@ public class Slides {
 
     private static DcMotor s;
     private static DistanceSensor d;
-    private static double max = 1, min = -1, power = 0, scale = 1;
+    private static double max = 1, min = -1, power = 0, scale = 0.8;
     private static boolean enhancedSlide = true;
     private static int lowerboundMid = 400, lowerboundHigh = 600, transferPoint = 100, lowerboundLow = 300;
 

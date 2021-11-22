@@ -362,7 +362,7 @@ public class Auto1 extends LinearOpMode{
             gyroTurn(0.7, startingAngle);
             moveConstGyroandDist( .4, 120, -1, 0, startingAngle );
 //            encoderMecanumDrive(.4,170,3,0,-1);
-            encoderMecanumDrive( .4, 50, 3, 1, -0.4 );
+            encoderMecanumDrive( .4, 20, 3, 1, -0.4 );
             gyroTurn( 0.7, startingAngle + 180 );
 
         }
