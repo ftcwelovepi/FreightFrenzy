@@ -223,7 +223,7 @@ public class TeleOpRunner extends OpMode {
         ThreadedWait wait = new ThreadedWait( 500 );
         wait.start();
         // keep looping while we are still active, and not on heading.
-        while (!wait.get() && !onHeading(speed, angle, P_TURN_COEFF)) {
+        while (!wait.get() || !onHeading(speed, angle, P_TURN_COEFF)) {
             // Update telemetry & Allow time for other processes to run.
             telemetry.addData("current_heading", getAverageGyro());
             telemetry.addData( "Timer", wait.time() );
@@ -282,6 +282,4 @@ public class TeleOpRunner extends OpMode {
         while (robotError <= -180) robotError += 360;
         return robotError;
     }
-
-
 }
