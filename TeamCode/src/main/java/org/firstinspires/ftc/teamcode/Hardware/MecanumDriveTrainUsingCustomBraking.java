@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.ThreadedWait;
  */
 
 
-public class MecanumDriveTrain {
+public class MecanumDriveTrainUsingCustomBraking {
 
     public double max_stick = 1.0;
     public double min_stick = -1.0;
@@ -44,7 +44,7 @@ public class MecanumDriveTrain {
 
     // Constructors
 
-    public MecanumDriveTrain(HardwareFF robot, Gamepad gamepadinput, Telemetry telemetry) {
+    public MecanumDriveTrainUsingCustomBraking(HardwareFF robot, Gamepad gamepadinput, Telemetry telemetry) {
         frontLeft = robot.frontLeft;
         frontRight = robot.frontRight;
         backLeft = robot.backLeft;

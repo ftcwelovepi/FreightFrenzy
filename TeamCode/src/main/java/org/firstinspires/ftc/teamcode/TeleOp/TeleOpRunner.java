@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
 import org.firstinspires.ftc.teamcode.Hardware.Components.SynchronizedMovement;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
-import org.firstinspires.ftc.teamcode.Hardware.MecanumDriveTrain;
+import org.firstinspires.ftc.teamcode.Hardware.MecanumDriveTrainUsingCustomBraking;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.ComponentTesting_BS;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.ComponentTesting_SL;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.FinalConfigV1;
@@ -37,7 +37,7 @@ public class TeleOpRunner extends OpMode {
     static final double     P_TURN_COEFF            = 0.03;
 
     // declaring variables
-    MecanumDriveTrain vroom;
+    MecanumDriveTrainUsingCustomBraking vroom;
 
     /* Declare OpMode members. */
     HardwareFF robot = new HardwareFF(); // use the class created to define a RoverRuckus's hardware
@@ -87,7 +87,7 @@ public class TeleOpRunner extends OpMode {
         telemetry.update();
 
         //initializing GP1 Functions for driving
-        vroom = new MecanumDriveTrain(robot, gamepad1,telemetry);
+        vroom = new MecanumDriveTrainUsingCustomBraking(robot, gamepad1,telemetry);
 
         startingAngle = getAverageGyro();
         SynchronizedMovement.turn = false;
