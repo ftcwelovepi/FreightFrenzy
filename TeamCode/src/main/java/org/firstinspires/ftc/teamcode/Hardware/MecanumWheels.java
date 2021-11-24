@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 
 
 import java.lang.*;
+import java.util.Arrays;
 
 public class MecanumWheels {
 
@@ -22,9 +23,7 @@ public class MecanumWheels {
         move_y =0;
         turn = 0;
 
-        for (int i = 0; i < wheelPowers.length; i++) {
-            wheelPowers[i] = 0.0;
-        }
+        Arrays.fill( wheelPowers, 0.0 );
     }
 
     private void CalclulatePower() {
@@ -42,9 +41,9 @@ public class MecanumWheels {
 
         // Adjust maximum power from -1.0 to 1.0
         double absMax = 0.0;
-        for (int i = 0; i < wheelPowers.length; i++) {
-            if (Math.abs(wheelPowers[i]) > absMax) {
-                absMax = Math.abs(wheelPowers[i]);
+        for (double wheelPower : wheelPowers) {
+            if (Math.abs( wheelPower ) > absMax) {
+                absMax = Math.abs( wheelPower );
             }
         }
 
