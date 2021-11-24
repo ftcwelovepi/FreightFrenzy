@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 public class WaitNT {
-    boolean completed = false;
     double timeMS;
     double targetMillisecondTime;
     /* Method that starts a timer that is not in while, returns true or false*/
@@ -25,6 +24,9 @@ public class WaitNT {
     public void resetTimer(){
         targetMillisecondTime = timeMS + System.currentTimeMillis();
     }
-    /* Method that runs the while after starting the timer */
-    //not implementing cause this seems the same as Method that starts a timer that is in a while, pauses all operations, (time out is 3 sec)
+    /* Method that runs the while(synchronous) after starting the timer as async*/
+    public void asyncToSync(){
+        while(targetMillisecondTime > System.currentTimeMillis()){
+        }
+    }
 }
