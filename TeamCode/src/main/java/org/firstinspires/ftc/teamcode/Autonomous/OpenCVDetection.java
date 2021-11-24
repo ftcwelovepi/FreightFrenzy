@@ -61,7 +61,6 @@ public abstract class OpenCVDetection extends LinearOpMode {
 
         while (opModeIsActive())
         {
-            telemetry.addData("Analysis", pipeline.getAnalysis());
             telemetry.addData("", pipeline.position);
             telemetry.update();
 
