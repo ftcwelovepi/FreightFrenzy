@@ -25,6 +25,8 @@ public class FinalConfigV1 extends Template{
         Intake.initialize( robot );
         Bucket_Servo.initialize( robot );
         Spinner.initialize( robot );
+        Bucket_Servo.glideToPosition( 0 );
+        SynchronizedMovement.move( SynchronizedMovement.STALL );
     }
 
     @Override

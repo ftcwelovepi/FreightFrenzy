@@ -61,7 +61,7 @@ public enum SynchronizedMovement {
                 }
                 break;
             case 2:
-                Bucket_Servo.glideToPosition( 0.7 );
+                Bucket_Servo.glideToPosition( 0.5 );
                 stageProgression++;
                 break;
             case 3:
@@ -98,7 +98,7 @@ public enum SynchronizedMovement {
             case 7:
                 if (Slides.getEncoders() <= Slides.getTransferPoint()) {
                     Intake.setPower( -0.2 );
-                    Bucket_Servo.glideToPosition( 0.3 );
+                    Bucket_Servo.glideToPosition( 0 );
                     stageProgression++;
                 }
                 break;
