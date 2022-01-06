@@ -15,23 +15,19 @@ import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigu
 @Config
 @TeleOp
 public class VeloPIDTuner extends LinearOpMode {
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(1.26, 0.126, 0, 12.6);
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0, 0);
 
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
 
     private VoltageSensor batteryVoltageSensor;
-    DcMotorEx myMotor;
 
     @Override
     public void runOpMode() throws InterruptedException {
         // Change my id
-//        DcMotorEx myMotor = hardwareMap.get(DcMotorEx.class, "spit");
-        myMotor = hardwareMap.get(DcMotorEx.class, "spinner");
+        DcMotorEx myMotor = hardwareMap.get(DcMotorEx.class, "spinner");
 
         // Reverse as appropriate
-        myMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        myMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        // myMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
@@ -41,7 +37,7 @@ public class VeloPIDTuner extends LinearOpMode {
         motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
         myMotor.setMotorType(motorConfigurationType);
 
-//        myMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        myMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
         setPIDFCoefficients(myMotor, MOTOR_VELO_PID);

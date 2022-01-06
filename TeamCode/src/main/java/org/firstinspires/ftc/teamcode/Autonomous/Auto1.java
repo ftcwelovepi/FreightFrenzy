@@ -327,7 +327,7 @@ public class Auto1 extends LinearOpMode{
             robot.frontLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
 
-            encoderMecanumDrive(0.4, 80, 3, 0.40, 1);
+            encoderMecanumDrive(0.6, 80, 3, 0.40, 1);
 
             robot.spinner.setPower( 1 );
             robot.intake.setPower( 0.7 );
@@ -337,12 +337,12 @@ public class Auto1 extends LinearOpMode{
             robot.frontLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
             robot.spinner.setPower( 0 );
-            encoderMecanumDrive(0.4, 20, 3, 0,-1);
+            encoderMecanumDrive(0.6, 20, 3, 0,-1);
             robot.intake.setPower( 0 );
 
             gyroTurn(0.7,startingAngle+40);
 //            gyroTurn(0.7,90);
-            encoderMecanumDrive(0.4, 80, 3, 0,-1);
+            encoderMecanumDrive(0.6, 80, 3, 0,-1);
             //extend linear slidehan
 
             while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
@@ -358,11 +358,39 @@ public class Auto1 extends LinearOpMode{
             Slides.update();
             Bucket_Servo.update();
             gyroTurn(0.7, startingAngle);
-            encoderMecanumDrive(.4,135,3,-1,-0.4);
+            encoderMecanumDrive(0.6,135,3,-1,-0.4);
             gyroTurn(0.7, startingAngle);
-            moveConstGyroandDist( .4, 120, -1, 0, startingAngle );
+            moveConstGyroandDist( 0.6, 120, -1, 0, startingAngle );
 //            encoderMecanumDrive(.4,170,3,0,-1);
-            encoderMecanumDrive( .4, 20, 3, 1, -0.4 );
+
+            //encoderMecanumDrive( .4, 20, 3, 1, -0.4 ); Uncomment for one block run
+
+            //End of One Block code
+
+            //Drive to Wobble
+            encoderMecanumDrive( 0.6, 120, 3, 0, 1 );
+            encoderMecanumDrive( 0.6,135,3,1,0.4 );
+            gyroTurn(0.7,startingAngle+40);
+
+            //Drop and Drive back to outpost
+            while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
+
+                SynchronizedMovement.run();
+                Slides.update();
+                Bucket_Servo.update();
+                telemetry.addData("Stage", SynchronizedMovement.getStage());
+                telemetry.addData("Encoder", Slides.getEncoders());
+                telemetry.addData("Power", Slides.getPower());
+                telemetry.update();
+            }
+            Slides.update();
+            Bucket_Servo.update();
+            gyroTurn(0.7, startingAngle);
+            encoderMecanumDrive(0.6,135,3,-1,-0.4);
+            gyroTurn(0.7, startingAngle);
+            moveConstGyroandDist( 0.6, 120, -1, 0, startingAngle );
+
+
             gyroTurn( 0.7, startingAngle + 180 );
             //robot dance
             gyroTurn(.7, startingAngle + 170);
