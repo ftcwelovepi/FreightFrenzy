@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.TeleOp.Configs;
 import android.transition.Slide;
 
 import org.firstinspires.ftc.teamcode.Hardware.Components.Bucket_Servo;
+import org.firstinspires.ftc.teamcode.Hardware.Components.Intake;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
 
 public class ComponentTesting_SL extends Template{
@@ -14,6 +15,7 @@ public class ComponentTesting_SL extends Template{
         robot.initWheels();
         Slides.initialize( robot );
         Slides.scalePower( 0.7 );
+        Intake.initialize( robot );
     }
 
     public void rt (float pressure) {
@@ -42,11 +44,24 @@ public class ComponentTesting_SL extends Template{
 
     public void a(boolean pressed) {
         if (pressed)
-            Slides.setPower( 1 );
+            Intake.setPower( 1 );
+    }
+
+    @Override
+    public void b(boolean pressed) {
+        if (pressed)
+            Intake.setPower( -1 );
+    }
+
+    @Override
+    public void x(boolean pressed) {
+        if (pressed)
+            Intake.setPower( 0 );
     }
 
     public void loop() {
         Slides.update();
+        Intake.update();
     }
 
     public String getName() {

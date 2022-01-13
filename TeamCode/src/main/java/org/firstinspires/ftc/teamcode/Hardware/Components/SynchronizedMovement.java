@@ -61,7 +61,7 @@ public enum SynchronizedMovement {
                 }
                 break;
             case 2:
-                Bucket_Servo.glideToPosition( 0.5 );
+//                Bucket_Servo.glideToPosition( 0.5 );
                 stageProgression++;
                 break;
             case 3:
