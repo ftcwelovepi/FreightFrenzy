@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Bucket_Servo;
+import org.firstinspires.ftc.teamcode.Hardware.Components.Intake;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
 import org.firstinspires.ftc.teamcode.Hardware.Components.SynchronizedMovement;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
@@ -35,43 +36,49 @@ public class RedCarouselSide extends BaseAuto{
         sleep(500);
         telemetry.addData("Position", pipeline.position.toString());
         telemetry.update();
+
+        SynchronizedMovement position;
+
         sleep(500);
         if (pipeline.position== FreightFrenzyDeterminationPipeline.DuckPosition.LEFT){
-            SynchronizedMovement.move(SynchronizedMovement.LOW);
+            position = SynchronizedMovement.LOW;
             telemetry.addData("Going with BOTTOM", "LEFT");
         }
         else if (pipeline.position== FreightFrenzyDeterminationPipeline.DuckPosition.MIDDLE) {
-            SynchronizedMovement.move(SynchronizedMovement.MID);
+            position = SynchronizedMovement.MID;
             telemetry.addData("Going with MID", "MIDDLE");
         }
         else {
-            SynchronizedMovement.move(SynchronizedMovement.UP);
+            position = SynchronizedMovement.UP;
             telemetry.addData("Going with TOP", "RIGHT");
         }
+        SynchronizedMovement.move( position );
+
         startingAngle = getAverageGyro();
+
         telemetry.addData("Starting angle", startingAngle);
         telemetry.update();
+
         if (opModeIsActive()) {
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
             robot.backRight.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
             robot.frontLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
 
+            //Carousel Move to and Spinn
             encoderMecanumDrive(0.6, 80, 3, 0.40, 1);
-
             robot.spinner.setPower( 1 );
-            robot.intake.setPower( 0.7 );
             sleep( 3500 );
+
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
             robot.backRight.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
             robot.frontLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
             robot.spinner.setPower( 0 );
-            encoderMecanumDrive(0.6, 20, 3, 0,-1);
-            robot.intake.setPower( 0 );
 
-            gyroTurn(0.7,startingAngle+40);
-//            gyroTurn(0.7,90);
+            //Move to Wobble and place
+            encoderMecanumDrive(0.6, 20, 3, 0,-1);
+            gyroTurn(0.7,startingAngle+40); //Turn to face it
             encoderMecanumDrive(0.6, 80, 3, 0,-1);
             //extend linear slidehan
 
@@ -88,9 +95,34 @@ public class RedCarouselSide extends BaseAuto{
             Slides.update();
             Bucket_Servo.update();
             gyroTurn(0.7, startingAngle);
+            //Sweep for cube two
+            encoderMecanumDrive(0.6,70,3,-1,-0.4);
+            Intake.setPower( -1 );
+            gyroTurn(0.7, startingAngle+180);
+            encoderMecanumDrive( 0.6, 70, 3, 0, 1 );
+            encoderMecanumDrive( 0.6, 70, 3, 0, -1 );
+            gyroTurn(0.7, startingAngle);
+            encoderMecanumDrive(0.6,70,3,1,0.4);
+            gyroTurn(0.7, startingAngle + 40);
+            //Place second block
+            while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
+                SynchronizedMovement.run();
+                Slides.update();
+                Bucket_Servo.update();
+                telemetry.addData("Stage", SynchronizedMovement.getStage());
+                telemetry.addData("Encoder", Slides.getEncoders());
+                telemetry.addData("Power", Slides.getPower());
+                telemetry.update();
+            }
+            Slides.update();
+            Bucket_Servo.update();
+//            BEGINNING OF REGULAR RUN
+            gyroTurn(0.7, startingAngle);
             encoderMecanumDrive(0.6,135,3,-1,-0.4);
             gyroTurn(0.7, startingAngle);
             moveConstGyroandDist( 0.6, 120, -1, 0, startingAngle );
+//            END OR REGULAR RUNNING
+
 //            encoderMecanumDrive(.4,170,3,0,-1);
 
             //encoderMecanumDrive( .4, 20, 3, 1, -0.4 ); Uncomment for one block run
