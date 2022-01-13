@@ -31,14 +31,17 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 
-@Autonomous(name = "Auto 2", group = "Freight Frenzy")
-public class Auto2 extends BaseAuto{
+@Autonomous(name = "Blue Side Auto 2", group = "Freight Frenzy")
+public class BlueBarrierSide extends BaseAuto{
     @Override
     public void runOpMode() {
         autoInit();
 
+        telemetry.addData( "Autotest", "han" );
+        telemetry.update();
+
         waitForStart();
-        sleep(1000);
+        sleep(1500);
         telemetry.addData("Position", pipeline.position.toString());
         telemetry.update();
         sleep(500);
@@ -64,7 +67,7 @@ public class Auto2 extends BaseAuto{
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
 
             encoderMecanumDrive(0.4, 20, 3, 1, 0);
-            gyroTurn(0.4, startingAngle+120);
+            gyroTurn(0.4, startingAngle+60);
             encoderMecanumDrive(0.4,55,3,0,-1);
 
 //            robot.spinner.setPower( 1 );
@@ -95,12 +98,12 @@ public class Auto2 extends BaseAuto{
             }
             Slides.update();
             Bucket_Servo.update();
-            encoderMecanumDrive(.4,10,3,0,1);
+            encoderMecanumDrive(0.4,10,3,0,1);
             gyroTurn(.4,startingAngle);
             encoderMecanumDrive(.4,70,3,-1,0);
-            encoderMecanumDrive(.4,105,3,0,-1);
+            encoderMecanumDrive(.4,110,3,0,1);
             encoderMecanumDrive(.4,60,3,1,0);
-            gyroTurn(0.4, startingAngle+180);
+//            gyroTurn(0.4, startingAngle+180);
 
             //            gyroTurn(0.7, startingAngle);
 //            encoderMecanumDrive(.4,135,3,-1,-0.4);

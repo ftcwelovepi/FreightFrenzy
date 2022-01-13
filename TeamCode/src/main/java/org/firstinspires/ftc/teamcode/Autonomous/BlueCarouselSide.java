@@ -32,7 +32,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 
 @Autonomous(name = "Blue Side Auto", group = "Freight Frenzy")
-public class BlueSideAuto extends BaseAuto{
+public class BlueCarouselSide extends BaseAuto{
     @Override
     public void runOpMode() {
         autoInit();
