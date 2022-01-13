@@ -18,18 +18,18 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 
-@TeleOp(name="EOCVFF", group="UltimateGoal")
-public class EOCVFF extends LinearOpMode {
+@TeleOp(name="OpenCVDetection", group="UltimateGoal")
+public abstract class OpenCVDetection extends LinearOpMode {
 
-    SkystoneDeterminationPipeline pipeline;
+    FreightFrenzyDeterminationPipeline pipeline;
 
-    @Override
-    public void runOpMode()
+
+    public void initOpenCV()
     {
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         final OpenCvCamera phoneCam = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
-        pipeline = new SkystoneDeterminationPipeline();
+        pipeline = new FreightFrenzyDeterminationPipeline();
         phoneCam.setPipeline(pipeline);
 
         // We set the viewport policy to optimized view so the preview doesn't appear 90 deg
@@ -61,7 +61,6 @@ public class EOCVFF extends LinearOpMode {
 
         while (opModeIsActive())
         {
-            telemetry.addData("Analysis", pipeline.getAnalysis());
             telemetry.addData("", pipeline.position);
             telemetry.update();
 
@@ -70,7 +69,7 @@ public class EOCVFF extends LinearOpMode {
         }
     }
 
-    public static class SkystoneDeterminationPipeline extends OpenCvPipeline
+    public static class FreightFrenzyDeterminationPipeline extends OpenCvPipeline
     {
         /*
          * An enum to define the skystone position
@@ -164,7 +163,7 @@ public class EOCVFF extends LinearOpMode {
 
 
         // Volatile since accessed by OpMode thread w/o synchronization
-        private volatile DuckPosition position = DuckPosition.MIDDLE;
+        public volatile DuckPosition position = DuckPosition.MIDDLE;
 
         /*
          * This function takes the RGB frame, converts to YCrCb,
@@ -289,14 +288,6 @@ public class EOCVFF extends LinearOpMode {
 
 
             return dst2;
-        }
-
-        public String getAnalysis()
-        {
-            return avg1Count + " " + avg2Count + " " + avg3Count;
-//            return "Left: " + avg1 + " Mid: " + avg2 + " Right: " + avg3;
-//           return "Left: " + avg1Distance + " Mid: " + avg2Distance + " Right: " + avg3Distance;
-
         }
     }
 }

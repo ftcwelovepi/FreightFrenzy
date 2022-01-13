@@ -8,15 +8,16 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 import org.firstinspires.ftc.teamcode.Hardware.MecanumWheels;
+import org.firstinspires.ftc.teamcode.ThreadedWait;
 
 
 /**
- * This file provides necessary functionality for We Love Pi Team's 2019 Rover
- * Ruckus robot's Mecanum Wheel Drivetrain
+ * This file provides necessary functionality for We Love Pi Team's 2021 Freight
+ * Frenzy robot's Mecanum Wheel Drivetrain
  */
 
 
-public class MecanumDriveTrain {
+public class MecanumDriveTrainUsingCustomBraking {
 
     public double max_stick = 1.0;
     public double min_stick = -1.0;
@@ -34,14 +35,16 @@ public class MecanumDriveTrain {
     private HardwareFF hardwareMap = null;
     private Gamepad gamepad1 = null;
     private Gamepad gamepad2 = null;
-    boolean malinDrive = false;
+    boolean malinDrive = false; //
     boolean malinPastState = false;
     double speedlimiter = 1;
+    private double CUM = 1; //Coefficient for Undoing Momentum
+    // WE NEED TO FINE TUNE THIS!
 
 
     // Constructors
 
-    public MecanumDriveTrain(HardwareFF robot, Gamepad gamepadinput, Telemetry telemetry) {
+    public MecanumDriveTrainUsingCustomBraking(HardwareFF robot, Gamepad gamepadinput, Telemetry telemetry) {
         frontLeft = robot.frontLeft;
         frontRight = robot.frontRight;
         backLeft = robot.backLeft;
@@ -51,7 +54,26 @@ public class MecanumDriveTrain {
 
     }
 
+    public void stop() { //inverse the direction of the motor to apply a quick stopping force
+        double frontLeftPower = frontLeft.getPower();
+        double frontRightPower = frontRight.getPower();
+        double backLeftPower = backLeft.getPower();
+        double backRightPower = backRight.getPower();
 
+        double pauseTime = System.currentTimeMillis();
+
+        frontLeft.setPower(frontLeftPower * CUM);
+        frontRight.setPower(frontRightPower * CUM);
+        backLeft.setPower(backLeftPower * CUM);
+        backRight.setPower(backRightPower * CUM);
+        while (System.currentTimeMillis() - 50 < pauseTime){ //there's probably an error here (Nathan R. Liu)
+            //wait 50 ms
+        }
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
+    }
     // During teleop this function runs repeatedly
     public void loop() {
 
@@ -83,7 +105,12 @@ public class MecanumDriveTrain {
             right_x = -gamepad1.right_stick_x * right_toggle;
             max_stick = max_stick * right_toggle;
             min_stick = min_stick * right_toggle;
-        } else {
+        }else if (gamepad1.left_trigger < .1){
+            stop();
+        }else if(gamepad1.right_trigger < .1){
+            stop();
+        }
+        else {
             left_x = gamepad1.left_stick_x;
             left_y = -gamepad1.left_stick_y;
             right_x = -gamepad1.right_stick_x;
@@ -125,13 +152,11 @@ public class MecanumDriveTrain {
             frontRight.setPower(wheels.getFrontRightPower());
             backRight.setPower(wheels.getRearRightPower());
             backLeft.setPower(wheels.getRearLeftPower());
-        }else{
+        }else {
             frontLeft.setPower(-wheels.getRearRightPower());
             frontRight.setPower(-wheels.getRearLeftPower());
             backRight.setPower(-wheels.getFrontLeftPower());
             backLeft.setPower(-wheels.getFrontRightPower());
         }
-
-
     }
 }
