@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Bucket_Servo;
+import org.firstinspires.ftc.teamcode.Hardware.Components.Intake;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
 import org.firstinspires.ftc.teamcode.Hardware.Components.SynchronizedMovement;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
@@ -35,6 +36,7 @@ public abstract class BaseAuto extends OpenCVDetection{
         initOpenCV();
         Slides.initialize(robot);
         Bucket_Servo.initialize(robot);
+        Intake.initialize(robot);
 
         telemetry.addData( "Autotest", "han" );
         telemetry.update();

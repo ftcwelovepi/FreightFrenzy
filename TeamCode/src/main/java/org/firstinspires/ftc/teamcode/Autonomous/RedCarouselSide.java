@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.OpenCVDetection;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 
-@Autonomous(name = "Auto 1", group = "Freight Frenzy")
+@Autonomous(name = "RedSide Carousel", group = "Freight Frenzy")
 public class RedCarouselSide extends BaseAuto{
 
     @Override
@@ -52,7 +52,7 @@ public class RedCarouselSide extends BaseAuto{
             position = SynchronizedMovement.UP;
             telemetry.addData("Going with TOP", "RIGHT");
         }
-        SynchronizedMovement.move( position );
+        SynchronizedMovement.move( SynchronizedMovement.UP );
 
         startingAngle = getAverageGyro();
 
@@ -66,9 +66,9 @@ public class RedCarouselSide extends BaseAuto{
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
 
             //Carousel Move to and Spinn
-            encoderMecanumDrive(0.6, 80, 3, 0.40, 1);
-            robot.spinner.setPower( 1 );
-            sleep( 3500 );
+            encoderMecanumDrive(0.5, 80, 3, 0.40, 1);
+            robot.spinner.setPower( 0.7 );
+            sleep( 2000 );
 
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
             robot.backRight.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
@@ -76,16 +76,17 @@ public class RedCarouselSide extends BaseAuto{
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
             robot.spinner.setPower( 0 );
 
-            //Move to Wobble and place
             encoderMecanumDrive(0.6, 20, 3, 0,-1);
             gyroTurn(0.7,startingAngle+40); //Turn to face it
-            encoderMecanumDrive(0.6, 80, 3, 0,-1);
+            encoderMecanumDrive(0.6, 70, 3, 0,-1);
             //extend linear slidehan
 
             while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
 
                 SynchronizedMovement.run();
+
                 Slides.update();
+                Intake.update();
                 Bucket_Servo.update();
                 telemetry.addData("Stage", SynchronizedMovement.getStage());
                 telemetry.addData("Encoder", Slides.getEncoders());
@@ -93,34 +94,35 @@ public class RedCarouselSide extends BaseAuto{
                 telemetry.update();
             }
             Slides.update();
+            Intake.update();
             Bucket_Servo.update();
             gyroTurn(0.7, startingAngle);
             //Sweep for cube two
-            encoderMecanumDrive(0.6,70,3,-1,-0.4);
+            encoderMecanumDrive(0.6,40,3,-1,-0.4);
+            gyroTurn(0.7, startingAngle+170);
             Intake.setPower( -1 );
-            gyroTurn(0.7, startingAngle+180);
             encoderMecanumDrive( 0.6, 70, 3, 0, 1 );
-            encoderMecanumDrive( 0.6, 70, 3, 0, -1 );
-            gyroTurn(0.7, startingAngle);
-            encoderMecanumDrive(0.6,70,3,1,0.4);
-            gyroTurn(0.7, startingAngle + 40);
-            //Place second block
-            while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
-                SynchronizedMovement.run();
-                Slides.update();
-                Bucket_Servo.update();
-                telemetry.addData("Stage", SynchronizedMovement.getStage());
-                telemetry.addData("Encoder", Slides.getEncoders());
-                telemetry.addData("Power", Slides.getPower());
-                telemetry.update();
-            }
-            Slides.update();
-            Bucket_Servo.update();
-//            BEGINNING OF REGULAR RUN
-            gyroTurn(0.7, startingAngle);
-            encoderMecanumDrive(0.6,135,3,-1,-0.4);
-            gyroTurn(0.7, startingAngle);
-            moveConstGyroandDist( 0.6, 120, -1, 0, startingAngle );
+//            encoderMecanumDrive( 0.6, 70, 3, 0, -1 );
+//            gyroTurn(0.7, startingAngle);
+//            encoderMecanumDrive(0.6,70,3,1,0.4);
+//            gyroTurn(0.7, startingAngle + 40);
+//            //Place second block
+//            while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
+//                SynchronizedMovement.run();
+//                Slides.update();
+//                Bucket_Servo.update();
+//                telemetry.addData("Stage", SynchronizedMovement.getStage());
+//                telemetry.addData("Encoder", Slides.getEncoders());
+//                telemetry.addData("Power", Slides.getPower());
+//                telemetry.update();
+//            }
+//            Slides.update();
+//            Bucket_Servo.update();
+////            BEGINNING OF REGULAR RUN
+//            gyroTurn(0.7, startingAngle);
+//            encoderMecanumDrive(0.6,135,3,-1,-0.4);
+//            gyroTurn(0.7, startingAngle);
+//            moveConstGyroandDist( 0.6, 120, -1, 0, startingAngle );
 //            END OR REGULAR RUNNING
 
 //            encoderMecanumDrive(.4,170,3,0,-1);
@@ -130,36 +132,36 @@ public class RedCarouselSide extends BaseAuto{
             //End of One Block code
 
             //Drive to Wobble
-            encoderMecanumDrive( 0.6, 120, 3, 0, 1 );
-            encoderMecanumDrive( 0.6,135,3,1,0.4 );
-            gyroTurn(0.7,startingAngle+40);
-
-            //Drop and Drive back to outpost
-            while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
-
-                SynchronizedMovement.run();
-                Slides.update();
-                Bucket_Servo.update();
-                telemetry.addData("Stage", SynchronizedMovement.getStage());
-                telemetry.addData("Encoder", Slides.getEncoders());
-                telemetry.addData("Power", Slides.getPower());
-                telemetry.update();
-            }
-            Slides.update();
-            Bucket_Servo.update();
-            gyroTurn(0.7, startingAngle);
-            encoderMecanumDrive(0.6,135,3,-1,-0.4);
-            gyroTurn(0.7, startingAngle);
-            moveConstGyroandDist( 0.6, 120, -1, 0, startingAngle );
-
-
-            gyroTurn( 0.7, startingAngle + 180 );
-            //robot dance
-            gyroTurn(.7, startingAngle + 170);
-            gyroTurn(.7, startingAngle + 190);
-            gyroTurn(.7, startingAngle + 170);
-            gyroTurn(.7, startingAngle+190);
-            gyroTurn(.7, startingAngle + 180);
+//            encoderMecanumDrive( 0.6, 120, 3, 0, 1 );
+//            encoderMecanumDrive( 0.6,135,3,1,0.4 );
+//            gyroTurn(0.7,startingAngle+40);
+//
+//            //Drop and Drive back to outpost
+//            while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
+//
+//                SynchronizedMovement.run();
+//                Slides.update();
+//                Bucket_Servo.update();
+//                telemetry.addData("Stage", SynchronizedMovement.getStage());
+//                telemetry.addData("Encoder", Slides.getEncoders());
+//                telemetry.addData("Power", Slides.getPower());
+//                telemetry.update();
+//            }
+//            Slides.update();
+//            Bucket_Servo.update();
+//            gyroTurn(0.7, startingAngle);
+//            encoderMecanumDrive(0.6,135,3,-1,-0.4);
+//            gyroTurn(0.7, startingAngle);
+//            moveConstGyroandDist( 0.6, 120, -1, 0, startingAngle );
+//
+//
+//            gyroTurn( 0.7, startingAngle + 180 );
+//            //robot dance
+//            gyroTurn(.7, startingAngle + 170);
+//            gyroTurn(.7, startingAngle + 190);
+//            gyroTurn(.7, startingAngle + 170);
+//            gyroTurn(.7, startingAngle+190);
+//            gyroTurn(.7, startingAngle + 180);
         }
     }
 }

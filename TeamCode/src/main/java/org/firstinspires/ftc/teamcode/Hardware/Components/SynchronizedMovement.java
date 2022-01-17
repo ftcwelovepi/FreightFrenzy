@@ -53,9 +53,8 @@ public enum SynchronizedMovement {
                 stageProgression++;
                 break;
             case 1:
+                Intake.setPower(-0.5);
                 Slides.setPower( 1 );
-                if (turn)
-                    Intake.setPower( -0.3 );
                 if (Slides.getEncoders() >= 20) {
                     stageProgression++;
                 }
@@ -65,12 +64,13 @@ public enum SynchronizedMovement {
                 stageProgression++;
                 break;
             case 3:
-                if (Slides.getEncoders() >= Slides.getTransferPoint()) {
-//                    Bucket_Servo.glideToPosition( 0.8 );
-                    if (turn)
-                        Intake.setPower( 0 );
-                    stageProgression++;
-                }
+//                if (Slides.getEncoders() >= Slides.getTransferPoint()) {
+////                    Bucket_Servo.glideToPosition( 0.8 );
+//                    if (turn)
+//                        Intake.setPower( 0 );
+//                    stageProgression++;
+//                }
+                stageProgression++;
                 break;
             case 4:
                 if (Slides.getEncoders() >= encoders) {
@@ -91,16 +91,18 @@ public enum SynchronizedMovement {
                 }
                 break;
             case 6:
+                Bucket_Servo.glideToPosition( 0 );
+                if (Bucket_Servo.getPosition() > 0.2 && Slides.getEncoders() < 200) {
+                    stageProgression = 5;
+                    Slides.setPower(1);
+                    break;
+                }
+                Intake.setPower(0);
                 Slides.setPower( -1 );
-                Bucket_Servo.glideToPosition( 0.5 );
                 stageProgression++;
                 break;
             case 7:
-                if (Slides.getEncoders() <= Slides.getTransferPoint()) {
-                    Intake.setPower( -0.2 );
-                    Bucket_Servo.glideToPosition( 0 );
-                    stageProgression++;
-                }
+                stageProgression++;
                 break;
             case 8:
                 if (Slides.getPower() == 0) {

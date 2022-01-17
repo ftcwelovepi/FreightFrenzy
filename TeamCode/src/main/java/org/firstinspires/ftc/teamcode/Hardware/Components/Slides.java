@@ -13,13 +13,14 @@ public class Slides {
     private static DistanceSensor d;
     private static double max = 1, min = -1, power = 0, scale = 0.8;
     private static boolean enhancedSlide = true;
-    private static int lowerboundMid = 400, lowerboundHigh = 600, transferPoint = 100, lowerboundLow = 300;
+    private static int lowerboundMid = 250, lowerboundHigh = 500, transferPoint = 200, lowerboundLow = 100;
 
     public static void initialize (HardwareFF robot) {
         s = robot.slides;
         s.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
         runWithEncoders();
         d = robot.distanceSensor;
+        SynchronizedMovement.move(SynchronizedMovement.STALL);
     }
 
     public static int getTransferPoint () {

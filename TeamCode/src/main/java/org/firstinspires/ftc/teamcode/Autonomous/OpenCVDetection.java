@@ -57,7 +57,7 @@ public abstract class OpenCVDetection extends LinearOpMode {
         FtcDashboard.getInstance().startCameraStream(phoneCam, 0);
 
 
-        waitForStart();
+//        waitForStart();
 
         while (opModeIsActive())
         {
@@ -67,6 +67,8 @@ public abstract class OpenCVDetection extends LinearOpMode {
             // Don't burn CPU cycles busy-looping in this sample
             sleep(200);
         }
+        telemetry.addData("han", "han");
+        telemetry.update();
     }
 
     public static class FreightFrenzyDeterminationPipeline extends OpenCvPipeline
