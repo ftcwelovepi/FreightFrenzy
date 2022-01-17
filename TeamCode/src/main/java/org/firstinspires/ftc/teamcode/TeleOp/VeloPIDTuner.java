@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigu
 @Config
 @TeleOp
 public class VeloPIDTuner extends LinearOpMode {
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0, 0);
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(5.5, 4, 3, 3);
 
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
 

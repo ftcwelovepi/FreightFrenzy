@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Hardware.Components;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 
@@ -10,7 +11,9 @@ import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
  */
 public class Spinner {
 
-    private static DcMotor s;
+    private static final double MOTOR_TICKS_PER_REV = 384.5;
+    private static final double MOTOR_MAX_RPM = 435;
+    private static DcMotorEx s;
 
     public static void initialize(HardwareFF robot) {
         s = robot.spinner;
@@ -45,6 +48,10 @@ public class Spinner {
         }
     }
 
+    public void setVelocity(double power){
+        s.setVelocity(rpmToTicksPerSecond(power*MOTOR_MAX_RPM));
+    }
+
     public static double getPower () {
         return power;
     }
@@ -55,5 +62,9 @@ public class Spinner {
 
     public static void update () {
         s.setPower( power );
+    }
+
+    public static double rpmToTicksPerSecond(double rpm) {
+        return rpm * MOTOR_TICKS_PER_REV  / 60;
     }
 }

@@ -4,10 +4,14 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 public class HardwareFF {
 
@@ -16,7 +20,7 @@ public class HardwareFF {
     public DcMotor frontRight;
     public DcMotor backRight;
 
-    public DcMotor spinner;
+    public DcMotorEx spinner;
     public DcMotor slides;
     public DcMotor intake;
     public Servo bucket;
@@ -31,8 +35,10 @@ public class HardwareFF {
     public DistanceSensor distanceSensor;
     public Rev2mDistanceSensor sensorTimeOfFlight;
 
-    public BNO055IMU imu;
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(5.2, 3.5, 3.5, 3.5);
 
+    public BNO055IMU imu;
+    VoltageSensor voltageSensor;
     public HardwareMap hwMap = null;
 
     public void setHardwareMap (HardwareMap awhMap) {
@@ -74,7 +80,20 @@ public class HardwareFF {
     public void initSpinner() {
         if (spinnerB || components) return;
 
-        spinner = hwMap.get(DcMotor.class, "spinner");
+        spinner = hwMap.get(DcMotorEx.class, "spinner");
+        spinner.setMode( DcMotor.RunMode.RUN_USING_ENCODER );
+
+        // RUE limits max motor speed to 85% by default
+        // Raise that limit to 100%
+        MotorConfigurationType motorConfigurationType = spinner.getMotorType().clone();
+        motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
+        spinner.setMotorType(motorConfigurationType);
+
+        // Set PIDF Coefficients with voltage compensated feedforward value
+        spinner.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(
+                MOTOR_VELO_PID.p, MOTOR_VELO_PID.i, MOTOR_VELO_PID.d,
+                MOTOR_VELO_PID.f * 12 / voltageSensor.getVoltage()
+        ));
 
         spinnerB = true;
     }
