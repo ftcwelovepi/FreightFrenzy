@@ -34,17 +34,32 @@ public class RedCarouselSide extends BaseAuto{
 
         waitForStart();
         sleep(500);
-        telemetry.addData("Position", pipeline.position.toString());
-        telemetry.update();
+//        telemetry.addData("Position", pipeline.position.toString());
+//        telemetry.update();
 
         SynchronizedMovement position;
+        // change position - uppercase
+        String pipehan = "LEFT";
 
         sleep(500);
-        if (pipeline.position== FreightFrenzyDeterminationPipeline.DuckPosition.LEFT){
+//        if (pipeline.position== FreightFrenzyDeterminationPipeline.DuckPosition.LEFT){
+//            position = SynchronizedMovement.LOW;
+//            telemetry.addData("Going with BOTTOM", "LEFT");
+//        }
+//        else if (pipeline.position== FreightFrenzyDeterminationPipeline.DuckPosition.MIDDLE) {
+//            position = SynchronizedMovement.MID;
+//            telemetry.addData("Going with MID", "MIDDLE");
+//        }
+//        else {
+//            position = SynchronizedMovement.UP;
+//            telemetry.addData("Going with TOP", "RIGHT");
+//        }
+
+        if (pipehan.equals("LEFT")){
             position = SynchronizedMovement.LOW;
             telemetry.addData("Going with BOTTOM", "LEFT");
         }
-        else if (pipeline.position== FreightFrenzyDeterminationPipeline.DuckPosition.MIDDLE) {
+        else if (pipehan.equals("MID")) {
             position = SynchronizedMovement.MID;
             telemetry.addData("Going with MID", "MIDDLE");
         }
