@@ -91,13 +91,13 @@ public enum SynchronizedMovement {
                 }
                 break;
             case 6:
-                Bucket_Servo.glideToPosition( 0 );
-                if (Bucket_Servo.getPosition() > 0.2 && Slides.getEncoders() < 200) {
+                if (Slides.getEncoders() < 250) {
                     stageProgression = 5;
                     Slides.setPower(1);
                     break;
                 }
-                Intake.setPower(0);
+                Intake.setPower(0.2);
+                Bucket_Servo.glideToPosition( 0 );
                 Slides.setPower( -1 );
                 stageProgression++;
                 break;
@@ -106,10 +106,21 @@ public enum SynchronizedMovement {
                 break;
             case 8:
                 if (Slides.getPower() == 0) {
-                    Intake.setPower( 0 );
-                    stageProgression = 0;
+                    stageProgression++;
                 }
                 break;
+            case 9:
+            if (!startedThread) {
+                waits = new ThreadedWait( 750 );
+                waits.start();
+                startedThread = true;
+            }
+            if (waits.get()) {
+                Intake.setPower(0);
+                stageProgression = 0;
+                startedThread = false;
+            }
+            break;
         }
     }
 

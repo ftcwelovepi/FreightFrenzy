@@ -9,14 +9,11 @@ import org.firstinspires.ftc.teamcode.ThreadedWait;
 
 public class Bucket_Servo {
     private static Servo s;
-    private static double bucketTimeIncrement = 45;
     private static double pauseTime = System.currentTimeMillis();
     private static boolean bucketBack = true;
 
-    private static double milis = 45;
-
-    private static double position = 0.4;
-    private static double glideTarget = 0.4;
+    private static double position = 0;
+    private static double glideTarget = 0;
 
     private static double lowRest = 0.3, lowSecure = 0.5, highSecure = 0.7, highDrop = 1;
 
@@ -48,7 +45,7 @@ public class Bucket_Servo {
         update(false);
     }
 
-    public static void update (boolean autoSecure, double milis) {
+    public static void update (boolean autoSecure) {
         if (gliding) {
             if (!wait.get()) {
                 return;
@@ -61,16 +58,12 @@ public class Bucket_Servo {
                 gliding = false;
             }
 
-            wait = new ThreadedWait(milis);
+            wait = new ThreadedWait(15);
             wait.start();
         }
 //        if (autoSecure && position < 0.5) glideToPosition( 0.7 );
 //        if (!autoSecure && position > 0.5) glideToPosition(0.4);
         setPosition( );
-    }
-
-    public static void update (boolean autoSecure) {
-        update(autoSecure, milis);
     }
 
     public static void moveForward () {
@@ -103,7 +96,6 @@ public class Bucket_Servo {
     }
 
     public static void glide(boolean oppositeEnd) {
-        bucketTimeIncrement = 35;
         if (oppositeEnd) {
             glideTarget = (s.getPosition() < 0.5 ? 1 : 0);
         } else {
@@ -139,6 +131,11 @@ public class Bucket_Servo {
             iterations++;
         }
     }
+
+   public static void setPosition( double p) {
+        position = p;
+        setPosition();
+   }
 
     public static void setPosition () {
         if ((position >= 0 && position <= 1)) s.setPosition( position );
