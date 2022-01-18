@@ -48,7 +48,7 @@ public class Spinner {
         }
     }
 
-    public void setVelocity(double power){
+    public static void setVelocity(double power){
         s.setVelocity(rpmToTicksPerSecond(power*MOTOR_MAX_RPM));
     }
 

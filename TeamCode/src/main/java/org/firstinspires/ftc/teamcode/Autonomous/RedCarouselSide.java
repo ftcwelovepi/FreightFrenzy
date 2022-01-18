@@ -17,6 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Bucket_Servo;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Intake;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
+import org.firstinspires.ftc.teamcode.Hardware.Components.Spinner;
 import org.firstinspires.ftc.teamcode.Hardware.Components.SynchronizedMovement;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 import org.firstinspires.ftc.teamcode.Hardware.MecanumWheels;
@@ -67,7 +68,7 @@ public class RedCarouselSide extends BaseAuto{
             position = SynchronizedMovement.UP;
             telemetry.addData("Going with TOP", "RIGHT");
         }
-        SynchronizedMovement.move( SynchronizedMovement.UP );
+        SynchronizedMovement.move( position );
 
         startingAngle = getAverageGyro();
 
@@ -81,9 +82,11 @@ public class RedCarouselSide extends BaseAuto{
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
 
             //Carousel Move to and Spinn
-            encoderMecanumDrive(0.5, 80, 3, 0.40, 1);
-            robot.spinner.setPower( 0.7 );
-            sleep( 2000 );
+            encoderMecanumDrive(0.55, 80, 3, 0.40, 1);
+            Spinner.setVelocity(0.4);
+            sleep( 800 );
+            Spinner.setVelocity(1);
+            sleep(700);
 
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
             robot.backRight.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
@@ -91,9 +94,9 @@ public class RedCarouselSide extends BaseAuto{
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
             robot.spinner.setPower( 0 );
 
-            encoderMecanumDrive(0.6, 20, 3, 0,-1);
+            encoderMecanumDrive(0.7, 20, 3, 0,-1);
             gyroTurn(0.7,startingAngle+40); //Turn to face it
-            encoderMecanumDrive(0.6, 70, 3, 0,-1);
+            encoderMecanumDrive(0.7, 69, 3, 0,-1);
             //extend linear slidehan
 
             while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
@@ -111,12 +114,51 @@ public class RedCarouselSide extends BaseAuto{
             Slides.update();
             Intake.update();
             Bucket_Servo.update();
+            encoderMecanumDrive(0.65, 10, 3, -0.2,1);
             gyroTurn(0.7, startingAngle);
             //Sweep for cube two
-            encoderMecanumDrive(0.6,40,3,-1,-0.4);
+            encoderMecanumDrive(0.65,45,3,-1,-0.4);
             gyroTurn(0.7, startingAngle+170);
-            Intake.setPower( -1 );
-            encoderMecanumDrive( 0.6, 70, 3, 0, 1 );
+            Intake.setPower( -0.75 );
+            Intake.update();
+            encoderMecanumDrive( 0.65, 40, 3, -0.3, 1 );
+            gyroTurn(0.7, startingAngle+223);
+            encoderMecanumDrive( 0.65, 35, 3, 0, 1 );
+            encoderMecanumDrive( 0.7, 25, 3, 0.7, -0.4 );
+            gyroTurn(0.7, startingAngle+135);
+            encoderMecanumDrive( 0.65, 17, 3, 0, -1 );
+            Intake.setPower(0);
+            Intake.update();
+            SynchronizedMovement.move(SynchronizedMovement.UP);
+            while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
+
+                SynchronizedMovement.run();
+
+                Slides.update();
+                Intake.update();
+                Bucket_Servo.update();
+                telemetry.addData("Stage", SynchronizedMovement.getStage());
+                telemetry.addData("Encoder", Slides.getEncoders());
+                telemetry.addData("Power", Slides.getPower());
+                telemetry.update();
+            }
+            Slides.update();
+            Intake.update();
+            Bucket_Servo.update();
+
+            encoderMecanumDrive( 0.8, 40, 3, 1, 0.5 );
+            gyroTurn(0.8, startingAngle+180);
+            encoderMecanumDrive( 0.8, 85, 3, 1, 0.5 );
+            encoderMecanumDrive( 0.8, 70, 3, 0, 1 );
+
+
+
+
+
+
+
+
+
 //            encoderMecanumDrive( 0.6, 70, 3, 0, -1 );
 //            gyroTurn(0.7, startingAngle);
 //            encoderMecanumDrive(0.6,70,3,1,0.4);

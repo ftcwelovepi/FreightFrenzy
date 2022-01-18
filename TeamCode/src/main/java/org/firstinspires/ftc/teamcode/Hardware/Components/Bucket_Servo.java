@@ -58,7 +58,7 @@ public class Bucket_Servo {
                 gliding = false;
             }
 
-            wait = new ThreadedWait(15);
+            wait = new ThreadedWait(45);
             wait.start();
         }
 //        if (autoSecure && position < 0.5) glideToPosition( 0.7 );

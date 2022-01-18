@@ -108,6 +108,8 @@ public class HardwareFF {
     public void initComponents () {
         if (components) return;
 
+        voltageSensor = hwMap.voltageSensor.iterator().next();
+
         initBucket();
         initSpinner();
         initIntake();
@@ -117,6 +119,7 @@ public class HardwareFF {
         spinner.setDirection(DcMotor.Direction.REVERSE);
 
         components = true;
+
     }
 
     public void initSlides () {
