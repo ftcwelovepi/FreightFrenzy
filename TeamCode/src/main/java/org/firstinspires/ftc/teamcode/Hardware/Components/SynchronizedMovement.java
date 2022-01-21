@@ -14,9 +14,6 @@ public enum SynchronizedMovement {
     static boolean startedThread = false;
     static ThreadedWait waits = new ThreadedWait( 1000 );
 
-    public static boolean turn = true;
-    public static boolean down = true;
-
     public static void move(SynchronizedMovement g) {
         s = g;
     }
@@ -41,6 +38,12 @@ public enum SynchronizedMovement {
         if (stageProgression == 0) {
             s = STALL;
         }
+    }
+
+    public static void reset() {
+        s = STALL;
+        stageProgression = 0;
+        Bucket_Servo.glideToPosition(0);
     }
 
     //The uniform sequence taken by the bucket and slides

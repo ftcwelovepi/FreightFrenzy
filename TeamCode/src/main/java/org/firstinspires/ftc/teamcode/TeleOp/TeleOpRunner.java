@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Hardware.Components.Bucket_Servo;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
 import org.firstinspires.ftc.teamcode.Hardware.Components.SynchronizedMovement;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
@@ -90,11 +91,15 @@ public class TeleOpRunner extends OpMode {
         vroom = new MecanumDriveTrainUsingCustomBraking(robot, gamepad1,telemetry);
 
         startingAngle = getAverageGyro();
-        SynchronizedMovement.turn = false;
 
         telemetry.addData( "Slides Initialized Position", Slides.getEncoders() );
         telemetry.addData("Status", "Initialization Complete");
         telemetry.update();
+    }
+
+    @Override
+    public void start() {
+        SynchronizedMovement.reset();
     }
 
     @Override
@@ -160,6 +165,7 @@ public class TeleOpRunner extends OpMode {
     @Override
     public void stop() {
         listOfTemplates = new ArrayList<>();
+        SynchronizedMovement.move(SynchronizedMovement.STALL);
     }
 
     //Method for Switching Configurations

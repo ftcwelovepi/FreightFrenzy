@@ -25,30 +25,30 @@ public class FinalConfigV1 extends Template{
         Intake.initialize( robot );
         Bucket_Servo.initialize( robot );
         Spinner.initialize( robot );
-        SynchronizedMovement.move( SynchronizedMovement.STALL );
+        SynchronizedMovement.reset();
     }
 
     @Override
     public void a(boolean pressed) {
-        if (pressed) {
-            if (bucketStage>4) {
-                bucketStage = 0;
-            }
-            switch (++bucketStage) {
-                case 1:
-                    Bucket_Servo.glideToPosition( 0 );
-                    break;
-                case 2:
-                    Bucket_Servo.glideToPosition( 0.4 );
-                    break;
-                case 3:
-                    Bucket_Servo.glideToPosition( 0.7 );
-                    break;
-                case 4:
-                    Bucket_Servo.glideToPosition( 1 );
-                    break;
-            }
-        }
+//        if (pressed) {
+//            if (bucketStage>4) {
+//                bucketStage = 0;
+//            }
+//            switch (++bucketStage) {
+//                case 1:
+//                    Bucket_Servo.glideToPosition( 0 );
+//                    break;
+//                case 2:
+//                    Bucket_Servo.glideToPosition( 0.4 );
+//                    break;
+//                case 3:
+//                    Bucket_Servo.glideToPosition( 0.7 );
+//                    break;
+//                case 4:
+//                    Bucket_Servo.glideToPosition( 1 );
+//                    break;
+//            }
+//        }
     }
 
     @Override
@@ -144,7 +144,7 @@ public class FinalConfigV1 extends Template{
 
     public void loop() {
         Spinner.update();
-        Bucket_Servo.update(Slides.secureBlock());
+        Bucket_Servo.update();
         Intake.update();
         Slides.update();
         SynchronizedMovement.run();

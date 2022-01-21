@@ -38,7 +38,7 @@ public class MecanumDriveTrainUsingCustomBraking {
     boolean malinDrive = false; //
     boolean malinPastState = false;
     double speedlimiter = 1;
-    private double CUM = 1; //Coefficient for Undoing Momentum
+    private double CUM = -1; //Coefficient for Undoing Momentum
     // WE NEED TO FINE TUNE THIS!
 
 
@@ -105,11 +105,12 @@ public class MecanumDriveTrainUsingCustomBraking {
             right_x = -gamepad1.right_stick_x * right_toggle;
             max_stick = max_stick * right_toggle;
             min_stick = min_stick * right_toggle;
-        }else if (gamepad1.left_trigger < .1){
-            stop();
-        }else if(gamepad1.right_trigger < .1){
-            stop();
         }
+//        else if (gamepad1.left_trigger < .1){
+//            stop();
+//        }else if(gamepad1.right_trigger < .1){
+//            stop();
+//        }
         else {
             left_x = gamepad1.left_stick_x;
             left_y = -gamepad1.left_stick_y;
@@ -152,7 +153,9 @@ public class MecanumDriveTrainUsingCustomBraking {
             frontRight.setPower(wheels.getFrontRightPower());
             backRight.setPower(wheels.getRearRightPower());
             backLeft.setPower(wheels.getRearLeftPower());
-        }else {
+        }else if (Math.abs(gamepad1.left_stick_x) < 0.1 && Math.abs(gamepad1.left_stick_y) < 0.1) {
+            stop();
+        }else{
             frontLeft.setPower(-wheels.getRearRightPower());
             frontRight.setPower(-wheels.getRearLeftPower());
             backRight.setPower(-wheels.getFrontLeftPower());

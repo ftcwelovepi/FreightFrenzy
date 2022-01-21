@@ -42,10 +42,6 @@ public class Bucket_Servo {
     }
 
     public static void update () {
-        update(false);
-    }
-
-    public static void update (boolean autoSecure) {
         if (gliding) {
             if (!wait.get()) {
                 return;
