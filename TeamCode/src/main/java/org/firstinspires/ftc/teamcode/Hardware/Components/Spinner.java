@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
+import org.firstinspires.ftc.teamcode.ThreadedWait;
 
 /**
  * Spinner Component
@@ -13,6 +14,8 @@ public class Spinner {
 
     private static final double MOTOR_TICKS_PER_REV = 384.5;
     private static final double MOTOR_MAX_RPM = 435;
+    private static ThreadedWait wait = new ThreadedWait( 1000 );
+    private static boolean startedThread = false;
     private static DcMotorEx s;
 
     public static void initialize(HardwareFF robot) {
@@ -52,6 +55,14 @@ public class Spinner {
         s.setVelocity(rpmToTicksPerSecond(power*MOTOR_MAX_RPM));
     }
 
+    public static void startRamp () {
+        if (!startedThread) {
+            startedThread = true;
+            wait = new ThreadedWait( 1000 );
+            wait.start();
+        }
+    }
+
     public static double getPower () {
         return power;
     }
@@ -61,6 +72,12 @@ public class Spinner {
     }
 
     public static void update () {
+        if (startedThread && !wait.get()) {
+            power = wait.time()/1000;
+        } else if (startedThread && wait.get()) {
+            startedThread = false;
+        }
+
         s.setPower( power );
     }
 
