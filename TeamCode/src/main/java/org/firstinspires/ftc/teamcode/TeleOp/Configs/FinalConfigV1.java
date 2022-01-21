@@ -17,6 +17,9 @@ public class FinalConfigV1 extends Template{
     public boolean press = false;
     public int spinnerFlip = 1;
     ThreadedWait wait = new ThreadedWait( 300 );
+    public int spinnerInitial;
+    public int spinnerStart;
+    public boolean shouldRun = true;
 
     public void init() {
         robot.initWheels();
@@ -26,6 +29,7 @@ public class FinalConfigV1 extends Template{
         Bucket_Servo.initialize( robot );
         Spinner.initialize( robot );
         SynchronizedMovement.reset();
+        spinnerInitial = robot.spinner.getCurrentPosition();
     }
 
     @Override
@@ -49,6 +53,28 @@ public class FinalConfigV1 extends Template{
 //                    break;
 //            }
 //        }
+        if (pressed) {
+            shouldRun = true;
+            telemetryDM.put("a", "pressed");
+        }
+
+        if (shouldRun) {
+            spinnerStart = robot.spinner.getCurrentPosition();
+            Spinner.setVelocity(0.5);
+            while (robot.spinner.getCurrentPosition() < spinnerStart + 1250) {
+                telemetryDM.put("autospin", "slow");
+            }
+
+            Spinner.setVelocity(1);
+            spinnerStart = robot.spinner.getCurrentPosition();
+            while (robot.spinner.getCurrentPosition() < spinnerStart + 900) {
+                telemetryDM.put("autospin", "fast");
+
+            }
+
+            Spinner.setVelocity(0);
+            shouldRun = false;
+        }
     }
 
     @Override
