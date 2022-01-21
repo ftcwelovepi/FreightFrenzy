@@ -117,11 +117,12 @@ public class FinalConfigV1 extends Template{
 
     @Override
     public void rt(float pressure) {
-        if (pressure > 0.1) {
-            Spinner.setPower( pressure*spinnerFlip );
-        } else {
-            Spinner.setPower( 0 );
-        }
+//        if (pressure > 0.1) {
+//            Spinner.setPower( pressure*spinnerFlip );
+//        } else {
+//            Spinner.setPower( 0 );
+//        }
+        Spinner.startRamp();
     }
 
     public void x (boolean pressed) {
