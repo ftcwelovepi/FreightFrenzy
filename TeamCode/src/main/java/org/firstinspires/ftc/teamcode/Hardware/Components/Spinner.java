@@ -20,6 +20,7 @@ public class Spinner {
 
     public static void initialize(HardwareFF robot) {
         s = robot.spinner;
+        s.setPower( 0 );
     }
 
     private static double power = 0;
@@ -76,6 +77,7 @@ public class Spinner {
             power = wait.time()/1000;
         } else if (startedThread && wait.get()) {
             startedThread = false;
+            power = 0;
         }
 
         s.setPower( power );

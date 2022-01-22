@@ -11,6 +11,7 @@ public class Intake {
 
     public static void initialize(HardwareFF robot) {
         s = robot.intake;
+        s.setPower( 0 );
     }
 
     private static double power = 0;
