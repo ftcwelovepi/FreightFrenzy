@@ -1,16 +1,26 @@
 package org.firstinspires.ftc.teamcode.Hardware.Components;
 
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 
 public class Intake {
 
     private static DcMotor s;
+    private static DistanceSensor d;
+    private static DigitalChannel redLED;
+    private static DigitalChannel greenLED;
 
     public static void initialize(HardwareFF robot) {
         s = robot.intake;
+        d = robot.distanceSensor;
+        greenLED = robot.greenLED;
+        redLED = robot.redLED;
         s.setPower( 0 );
     }
 
@@ -61,6 +71,14 @@ public class Intake {
     }
 
     public static void update () {
+        if (d.getDistance( DistanceUnit.MM ) < 75 && SynchronizedMovement.get() == SynchronizedMovement.STALL){
+            power = Math.max( power, 0 );
+            redLED.setState( false );
+            greenLED.setState( true );
+        } else {
+            redLED.setState( true );
+            greenLED.setState( false );
+        }
         s.setPower( power );
     }
 }

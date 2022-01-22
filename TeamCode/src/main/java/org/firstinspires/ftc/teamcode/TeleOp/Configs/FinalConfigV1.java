@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.TeleOp.Configs;
 
 import androidx.annotation.NonNull;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Bucket_Servo;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Intake;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
@@ -140,11 +141,16 @@ public class FinalConfigV1 extends Template{
         }
     }
 
-
-
     @Override
     public void ljoy(float x, float y) {
         if (overrideSlides) Slides.setPower( -y );
+    }
+
+    @Override
+    public void rjoy(float x, float y) {
+        if (SynchronizedMovement.get() == SynchronizedMovement.STALL) {
+            Intake.setPower( y );
+        }
     }
 
     public void loop() {
@@ -164,6 +170,7 @@ public class FinalConfigV1 extends Template{
         telemetryDM.put( "Bucket Position", String.valueOf( Bucket_Servo.getPosition() ) );
         telemetryDM.put( "Slides Position", String.valueOf(Slides.getEncoders()) );
         telemetryDM.put( "Carousel Velo", String.valueOf( robot.spinner.getCurrentPosition() ) );
+        telemetryDM.put( "Sensor", String.valueOf(robot.distanceSensor.getDistance( DistanceUnit.MM )) );
         telemetryDM.put( "::::::::::::",":::::::::::" );
         telemetryDM.put( "Stage Message", stage );
 

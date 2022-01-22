@@ -129,6 +129,7 @@ public class HardwareFF {
         initIntake();
         initSlides();
         initSensor();
+        initLED();
 
         spinner.setDirection(DcMotor.Direction.REVERSE);
 

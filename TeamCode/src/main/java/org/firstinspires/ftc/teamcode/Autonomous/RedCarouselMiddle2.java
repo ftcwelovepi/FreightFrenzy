@@ -82,7 +82,7 @@ public class RedCarouselMiddle2 extends BaseAuto{
             encoderMecanumDrive(0.7, 20, 3, 0,-1);
             gyroTurn(0.7,startingAngle+40); //Turn to face it
             SynchronizedMovement.move( position );
-            encoderMecanumDrive(0.7, 80, 3, 0,-1);
+            encoderMecanumDrive(0.7, 85, 3, 0,-1);
             //extend linear slidehan
 
             while (SynchronizedMovement.getStage() != 4) {
@@ -104,7 +104,7 @@ public class RedCarouselMiddle2 extends BaseAuto{
             encoderMecanumDrive( 0.8, 90, 3, 1, 0.5 );
             Intake.setPower( -1 );
             Intake.update();
-            encoderMecanumDrive( 0.6, 110, 3, 0, 1 );
+            encoderMecanumDrive( 0.6, 100, 3, 0, 1 );
             encoderMecanumDrive( 0.4, 10, 3, 0, 1 );
             gyroTurn(0.6, startingAngle+180);
             encoderMecanumDrive( 0.8, 20, 3, 1, 0 );
