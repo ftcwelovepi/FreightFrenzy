@@ -115,17 +115,17 @@ public class RedCarouselLeft extends BaseAuto{
             Intake.update();
             Bucket_Servo.update();
             encoderMecanumDrive(0.65, 10, 3, -0.2,1);
-            gyroTurn(0.7, startingAngle);
+            gyroTurn(0.6, startingAngle);
             //Sweep for cube two
             encoderMecanumDrive(0.65,45,3,-1,-0.4);
-            gyroTurn(0.7, startingAngle+170);
+            gyroTurn(0.6, startingAngle+170);
             Intake.setPower( -0.75 );
             Intake.update();
             encoderMecanumDrive( 0.65, 40, 3, -0.3, 1 );
-            gyroTurn(0.7, startingAngle+223);
+            gyroTurn(0.6, startingAngle+223);
             encoderMecanumDrive( 0.65, 35, 3, 0, 1 );
             encoderMecanumDrive( 0.7, 25, 3, 0.7, -0.4 );
-            gyroTurn(0.7, startingAngle+135);
+            gyroTurn(0.6, startingAngle+135);
             encoderMecanumDrive( 0.65, 17, 3, 0, -1 );
             Intake.setPower(0);
             Intake.update();
@@ -147,7 +147,7 @@ public class RedCarouselLeft extends BaseAuto{
             Bucket_Servo.update();
 
             encoderMecanumDrive( 0.8, 40, 3, 1, 0.5 );
-            gyroTurn(0.8, startingAngle+180);
+            gyroTurn(0.6, startingAngle+180);
             encoderMecanumDrive( 0.8, 85, 3, 1, 0.5 );
             encoderMecanumDrive( 0.8, 70, 3, 0, 1 );
 
