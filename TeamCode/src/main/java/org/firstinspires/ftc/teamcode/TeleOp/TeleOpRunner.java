@@ -68,6 +68,9 @@ public class TeleOpRunner extends OpMode {
     public void init() {
         telemetry.addData("Status", "Initializing");
         telemetry.update();
+
+        distanceLED = hardwareMap.get(DigitalChannel.class, "distance");
+
         distanceLED.setMode(DigitalChannel.Mode.OUTPUT);
         //Sets up the hardwaremap
         robot.setHardwareMap( hardwareMap );
