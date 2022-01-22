@@ -2,9 +2,11 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Bucket_Servo;
@@ -52,6 +54,10 @@ public class TeleOpRunner extends OpMode {
     //Initialize variables for looping, switching stops GP2 from using the buttons
     boolean switching = false;
     int indexOfConfig = 0;
+
+    boolean hasBlock;
+
+    private DistanceSensor sensorRange;
 
     double startingAngle;
 
@@ -106,6 +112,14 @@ public class TeleOpRunner extends OpMode {
     public void loop() {
         vroom.loop(); //GP 1
 
+        if (sensorRange.getDistance(DistanceUnit.MM) < 20) {
+            if (hasBlock != true)
+                telemetry.addData("block", "not has block");
+        }else{
+            if (hasBlock == true)
+                telemetry.addData("block", "has block");
+        }
+        telemetry.update();
         if (gamepad1.a) {
             gyroTurn( 0.7, startingAngle );
         }
