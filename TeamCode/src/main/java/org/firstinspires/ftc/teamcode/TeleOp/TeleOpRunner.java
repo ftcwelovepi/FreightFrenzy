@@ -40,10 +40,12 @@ public class TeleOpRunner extends OpMode {
     static final double     COUNTS_PER_CM         = ((COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_CM * Math.PI));
     static final double     HEADING_THRESHOLD       = 1 ;
     static final double     P_TURN_COEFF            = 0.03;
+    private DigitalChannel redLED;
+    private DigitalChannel greenLED;
 
     // declaring variables
     MecanumDriveTrainUsingCustomBraking vroom;
-    private DigitalChannel distanceLED;
+
 
     /* Declare OpMode members. */
     HardwareFF robot = new HardwareFF(); // use the class created to define a RoverRuckus's hardware
@@ -69,9 +71,10 @@ public class TeleOpRunner extends OpMode {
         telemetry.addData("Status", "Initializing");
         telemetry.update();
 
-        distanceLED = hardwareMap.get(DigitalChannel.class, "distance");
+        redLED = hardwareMap.get(DigitalChannel.class, "red");
+        greenLED = hardwareMap.get(DigitalChannel.class, "green");
 
-        distanceLED.setMode(DigitalChannel.Mode.OUTPUT);
+        redLED.setMode(DigitalChannel.Mode.OUTPUT);
         //Sets up the hardwaremap
         robot.setHardwareMap( hardwareMap );
 
@@ -91,6 +94,8 @@ public class TeleOpRunner extends OpMode {
         //First configuration that pops up
         framework = new FinalConfigV1();
         robot.initImu();
+
+        robot.initLED();
 
         //Initializing the selected Config
         framework.init();
@@ -119,13 +124,19 @@ public class TeleOpRunner extends OpMode {
         vroom.loop(); //GP 1
 
         if (sensorRange.getDistance(DistanceUnit.MM) < 20) {
-            if (hasBlock != true)
-                distanceLED.setState(false);
+            if (!hasBlock) {
+                hasBlock = true;
+                greenLED.setState(true);
+                redLED.setState(false);
                 telemetry.addData("block", "not has block");
+            }
         }else{
-            if (hasBlock == true)
-                distanceLED.setState(true);
+            if (hasBlock) {
+                hasBlock = false;
+                redLED.setState(true);
+                greenLED.setState(false);
                 telemetry.addData("block", "has block");
+            }
         }
         telemetry.update();
         if (gamepad1.a) {

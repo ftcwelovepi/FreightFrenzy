@@ -12,6 +12,9 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
+import com.qualcomm.robotcore.hardware.LED;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+
 
 public class HardwareFF {
 
@@ -24,6 +27,9 @@ public class HardwareFF {
     public DcMotor slides;
     public DcMotor intake;
     public Servo bucket;
+
+    public DigitalChannel redLED;
+    public DigitalChannel greenLED;
 
     private static boolean wheels;
     private static boolean components;
@@ -56,6 +62,13 @@ public class HardwareFF {
         sensorTimeOfFlight = (Rev2mDistanceSensor) distanceSensor;
     }
 
+    public void initLED() {
+        redLED = hwMap.get(DigitalChannel.class, "red");
+        greenLED = hwMap.get(DigitalChannel.class, "green");
+
+        redLED.setMode(DigitalChannel.Mode.OUTPUT);
+        greenLED.setMode(DigitalChannel.Mode.OUTPUT);
+    }
     public void initImu() {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
