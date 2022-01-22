@@ -34,7 +34,7 @@ public class RedCarouselRight extends BaseAuto{
         autoInit();
 
         waitForStart();
-        sleep(500);
+//        sleep(500);
 //        telemetry.addData("Position", pipeline.position.toString());
 //        telemetry.update();
 
@@ -42,7 +42,7 @@ public class RedCarouselRight extends BaseAuto{
         // change position - uppercase
         String pipehan = "RIGHT";
 
-        sleep(500);
+//        sleep(500);
 //        if (pipeline.position== FreightFrenzyDeterminationPipeline.DuckPosition.LEFT){
 //            position = SynchronizedMovement.LOW;
 //            telemetry.addData("Going with BOTTOM", "LEFT");
@@ -95,7 +95,7 @@ public class RedCarouselRight extends BaseAuto{
             robot.spinner.setPower( 0 );
 
             encoderMecanumDrive(0.7, 20, 3, 0,-1);
-            gyroTurn(0.7,startingAngle+40); //Turn to face it
+            gyroTurn(0.6,startingAngle+40); //Turn to face it
             encoderMecanumDrive(0.7, 69, 3, 0,-1);
             //extend linear slidehan
 
@@ -115,10 +115,10 @@ public class RedCarouselRight extends BaseAuto{
             Intake.update();
             Bucket_Servo.update();
             encoderMecanumDrive(0.65, 10, 3, -0.2,1);
-            gyroTurn(0.8, startingAngle);
+            gyroTurn(0.6, startingAngle);
             //Sweep for cube two
             encoderMecanumDrive(0.65,45,3,-1,-0.4);
-            gyroTurn(0.8, startingAngle+180);
+            gyroTurn(0.4, startingAngle+180);
             Intake.setPower( -0.60 );
             Intake.update();
             encoderMecanumDrive( 0.75, 75, 3, -0.1 , 0.7);
@@ -127,7 +127,7 @@ public class RedCarouselRight extends BaseAuto{
             encoderMecanumDrive(0.5, 30, 3, 0, 1 );
             sleep(500);
             encoderMecanumDrive( 0.7, 15, 3, -0.7, -0.7 );
-            gyroTurn(0.8, startingAngle+150);
+            gyroTurn(0.6, startingAngle+150);
             encoderMecanumDrive( 0.65, 17, 3, 0, -1 );
 
             SynchronizedMovement.move(SynchronizedMovement.UP);
@@ -150,7 +150,7 @@ public class RedCarouselRight extends BaseAuto{
             Intake.update();
 //
             encoderMecanumDrive( 1, 20, 3, 0.7, 0.7 );
-            gyroTurn(1, startingAngle+180);
+            gyroTurn(0.6, startingAngle+180);
             encoderMecanumDrive( 1, 100, 3, 1, 0.1 );
             encoderMecanumDrive( 1, 70, 3, 0, 1 );
 //
