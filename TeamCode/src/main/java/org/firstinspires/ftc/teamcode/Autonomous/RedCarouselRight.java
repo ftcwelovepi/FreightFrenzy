@@ -40,7 +40,7 @@ public class RedCarouselRight extends BaseAuto{
 
         SynchronizedMovement position;
         // change position - uppercase
-        String pipehan = "RIGHTiurgf;weou";
+        String pipehan = "RIGHT";
 
         sleep(500);
 //        if (pipeline.position== FreightFrenzyDeterminationPipeline.DuckPosition.LEFT){
