@@ -81,6 +81,7 @@ public class HardwareFF {
         if (spinnerB || components) return;
 
         spinner = hwMap.get(DcMotorEx.class, "spinner");
+        spinner.setMode( DcMotor.RunMode.STOP_AND_RESET_ENCODER );
         spinner.setMode( DcMotor.RunMode.RUN_USING_ENCODER );
 
         // RUE limits max motor speed to 85% by default
