@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.LED;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -41,6 +43,7 @@ public class TeleOpRunner extends OpMode {
 
     // declaring variables
     MecanumDriveTrainUsingCustomBraking vroom;
+    private DigitalChannel distanceLED;
 
     /* Declare OpMode members. */
     HardwareFF robot = new HardwareFF(); // use the class created to define a RoverRuckus's hardware
@@ -65,7 +68,7 @@ public class TeleOpRunner extends OpMode {
     public void init() {
         telemetry.addData("Status", "Initializing");
         telemetry.update();
-
+        distanceLED.setMode(DigitalChannel.Mode.OUTPUT);
         //Sets up the hardwaremap
         robot.setHardwareMap( hardwareMap );
 
@@ -114,9 +117,11 @@ public class TeleOpRunner extends OpMode {
 
         if (sensorRange.getDistance(DistanceUnit.MM) < 20) {
             if (hasBlock != true)
+                distanceLED.setState(false);
                 telemetry.addData("block", "not has block");
         }else{
             if (hasBlock == true)
+                distanceLED.setState(true);
                 telemetry.addData("block", "has block");
         }
         telemetry.update();
