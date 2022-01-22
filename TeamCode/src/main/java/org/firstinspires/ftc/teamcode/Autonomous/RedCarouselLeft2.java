@@ -71,7 +71,7 @@ public class RedCarouselLeft2 extends BaseAuto{
             Spinner.setVelocity(0.5);
             sleep( 1000 );
             Spinner.setVelocity(0.8);
-            sleep(500);
+            sleep(600);
 
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
             robot.backRight.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.FLOAT );
