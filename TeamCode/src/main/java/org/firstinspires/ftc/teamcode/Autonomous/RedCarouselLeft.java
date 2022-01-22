@@ -68,7 +68,6 @@ public class RedCarouselLeft extends BaseAuto{
             position = SynchronizedMovement.UP;
             telemetry.addData("Going with TOP", "RIGHT");
         }
-        SynchronizedMovement.move( position );
 
         startingAngle = getAverageGyro();
 
@@ -96,6 +95,7 @@ public class RedCarouselLeft extends BaseAuto{
 
             encoderMecanumDrive(0.7, 20, 3, 0,-1);
             gyroTurn(0.7,startingAngle+40); //Turn to face it
+            SynchronizedMovement.move( position );
             encoderMecanumDrive(0.7, 69, 3, 0,-1);
             //extend linear slidehan
 
@@ -119,15 +119,16 @@ public class RedCarouselLeft extends BaseAuto{
             //Sweep for cube two
             encoderMecanumDrive(0.65,45,3,-1,-0.4);
             gyroTurn(0.6, startingAngle+170);
-            Intake.setPower( -0.55 );
+            Intake.setPower( -0.75 );
             Intake.update();
             encoderMecanumDrive( 0.65, 40, 3, -0.3, 1 );
             gyroTurn(0.6, startingAngle+223);
             encoderMecanumDrive( 0.65, 35, 3, 0, 1 );
             encoderMecanumDrive( 0.7, 25, 3, 0.7, -0.4 );
-            gyroTurn(0.6, startingAngle+130);
+            gyroTurn(0.6, startingAngle+135);
             encoderMecanumDrive( 0.65, 17, 3, 0, -1 );
-
+            Intake.setPower(0);
+            Intake.update();
             SynchronizedMovement.move(SynchronizedMovement.UP);
             while (SynchronizedMovement.get() != SynchronizedMovement.STALL) {
 
@@ -145,13 +146,10 @@ public class RedCarouselLeft extends BaseAuto{
             Intake.update();
             Bucket_Servo.update();
 
-            Intake.setPower(0);
-            Intake.update();
-
             encoderMecanumDrive( 0.8, 40, 3, 1, 0.5 );
             gyroTurn(0.6, startingAngle+180);
-            encoderMecanumDrive( 0.8, 80, 3, 1, 0.5 );
-            encoderMecanumDrive( 0.8, 110, 3, 0, 1 );
+            encoderMecanumDrive( 0.8, 85, 3, 1, 0.5 );
+            encoderMecanumDrive( 0.8, 70, 3, 0, 1 );
 
 
 

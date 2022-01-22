@@ -68,7 +68,7 @@ public class RedCarouselRight extends BaseAuto{
             position = SynchronizedMovement.UP;
             telemetry.addData("Going with TOP", "RIGHT");
         }
-        SynchronizedMovement.move( position );
+//        SynchronizedMovement.move( position );
 
         startingAngle = getAverageGyro();
 
@@ -96,6 +96,7 @@ public class RedCarouselRight extends BaseAuto{
 
             encoderMecanumDrive(0.7, 20, 3, 0,-1);
             gyroTurn(0.6,startingAngle+40); //Turn to face it
+            SynchronizedMovement.move( position );
             encoderMecanumDrive(0.7, 69, 3, 0,-1);
             //extend linear slidehan
 

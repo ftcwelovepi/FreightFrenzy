@@ -34,47 +34,24 @@ public class FinalConfigV1 extends Template{
 
     @Override
     public void a(boolean pressed) {
-//        if (pressed) {
-//            if (bucketStage>4) {
-//                bucketStage = 0;
+//
+//        if (shouldRun) {
+//            spinnerStart = robot.spinner.getCurrentPosition();
+//            Spinner.setVelocity(0.5);
+//            while (robot.spinner.getCurrentPosition() < spinnerStart + 1250) {
+//                telemetryDM.put("autospin", "slow");
 //            }
-//            switch (++bucketStage) {
-//                case 1:
-//                    Bucket_Servo.glideToPosition( 0 );
-//                    break;
-//                case 2:
-//                    Bucket_Servo.glideToPosition( 0.4 );
-//                    break;
-//                case 3:
-//                    Bucket_Servo.glideToPosition( 0.7 );
-//                    break;
-//                case 4:
-//                    Bucket_Servo.glideToPosition( 1 );
-//                    break;
+//
+//            Spinner.setVelocity(1);
+//            spinnerStart = robot.spinner.getCurrentPosition();
+//            while (robot.spinner.getCurrentPosition() < spinnerStart + 900) {
+//                telemetryDM.put("autospin", "fast");
+//
 //            }
+//
+//            Spinner.setVelocity(0);
+//            shouldRun = false;
 //        }
-        if (pressed) {
-            shouldRun = true;
-            telemetryDM.put("a", "pressed");
-        }
-
-        if (shouldRun) {
-            spinnerStart = robot.spinner.getCurrentPosition();
-            Spinner.setVelocity(0.5);
-            while (robot.spinner.getCurrentPosition() < spinnerStart + 1250) {
-                telemetryDM.put("autospin", "slow");
-            }
-
-            Spinner.setVelocity(1);
-            spinnerStart = robot.spinner.getCurrentPosition();
-            while (robot.spinner.getCurrentPosition() < spinnerStart + 900) {
-                telemetryDM.put("autospin", "fast");
-
-            }
-
-            Spinner.setVelocity(0);
-            shouldRun = false;
-        }
     }
 
     @Override
@@ -117,12 +94,13 @@ public class FinalConfigV1 extends Template{
 
     @Override
     public void rt(float pressure) {
-//        if (pressure > 0.1) {
-//            Spinner.setPower( pressure*spinnerFlip );
-//        } else {
-//            Spinner.setPower( 0 );
-//        }
-        Spinner.startRamp();
+////        if (pressure > 0.1) {
+////            Spinner.setPower( pressure*spinnerFlip );
+////        } else {
+////            Spinner.setPower( 0 );
+////        }
+        if (pressure > 0.1)
+            Spinner.startRamp();
     }
 
     public void x (boolean pressed) {

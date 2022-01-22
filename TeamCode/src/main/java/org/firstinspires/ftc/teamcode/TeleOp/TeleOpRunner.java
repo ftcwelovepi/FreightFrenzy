@@ -123,28 +123,22 @@ public class TeleOpRunner extends OpMode {
     public void loop() {
         vroom.loop(); //GP 1
 
-        if (sensorRange.getDistance(DistanceUnit.MM) < 20) {
-            if (!hasBlock) {
-                hasBlock = true;
-                greenLED.setState(true);
-                redLED.setState(false);
-                telemetry.addData("block", "not has block");
-            }
-        }else{
-            if (hasBlock) {
-                hasBlock = false;
-                redLED.setState(true);
-                greenLED.setState(false);
-                telemetry.addData("block", "has block");
-            }
-        }
+//        if (sensorRange.getDistance(DistanceUnit.MM) < 20) {
+//            if (!hasBlock) {
+//                hasBlock = true;
+//                greenLED.setState(true);
+//                redLED.setState(false);
+//                telemetry.addData("block", "not has block");
+//            }
+//        }else{
+//            if (hasBlock) {
+//                hasBlock = false;
+//                redLED.setState(true);
+//                greenLED.setState(false);
+//                telemetry.addData("block", "has block");
+//            }
+//        }
         telemetry.update();
-        if (gamepad1.a) {
-            gyroTurn( 0.7, startingAngle );
-        }
-        if (gamepad1.b) {
-            startingAngle = getAverageGyro();
-        }
 
         //Starts the switching configs
         if (gamepad2.start) {

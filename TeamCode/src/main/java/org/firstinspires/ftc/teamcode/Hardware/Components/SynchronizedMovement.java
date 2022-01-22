@@ -68,7 +68,7 @@ public enum SynchronizedMovement {
                 break;
             case 3:
                 if (!startedThread) {
-                    waits = new ThreadedWait( 500 );
+                    waits = new ThreadedWait( 750 );
                     waits.start();
                     startedThread = true;
                 }
@@ -95,7 +95,7 @@ public enum SynchronizedMovement {
                 break;
             case 6:
                 if (!startedThread) {
-                    waits = new ThreadedWait( 750 );
+                    waits = new ThreadedWait( 500 );
                     waits.start();
                     startedThread = true;
                 }

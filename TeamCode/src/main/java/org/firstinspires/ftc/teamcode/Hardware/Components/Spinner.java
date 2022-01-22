@@ -59,7 +59,7 @@ public class Spinner {
     public static void startRamp () {
         if (!startedThread) {
             startedThread = true;
-            wait = new ThreadedWait( 1000 );
+            wait = new ThreadedWait( 1500 );
             wait.start();
         }
     }
@@ -74,7 +74,9 @@ public class Spinner {
 
     public static void update () {
         if (startedThread && !wait.get()) {
-            power = wait.time()/1000;
+            double percent = wait.time()/1500;
+            if (percent > 0.5) power = (1-percent) + 0.25;
+            else power = 1;
         } else if (startedThread && wait.get()) {
             startedThread = false;
             power = 0;

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Hardware.Components.Intake;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 import org.firstinspires.ftc.teamcode.Hardware.MecanumWheels;
 import org.firstinspires.ftc.teamcode.ThreadedWait;
@@ -129,6 +130,12 @@ public class MecanumDriveTrainUsingCustomBraking {
             malinDrive = !malinDrive;
         }
         malinPastState = gamepad1.right_bumper;
+
+        if (gamepad1.a) {
+            Intake.flipSwitch();
+        } else if (gamepad1.b) {
+            Intake.flipSwitchREVERSE();
+        }
 
         if (gamepad1.right_trigger > 0.1){
             speedlimiter = 0.28;

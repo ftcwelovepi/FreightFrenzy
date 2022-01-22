@@ -196,11 +196,18 @@ public abstract class BaseAuto extends OpenCVDetection{
                 telemetry.addData("FrontRightPower",robot.frontRight.getPower());
                 telemetry.addData("BackRightPower",robot.backRight.getPower());
                 telemetry.addData("BackLeftPower",robot.backLeft.getPower());
+                telemetry.addData( "Synchrinized Movement", SynchronizedMovement.get() );
+                telemetry.addData( "Intake Power", Intake.getPower() );
 //                telemetry.addData("front left power",  wheels.wheelPowers[0]);
 //                telemetry.addData("back left power",  wheels.wheelPowers[2]);
 //                telemetry.addData("back right power",  wheels.wheelPowers[3]);
 //                telemetry.addData("front right power",  wheels.wheelPowers[1]);
                 telemetry.update();
+                SynchronizedMovement.run();
+                Slides.update();
+                Bucket_Servo.update();
+//                Intake.update();
+                Spinner.update();
             }
 
             // Stop all motion;
@@ -228,6 +235,11 @@ public abstract class BaseAuto extends OpenCVDetection{
             // Update telemetry & Allow time for other processes to run.
             telemetry.addData("current_heading", getAverageGyro());
             telemetry.update();
+            SynchronizedMovement.run();
+            Slides.update();
+            Bucket_Servo.update();
+//            Intake.update();
+            Spinner.update();
         }
     }
 
