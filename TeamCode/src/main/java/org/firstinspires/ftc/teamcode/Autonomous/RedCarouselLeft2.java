@@ -104,11 +104,11 @@ public class RedCarouselLeft2 extends BaseAuto{
             encoderMecanumDrive( 0.8, 90, 3, 1, 0.5 );
             Intake.setPower( -1 );
             Intake.update();
-            encoderMecanumDrive( 0.6, 110, 3, 0, 1 );
+            encoderMecanumDrive( 0.6, 100, 3, 0, 1 );
             encoderMecanumDrive( 0.4, 10, 3, 0, 1 );
             gyroTurn(0.6, startingAngle+180);
             encoderMecanumDrive( 0.8, 20, 3, 1, 0 );
-            encoderMecanumDrive( 0.8, 120, 3, 0, -1 );
+            encoderMecanumDrive( 0.8, 110, 3, 0, -1 );
             encoderMecanumDrive( 0.8, 95, 3, -1, -0.5 );
             SynchronizedMovement.move( SynchronizedMovement.UP );
             gyroTurn(0.7,startingAngle+90); //Turn to face it
