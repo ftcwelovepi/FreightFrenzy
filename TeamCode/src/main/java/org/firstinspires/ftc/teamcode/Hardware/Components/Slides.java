@@ -13,11 +13,13 @@ public class Slides {
     private static DistanceSensor d;
     private static double max = 1, min = -1, power = 0, scale = 0.8;
     private static boolean enhancedSlide = true;
+    private static boolean lockDown = false;
     private static int lowerboundMid = 325, lowerboundHigh = 600, transferPoint = 200, lowerboundLow = 170;
 
     public static void initialize (HardwareFF robot) {
         s = robot.slides;
         s.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
+        s.setMode( DcMotor.RunMode.STOP_AND_RESET_ENCODER );
         runWithEncoders();
         d = robot.distanceSensor;
         SynchronizedMovement.move(SynchronizedMovement.STALL);
@@ -44,8 +46,13 @@ public class Slides {
     }
 
     public static void runWithEncoders() {
-        s.setMode( DcMotor.RunMode.STOP_AND_RESET_ENCODER );
+        if (s.getMode() == DcMotor.RunMode.RUN_USING_ENCODER) return;
         s.setMode( DcMotor.RunMode.RUN_USING_ENCODER );
+    }
+
+    public static void runToPosition() {
+        if (s.getMode() == DcMotor.RunMode.RUN_TO_POSITION) return;
+        s.setMode( DcMotor.RunMode.RUN_TO_POSITION );
     }
 
     public static void runWithoutEncoders() {
@@ -93,8 +100,8 @@ public class Slides {
         }
     }
 
-    public static boolean secureBlock () {
-        return (s.getCurrentPosition() > 100 && power > 0);
+    public static void goTo (int encoders) {
+        s.setTargetPosition( encoders );
     }
 
     public static void flipSwitch() {
@@ -102,9 +109,14 @@ public class Slides {
         else setPower( -1 );
     }
 
+    public static void switchLock(boolean lock){
+        lockDown = lock;
+    }
+
     public static void update () {
         if (s.getCurrentPosition() > lowerboundHigh && power > 0) power = 0;
         if (s.getCurrentPosition() < 10 && power < 0) power = 0;
+        if (lockDown && Slides.getEncoders() < getLow()) Math.max( power, 0 );
         s.setPower( power );
     }
 

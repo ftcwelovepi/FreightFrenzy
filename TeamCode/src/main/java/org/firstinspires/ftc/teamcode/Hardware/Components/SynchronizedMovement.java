@@ -22,6 +22,10 @@ public enum SynchronizedMovement {
         return s;
     }
 
+    public static void down() {
+        stageProgression = 4;
+    }
+
     public static int getStage() {
         return stageProgression;
     }

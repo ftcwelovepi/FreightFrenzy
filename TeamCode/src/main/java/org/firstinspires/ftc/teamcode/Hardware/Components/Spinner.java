@@ -74,9 +74,9 @@ public class Spinner {
 
     public static void update () {
         if (startedThread && !wait.get()) {
-            double percent = wait.time()/1500;
+            double percent = wait.time()/1700;
             if (percent > 0.5) power = (1-percent) + 0.25;
-            else power = 1;
+            else power = 0.8;
         } else if (startedThread && wait.get()) {
             startedThread = false;
             power = 0;

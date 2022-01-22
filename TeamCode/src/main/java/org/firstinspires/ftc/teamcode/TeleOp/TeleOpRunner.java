@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.Hardware.MecanumDriveTrainUsingCustomBraki
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.ComponentTesting_BS;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.ComponentTesting_SL;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.FinalConfigV1;
+import org.firstinspires.ftc.teamcode.TeleOp.Configs.FinalConfigV2;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.TeleOpOne;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.Template;
 import org.firstinspires.ftc.teamcode.ThreadedWait;
@@ -88,6 +89,7 @@ public class TeleOpRunner extends OpMode {
         //Adding all the classes
         listOfTemplates.add( TeleOpOne.class );
         listOfTemplates.add( FinalConfigV1.class );
+        listOfTemplates.add( FinalConfigV2.class );
         listOfTemplates.add( ComponentTesting_BS.class );
         listOfTemplates.add( ComponentTesting_SL.class );
 
@@ -229,9 +231,12 @@ public class TeleOpRunner extends OpMode {
                 framework = new FinalConfigV1();
                 break;
             case 2:
-                framework = new ComponentTesting_BS();
+                framework = new FinalConfigV2();
                 break;
             case 3:
+                framework = new ComponentTesting_BS();
+                break;
+            case 4:
                 framework = new ComponentTesting_SL();
                 break;
         }
