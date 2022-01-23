@@ -57,20 +57,20 @@ public class FinalConfigV2 extends Template{
 
     @Override
     public void du(boolean pressed) {
-        if (pressed) {
-            if (Slides.getEncoders() <= Slides.getMid()) {
-                press = true;
-                Slides.setPower( 1 );
-                if (Slides.getEncoders() >= 20) {
-                    Bucket_Servo.glideToPosition( 0.4 );
-                }
-                Intake.setPower( 0.5 );
-            }
-        }
-        if (press && Slides.getEncoders() >= Slides.getMid()) {
-            Intake.setPower( 0 );
-            press = false;
-        }
+//        if (pressed) {
+//            if (Slides.getEncoders() <= Slides.getMid()) {
+//                press = true;
+//                Slides.setPower( 1 );
+//                if (Slides.getEncoders() >= 20) {
+//                    Bucket_Servo.glideToPosition( 0.4 );
+//                }
+//                Intake.setPower( 0.5 );
+//            }
+//        }
+//        if (press && Slides.getEncoders() >= Slides.getMid()) {
+//            Intake.setPower( 0 );
+//            press = false;
+//        }
     }
 
     public void dr (boolean pressed) {
@@ -106,6 +106,16 @@ public class FinalConfigV2 extends Template{
         Intake.update();
         Slides.update();
         SynchronizedMovement.run();
+        updateLoop();
+    }
+
+    public void updateLoop() {
+        if (Slides.getEncoders() <= 20 && Slides.getPower() > 0) {
+            Intake.setPower( -0.5 );
+        }else if (Slides.getEncoders() >= 20 && Slides.getPower() > 0) {
+            Bucket_Servo.glideToPosition(Math.max( 0.4, Bucket_Servo.getTargetPosition() ));
+        }
+
     }
 
     @Override

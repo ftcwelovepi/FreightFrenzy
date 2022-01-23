@@ -106,10 +106,10 @@ public class RedCarouselMiddle2 extends BaseAuto{
             encoderMecanumDrive( 0.4, 10, 3, 0, 1 );
             gyroTurn(0.6, startingAngle+180);
             encoderMecanumDrive( 0.8, 20, 3, 1, 0 );
-            encoderMecanumDrive( 0.8, 110, 3, 0, -1 );
+            encoderMecanumDrive( 0.8, 115, 3, 0, -1 );
             encoderMecanumDrive( 0.8, 92, 3, -1, -0.5 );
             SynchronizedMovement.move( SynchronizedMovement.UP );
-            gyroTurn(0.7,startingAngle+90); //Turn to face it
+            gyroTurn(0.6,startingAngle+90); //Turn to face it
             while (SynchronizedMovement.getStage() != 6) {
                 SynchronizedMovement.run();
                 Slides.update();

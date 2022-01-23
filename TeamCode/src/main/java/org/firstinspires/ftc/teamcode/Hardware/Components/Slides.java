@@ -89,6 +89,15 @@ public class Slides {
     }
 
     public static void setPower (double powerw) {
+//        if (enhancedSlide) {
+//            if (power > 0) {
+//                power = powerw * scale;
+//            } else {
+//                power = powerw * (scale - 0.3);
+//            }
+//        } else {
+//            power = powerw * scale;
+//        }
         power = powerw;
     }
 
