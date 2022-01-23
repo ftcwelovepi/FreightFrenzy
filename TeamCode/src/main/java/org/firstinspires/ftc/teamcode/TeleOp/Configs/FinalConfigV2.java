@@ -61,8 +61,10 @@ public class FinalConfigV2 extends Template{
             if (Slides.getEncoders() <= Slides.getMid()) {
                 press = true;
                 Slides.setPower( 1 );
-                Bucket_Servo.glideToPosition( 0.4 );
-                Intake.setPower( -0.5 );
+                if (Slides.getEncoders() >= 20) {
+                    Bucket_Servo.glideToPosition( 0.4 );
+                }
+                Intake.setPower( 0.5 );
             }
         }
         if (press && Slides.getEncoders() >= Slides.getMid()) {
