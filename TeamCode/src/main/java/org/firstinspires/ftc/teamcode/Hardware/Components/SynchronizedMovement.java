@@ -39,9 +39,6 @@ public enum SynchronizedMovement {
         } else if (s.equals( LOW )) {
             sequence( Slides.getLow() );
         }
-        if (stageProgression == 0) {
-            s = STALL;
-        }
     }
 
     public static void reset() {
@@ -59,9 +56,7 @@ public enum SynchronizedMovement {
             case 1:
                 Intake.setPower( -0.5 );
                 Slides.setPower( 1 );
-                if (Slides.getEncoders() >= 20) {
-                    stageProgression++;
-                }
+                stageProgression++;
                 break;
             case 2:
                 if (Slides.getEncoders() >= encoders) {
@@ -107,6 +102,7 @@ public enum SynchronizedMovement {
                     Intake.setPower( 0 );
                     stageProgression = 0;
                     startedThread = false;
+                    s = STALL;
                 }
                 break;
         }

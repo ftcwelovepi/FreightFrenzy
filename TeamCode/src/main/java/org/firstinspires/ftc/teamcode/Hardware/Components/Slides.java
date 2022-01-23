@@ -14,7 +14,7 @@ public class Slides {
     private static double max = 1, min = -1, power = 0, scale = 0.8;
     private static boolean enhancedSlide = true;
     private static boolean lockDown = false;
-    private static int lowerboundMid = 325, lowerboundHigh = 600, transferPoint = 200, lowerboundLow = 170;
+    private static int lowerboundMid = 350, lowerboundHigh = 600, transferPoint = 200, lowerboundLow = 170;
 
     public static void initialize (HardwareFF robot) {
         s = robot.slides;
@@ -116,7 +116,7 @@ public class Slides {
     public static void update () {
         if (s.getCurrentPosition() > lowerboundHigh && power > 0) power = 0;
         if (s.getCurrentPosition() < 10 && power < 0) power = 0;
-        if (lockDown && Slides.getEncoders() < getLow()) Math.max( power, 0 );
+        if (lockDown && Slides.getEncoders() < getLow()) power = Math.max( power, 0 );
         s.setPower( power );
     }
 
