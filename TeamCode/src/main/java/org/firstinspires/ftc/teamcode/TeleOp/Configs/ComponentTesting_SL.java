@@ -59,7 +59,7 @@ public class ComponentTesting_SL extends Template{
 
     @Override
     public void x(boolean pressed) {
-
+        if (pressed) power = 0;
     }
 
     @Override
