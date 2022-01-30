@@ -68,7 +68,11 @@ public class RedCarouselSide extends BaseAuto{
             robot.backLeft.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
 
             //Carousel Move to and Spinn
-            encoderMecanumDrive(0.55, 80, 3, 0.40, 1);
+
+            encoderMecanumDrive(0.6, 60, 3, 0.40, 1);
+            encoderMecanumDrive(0.2, 20, 3, 0.40, 1);
+
+//            encoderMecanumDrive(0.55, 80, 3, 0.40, 1);
             Spinner.setVelocity(0.5);
             sleep( 1000 );
             Spinner.setVelocity(0.8);
@@ -83,7 +87,7 @@ public class RedCarouselSide extends BaseAuto{
             encoderMecanumDrive(0.7, 20, 3, 0,-1);
             gyroTurn(0.7,startingAngle+40); //Turn to face it
             SynchronizedMovement.move( position );
-            encoderMecanumDrive(0.7, 70, 3, 0,-1);
+            encoderMecanumDrive(0.6, 60, 3, 0,-1);
             //extend linear slidehan
 
             while (SynchronizedMovement.getStage() != 4) {
@@ -105,14 +109,20 @@ public class RedCarouselSide extends BaseAuto{
             encoderMecanumDrive( 0.8, 90, 3, 1, 0.5 );
             Intake.setPower( -1 );
             Intake.update();
-            encoderMecanumDrive( 0.6, 100, 3, 0, 1 );
+            encoderMecanumDrive( 0.6, 90, 3, 0, 1 );
 
-            
-
-            encoderMecanumDrive( 0.4, 10, 3, 0, 1 );
+            //go forward till detect
+            int forward = 0;
+            while (!(robot.distanceSensor.getDistance( DistanceUnit.MM ) < 75) && opModeIsActive() && forward < 30) {
+                encoderMecanumDrive( 0.4, 5, 3, 0, 1 );
+                forward += 5;
+            }
+            encoderMecanumDrive( 0.4, forward, 3, 0, -1 );
+            Intake.setPower( 1 );
+            Intake.update();
             gyroTurn(0.6, startingAngle+180);
             encoderMecanumDrive( 0.8, 20, 3, 1, 0 );
-            encoderMecanumDrive( 0.8, 110, 3, 0, -1 );
+            encoderMecanumDrive( 0.8, 75, 3, 0, -1 );
             encoderMecanumDrive( 0.8, 95, 3, -1, -0.5 );
             SynchronizedMovement.move( SynchronizedMovement.UP );
             gyroTurn(0.7,startingAngle+90); //Turn to face it
@@ -129,7 +139,7 @@ public class RedCarouselSide extends BaseAuto{
             gyroTurn(0.7,startingAngle+180);
             encoderMecanumDrive( 0.8, 20, 3, 1, 0 );
             encoderMecanumDrive( 0.8, 110, 3, 1, 0.5 );
-            encoderMecanumDrive( 0.8, 100, 3, 0, 1 );
+            encoderMecanumDrive( 0.8, 90, 3, 0, 1 );
 
         }
     }
