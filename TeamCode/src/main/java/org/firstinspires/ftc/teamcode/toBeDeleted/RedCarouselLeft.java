@@ -1,4 +1,5 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+
+package org.firstinspires.ftc.teamcode.toBeDeleted;
 
 import android.graphics.Path;
 
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Autonomous.BaseAuto;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Bucket_Servo;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Intake;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
@@ -27,40 +29,28 @@ import org.firstinspires.ftc.teamcode.Autonomous.OpenCVDetection;
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 
 @Autonomous(name = "RedSide Carousel Left", group = "Freight Frenzy")
-public class RedCarouselLeft extends BaseAuto{
+public class RedCarouselLeft extends BaseAuto {
 
     @Override
     public void runOpMode() {
+        /*
         autoInit();
 
         waitForStart();
         sleep(500);
-//        telemetry.addData("Position", pipeline.position.toString());
-//        telemetry.update();
+        telemetry.addData("Position", pipeline.position.toString());
+        telemetry.update();
 
         SynchronizedMovement position;
         // change position - uppercase
-        String pipehan = "LEFT";
-
+//        String pipehan = "LEFT";
+//
         sleep(500);
-//        if (pipeline.position== FreightFrenzyDeterminationPipeline.DuckPosition.LEFT){
-//            position = SynchronizedMovement.LOW;
-//            telemetry.addData("Going with BOTTOM", "LEFT");
-//        }
-//        else if (pipeline.position== FreightFrenzyDeterminationPipeline.DuckPosition.MIDDLE) {
-//            position = SynchronizedMovement.MID;
-//            telemetry.addData("Going with MID", "MIDDLE");
-//        }
-//        else {
-//            position = SynchronizedMovement.UP;
-//            telemetry.addData("Going with TOP", "RIGHT");
-//        }
-
-        if (pipehan.equals("LEFT")){
+        if (pipeline.position== FreightFrenzyDeterminationPipeline.DuckPosition.LEFT){
             position = SynchronizedMovement.LOW;
             telemetry.addData("Going with BOTTOM", "LEFT");
         }
-        else if (pipehan.equals("MID")) {
+        else if (pipeline.position== FreightFrenzyDeterminationPipeline.DuckPosition.MIDDLE) {
             position = SynchronizedMovement.MID;
             telemetry.addData("Going with MID", "MIDDLE");
         }
@@ -68,6 +58,19 @@ public class RedCarouselLeft extends BaseAuto{
             position = SynchronizedMovement.UP;
             telemetry.addData("Going with TOP", "RIGHT");
         }
+//
+//        if (pipehan.equals("LEFT")){
+//            position = SynchronizedMovement.LOW;
+//            telemetry.addData("Going with BOTTOM", "LEFT");
+//        }
+//        else if (pipehan.equals("MID")) {
+//            position = SynchronizedMovement.MID;
+//            telemetry.addData("Going with MID", "MIDDLE");
+//        }
+//        else {
+//            position = SynchronizedMovement.UP;
+//            telemetry.addData("Going with TOP", "RIGHT");
+//        }
 
         startingAngle = getAverageGyro();
 
@@ -220,5 +223,8 @@ public class RedCarouselLeft extends BaseAuto{
 //            gyroTurn(.7, startingAngle+190);
 //            gyroTurn(.7, startingAngle + 180);
         }
+
+         */
     }
+
 }

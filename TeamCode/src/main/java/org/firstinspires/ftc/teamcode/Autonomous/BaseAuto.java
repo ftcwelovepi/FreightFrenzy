@@ -34,7 +34,7 @@ public abstract class BaseAuto extends OpenCVDetection{
 
     public void autoInit() {
         initHardware();
-//        initOpenCV();
+        initOpenCV();
         Slides.initialize(robot);
         Bucket_Servo.initialize(robot);
         Intake.initialize(robot);

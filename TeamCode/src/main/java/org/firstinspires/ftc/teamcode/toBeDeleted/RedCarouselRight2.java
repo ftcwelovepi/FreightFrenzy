@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.toBeDeleted;
 
 import android.graphics.Path;
 
@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Autonomous.BaseAuto;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Bucket_Servo;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Intake;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
@@ -26,10 +27,11 @@ import org.firstinspires.ftc.teamcode.Autonomous.OpenCVDetection;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 
-@Autonomous(name = "RS C Middle Two Block", group = "Freight Frenzy")
-public class RedCarouselMiddle2 extends BaseAuto{
+@Autonomous(name = "RS C Right Two Block", group = "Freight Frenzy")
+public class RedCarouselRight2 extends BaseAuto {
 
     public void runOpMode() {
+        /*
         autoInit();
 
         waitForStart();
@@ -38,7 +40,7 @@ public class RedCarouselMiddle2 extends BaseAuto{
 
         SynchronizedMovement position;
         // change position - uppercase
-        String pipehan = "MID";
+        String pipehan = "RIGHT";
         if (pipehan.equals("LEFT")){
             position = SynchronizedMovement.LOW;
             telemetry.addData("Going with BOTTOM", "LEFT");
@@ -106,10 +108,10 @@ public class RedCarouselMiddle2 extends BaseAuto{
             encoderMecanumDrive( 0.4, 10, 3, 0, 1 );
             gyroTurn(0.6, startingAngle+180);
             encoderMecanumDrive( 0.8, 20, 3, 1, 0 );
-            encoderMecanumDrive( 0.8, 115, 3, 0, -1 );
+            encoderMecanumDrive( 0.8, 110, 3, 0, -1 );
             encoderMecanumDrive( 0.8, 92, 3, -1, -0.5 );
             SynchronizedMovement.move( SynchronizedMovement.UP );
-            gyroTurn(0.6,startingAngle+90); //Turn to face it
+            gyroTurn(0.5,startingAngle+90); //Turn to face it
             while (SynchronizedMovement.getStage() != 6) {
                 SynchronizedMovement.run();
                 Slides.update();
@@ -126,5 +128,7 @@ public class RedCarouselMiddle2 extends BaseAuto{
             encoderMecanumDrive( 0.8, 100, 3, 0, 1 );
 
         }
+
+         */
     }
 }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.toBeDeleted;
 
 import android.graphics.Path;
 
@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Autonomous.BaseAuto;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Bucket_Servo;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Intake;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
@@ -27,10 +28,11 @@ import org.firstinspires.ftc.teamcode.Autonomous.OpenCVDetection;
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 
 @Autonomous(name = "RedSide Carousel Right", group = "Freight Frenzy")
-public class RedCarouselRight extends BaseAuto{
+public class RedCarouselRight extends BaseAuto {
 
     @Override
     public void runOpMode() {
+        /*
         autoInit();
 
         waitForStart();
@@ -224,5 +226,7 @@ public class RedCarouselRight extends BaseAuto{
 //            gyroTurn(.7, startingAngle+190);
 //            gyroTurn(.7, startingAngle + 180);
         }
+        
+         */
     }
 }

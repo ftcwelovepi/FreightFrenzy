@@ -151,7 +151,7 @@ public abstract class OpenCVDetection extends LinearOpMode {
 
         int targetred = 255;
         int targetblue = 0;
-        int targetgreen = 255;
+        int targetgreen = 0;
 
         int avg1Count = 0;
         int avg2Count = 0;

@@ -78,7 +78,7 @@ public enum SynchronizedMovement {
                 break;
             case 4:
                 Bucket_Servo.glideToPosition(0.1);
-                if (Slides.getEncoders() < 250) {
+                if (Slides.getEncoders() < 300) {
                     stageProgression = 3;
                     Slides.setPower( 1 );
                     break;
