@@ -28,11 +28,13 @@ public class ComponentTesting_SL extends Template{
     }
 
     public void rt (float pressure) {
-
+        if (pressure > 0.1)
+            power = 1;
     }
 
     public void lt (float pressure) {
-
+        if (pressure > 0.1)
+            power = -1;
     }
 
     @Override

@@ -26,8 +26,8 @@ import org.firstinspires.ftc.teamcode.Autonomous.OpenCVDetection;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 
-@Autonomous(name = "RS C Left Two Block", group = "Freight Frenzy")
-public class RedCarouselLeft2 extends BaseAuto{
+@Autonomous(name = "Red Carousel Side", group = "Freight Frenzy")
+public class RedCarouselSide extends BaseAuto{
 
     @Override
     public void runOpMode() {
@@ -83,7 +83,7 @@ public class RedCarouselLeft2 extends BaseAuto{
             encoderMecanumDrive(0.7, 20, 3, 0,-1);
             gyroTurn(0.7,startingAngle+40); //Turn to face it
             SynchronizedMovement.move( position );
-            encoderMecanumDrive(0.7, 80, 3, 0,-1);
+            encoderMecanumDrive(0.7, 70, 3, 0,-1);
             //extend linear slidehan
 
             while (SynchronizedMovement.getStage() != 4) {
@@ -106,6 +106,9 @@ public class RedCarouselLeft2 extends BaseAuto{
             Intake.setPower( -1 );
             Intake.update();
             encoderMecanumDrive( 0.6, 100, 3, 0, 1 );
+
+            
+
             encoderMecanumDrive( 0.4, 10, 3, 0, 1 );
             gyroTurn(0.6, startingAngle+180);
             encoderMecanumDrive( 0.8, 20, 3, 1, 0 );

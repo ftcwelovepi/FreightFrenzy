@@ -27,7 +27,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.OpenCVDetection;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 
-@Autonomous(name = "RedSide Carousel Right", group = "Freight Frenzy")
+
 public class RedCarouselRight extends BaseAuto {
 
     @Override
@@ -226,7 +226,7 @@ public class RedCarouselRight extends BaseAuto {
 //            gyroTurn(.7, startingAngle+190);
 //            gyroTurn(.7, startingAngle + 180);
         }
-        
+
          */
     }
 }

@@ -27,7 +27,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.OpenCVDetection;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 
-@Autonomous(name = "RS C Right Two Block", group = "Freight Frenzy")
+
 public class RedCarouselRight2 extends BaseAuto {
 
     public void runOpMode() {
