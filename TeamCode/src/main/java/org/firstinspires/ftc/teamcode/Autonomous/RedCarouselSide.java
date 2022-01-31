@@ -29,9 +29,15 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGR
 @Autonomous(name = "Red Carousel Side", group = "Freight Frenzy")
 public class RedCarouselSide extends BaseAuto{
 
+    double basePower = 0.8;
+
     @Override
     public void runOpMode() {
         autoInit();
+
+        if (robot.voltageSensor.getVoltage() < 13) {
+            basePower = 0.7;
+        }
 
         waitForStart();
         sleep(500);
@@ -87,7 +93,7 @@ public class RedCarouselSide extends BaseAuto{
             encoderMecanumDrive(0.7, 20, 3, 0,-1);
             gyroTurn(0.7,startingAngle+40); //Turn to face it
             SynchronizedMovement.move( position );
-            encoderMecanumDrive(0.6, 60, 3, 0,-1);
+            encoderMecanumDrive(basePower, 60, 3, 0,-1);
             //extend linear slidehan
 
             while (SynchronizedMovement.getStage() != 4) {
@@ -103,10 +109,10 @@ public class RedCarouselSide extends BaseAuto{
             Slides.update();
             Intake.update();
             Bucket_Servo.update();
-            encoderMecanumDrive( 0.8, 69, 3, -1, 0 );
+            encoderMecanumDrive( basePower, 69, 3, -1, 0 );
             gyroTurn(0.6, startingAngle+180);
             gyroTurn(0.6, startingAngle+180);
-            encoderMecanumDrive( 0.8, 90, 3, 1, 0.5 );
+            encoderMecanumDrive( basePower, 80, 3, 1, 0.5 );
             Intake.setPower( -1 );
             Intake.update();
             encoderMecanumDrive( 0.6, 90, 3, 0, 1 );
@@ -114,6 +120,12 @@ public class RedCarouselSide extends BaseAuto{
             //go forward till detect
             int forward = 0;
             while (!(robot.distanceSensor.getDistance( DistanceUnit.MM ) < 75) && opModeIsActive() && forward < 30) {
+                if (forward == 25) {
+                    encoderMecanumDrive( 0.4, 10, 3, -1, 0 );
+                    gyroTurn( 0.6, startingAngle+170 );
+                    gyroTurn( 0.6, startingAngle+180 );
+                    encoderMecanumDrive( 0.4, 10, 3, -1, 0 );
+                }
                 encoderMecanumDrive( 0.4, 5, 3, 0, 1 );
                 forward += 5;
             }
@@ -121,9 +133,9 @@ public class RedCarouselSide extends BaseAuto{
             Intake.setPower( 1 );
             Intake.update();
             gyroTurn(0.6, startingAngle+180);
-            encoderMecanumDrive( 0.8, 20, 3, 1, 0 );
-            encoderMecanumDrive( 0.8, 75, 3, 0, -1 );
-            encoderMecanumDrive( 0.8, 95, 3, -1, -0.5 );
+            encoderMecanumDrive( basePower, 20, 3, 1, 0 );
+            encoderMecanumDrive( basePower, 75, 3, 0, -1 );
+            encoderMecanumDrive( basePower, 95, 3, -1, -0.5 );
             SynchronizedMovement.move( SynchronizedMovement.UP );
             gyroTurn(0.7,startingAngle+90); //Turn to face it
             while (SynchronizedMovement.getStage() != 6) {
@@ -137,9 +149,10 @@ public class RedCarouselSide extends BaseAuto{
                 telemetry.update();
             }
             gyroTurn(0.7,startingAngle+180);
-            encoderMecanumDrive( 0.8, 20, 3, 1, 0 );
-            encoderMecanumDrive( 0.8, 110, 3, 1, 0.5 );
-            encoderMecanumDrive( 0.8, 90, 3, 0, 1 );
+            encoderMecanumDrive( basePower, 20, 3, 1, 0 );
+            encoderMecanumDrive( basePower, 110, 3, 1, 0.5 );
+            encoderMecanumDrive( basePower, 90, 3, 0, -1 );
+            encoderMecanumDrive( basePower, 90, 3, 0, 1 );
 
         }
     }

@@ -171,6 +171,7 @@ public class FinalConfigV1 extends Template{
         telemetryDM.put( "Slides Position", String.valueOf(Slides.getEncoders()) );
         telemetryDM.put( "Carousel Velo", String.valueOf( robot.spinner.getCurrentPosition() ) );
         telemetryDM.put( "Sensor", String.valueOf(robot.distanceSensor.getDistance( DistanceUnit.MM )) );
+        telemetryDM.put( "Intake Encoder", String.valueOf( robot.intake.getCurrentPosition() ) );
         telemetryDM.put( "::::::::::::",":::::::::::" );
         telemetryDM.put( "Stage Message", stage );
 

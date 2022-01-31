@@ -44,7 +44,7 @@ public class HardwareFF {
     public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(5.2, 3.5, 3.5, 3.5);
 
     public BNO055IMU imu;
-    VoltageSensor voltageSensor;
+    public VoltageSensor voltageSensor;
     public HardwareMap hwMap = null;
 
     public void setHardwareMap (HardwareMap awhMap) {

@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Intake;
+import org.firstinspires.ftc.teamcode.Hardware.Components.SynchronizedMovement;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
 import org.firstinspires.ftc.teamcode.Hardware.MecanumWheels;
 import org.firstinspires.ftc.teamcode.ThreadedWait;
@@ -81,8 +82,8 @@ public class MecanumDriveTrainUsingCustomBraking {
         double left_x = 0.0;
         double left_y = 0.0;
         double right_x = 0.0;
-        double left_toggle = 0.75;
-        double right_toggle = 0.45;
+        double left_toggle = 0.7;
+        double right_toggle = 0.6;
         double gamepadSum = gamepad1.left_stick_x + gamepad1.left_stick_y + gamepad1.right_stick_x;
 
         // dpad overrides other joysticks
@@ -94,16 +95,18 @@ public class MecanumDriveTrainUsingCustomBraking {
             left_y = max_stick;
         } else if (gamepad1.dpad_down) {
             left_y = min_stick;
-        }else if(gamepad1.left_trigger >= 0.1) {
-            left_x = gamepad1.left_stick_x * left_toggle;
-            left_y = -gamepad1.left_stick_y * left_toggle;
-            right_x = -gamepad1.right_stick_x * left_toggle;
-            max_stick = max_stick * left_toggle;
-            min_stick = min_stick * left_toggle;
-        }else if(gamepad1.right_trigger >= 0.1){
+        }
+//        else if(gamepad1.left_trigger >= 0.1) {
+//            left_x = gamepad1.left_stick_x * left_toggle;
+//            left_y = -gamepad1.left_stick_y * left_toggle;
+//            right_x = -gamepad1.right_stick_x * left_toggle;
+//            max_stick = max_stick * left_toggle;
+//            min_stick = min_stick * left_toggle;
+//        }
+        else if(gamepad1.right_trigger >= 0.1){
             left_x = gamepad1.left_stick_x * right_toggle;
             left_y = -gamepad1.left_stick_y * right_toggle;
-            right_x = -gamepad1.right_stick_x * right_toggle;
+            right_x = -gamepad1.right_stick_x * right_toggle * (gamepad1.left_trigger >= 0.1 ?  left_toggle : 1);
             max_stick = max_stick * right_toggle;
             min_stick = min_stick * right_toggle;
         }
@@ -135,6 +138,12 @@ public class MecanumDriveTrainUsingCustomBraking {
             Intake.flipSwitch();
         } else if (gamepad1.b) {
             Intake.flipSwitchREVERSE();
+        }
+
+        if (gamepad1.dpad_up) {
+            SynchronizedMovement.move( SynchronizedMovement.UP );
+        } else if (gamepad1.dpad_right) {
+            SynchronizedMovement.move( SynchronizedMovement.LOW );
         }
 
         if (gamepad1.right_trigger > 0.1){

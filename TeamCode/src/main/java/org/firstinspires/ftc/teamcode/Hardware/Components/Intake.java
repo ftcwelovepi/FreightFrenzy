@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Hardware.Components;
 
+import androidx.appcompat.widget.WithHint;
+
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -8,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
+import org.firstinspires.ftc.teamcode.ThreadedWait;
 
 public class Intake {
 
@@ -16,8 +19,13 @@ public class Intake {
     private static DigitalChannel redLED;
     private static DigitalChannel greenLED;
 
+    static int encoders;
+    static ThreadedWait waits = new ThreadedWait( 500 );
+    static boolean startedThread = false;
+
     public static void initialize(HardwareFF robot) {
         s = robot.intake;
+//        s.setMode( DcMotor.RunMode.RUN_USING_ENCODER );
         d = robot.distanceSensor;
         greenLED = robot.greenLED;
         redLED = robot.redLED;
@@ -71,6 +79,24 @@ public class Intake {
     }
 
     public static void update () {
+
+//        if (!startedThread) {
+//            waits = new ThreadedWait( 500 );
+//            waits.start();
+//            startedThread = true;
+//
+//            if (power != 0 && Math.abs(encoders - s.getCurrentPosition()) < 100) {
+//                if (power == 0.25)
+//                    power = -0.25;
+//                power = 0.25;
+//            }
+//            encoders = s.getCurrentPosition();
+//
+//        }
+//        if (waits.get()) {
+//            startedThread = false;
+//        }
+
         if (d.getDistance( DistanceUnit.MM ) < 75 && SynchronizedMovement.get() == SynchronizedMovement.STALL){
             power = Math.max( power, 0 );
             redLED.setState( false );
