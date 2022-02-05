@@ -107,4 +107,8 @@ public class Intake {
         }
         s.setPower( power );
     }
+
+    public static boolean detect() {
+        return d.getDistance( DistanceUnit.MM ) < 75;
+    }
 }

@@ -15,14 +15,19 @@ public class ThreadedWait extends Thread{
         end = false;
     }
 
+    //Returns whether the loop has finished running or not
+    //TRUE if finished
+    //FALSE if started and is in the loop
     public boolean get() {
         return end;
     }
 
+    //Returns that time that is left, countdown style
     public double time() {
         return beginTime+wait - System.currentTimeMillis();
     }
 
+    //Starts a wait in a separate thread
     @Override
     public void run() {
         end = false;
