@@ -59,6 +59,7 @@ abstract public class Template {
     public void updateTelemetryDM() {}
 
     public abstract void loop();
+    public abstract void stop();
 
     public void clearTelemetryDM() {
         telemetryDM.clear();

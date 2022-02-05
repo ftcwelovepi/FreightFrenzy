@@ -36,6 +36,10 @@ public class ComponentTesting_BS extends Template{
         Bucket_Servo.update();
     }
 
+    public void stop() {
+
+    }
+
     public void updateTelemetryDM() {
         telemetryDM.put( "Bucket Servo Target Position", String.valueOf(Bucket_Servo.getTargetPosition()) );
         telemetryDM.put( "Bucket Servo Actual Position", String.valueOf(Bucket_Servo.getPosition()) );

@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.Hardware.Components.Intake;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Spinner;
 import org.firstinspires.ftc.teamcode.Hardware.Components.SynchronizedMovement;
+import org.firstinspires.ftc.teamcode.Hardware.ThreadedComponents;
 import org.firstinspires.ftc.teamcode.ThreadedWait;
 
 public class FinalConfigV1 extends Template{
@@ -18,9 +19,7 @@ public class FinalConfigV1 extends Template{
     public boolean press = false;
     public int spinnerFlip = 1;
     ThreadedWait wait = new ThreadedWait( 300 );
-    public int spinnerInitial;
-    public int spinnerStart;
-    public boolean shouldRun = true;
+    ThreadedComponents threadedComponents = new ThreadedComponents();
 
     public void init() {
         robot.initWheels();
@@ -30,7 +29,9 @@ public class FinalConfigV1 extends Template{
         Bucket_Servo.initialize( robot );
         Spinner.initialize( robot );
         SynchronizedMovement.reset();
-        spinnerInitial = robot.spinner.getCurrentPosition();
+
+        ThreadedComponents.run = true;
+        threadedComponents.start();
     }
 
     @Override
@@ -154,11 +155,15 @@ public class FinalConfigV1 extends Template{
     }
 
     public void loop() {
-        Spinner.update();
-        Bucket_Servo.update();
-        Intake.update();
-        Slides.update();
-        SynchronizedMovement.run();
+//        Spinner.update();
+//        Bucket_Servo.update();
+//        Intake.update();
+//        Slides.update();
+//        SynchronizedMovement.run();
+    }
+
+    public void stop() {
+        ThreadedComponents.run = false;
     }
 
     @Override

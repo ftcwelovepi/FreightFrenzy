@@ -109,6 +109,10 @@ public class FinalConfigV2 extends Template{
         updateLoop();
     }
 
+    public void stop() {
+
+    }
+
     public void updateLoop() {
         if (Slides.getEncoders() <= 20 && Slides.getPower() > 0) {
             Intake.setPower( -0.5 );

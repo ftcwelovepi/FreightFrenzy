@@ -91,6 +91,10 @@ public class ComponentTesting_SL extends Template{
         robot.slides.setPower( power * scale );
     }
 
+    public void stop() {
+
+    }
+
     public String getName() {
         return "Slide Component Testing";
     }

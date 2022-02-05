@@ -20,6 +20,10 @@ public class ComponentTesting_Example extends Template {
         Intake.update();
     }
 
+    public void stop() {
+
+    }
+
     public String getName() {
         return "Example Config";
     }

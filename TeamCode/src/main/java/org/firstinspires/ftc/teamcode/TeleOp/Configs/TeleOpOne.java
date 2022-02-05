@@ -27,6 +27,10 @@ public class TeleOpOne extends Template {
 
     }
 
+    public void stop() {
+
+    }
+
     private void setBucket () {
         if (pauseTime+bucketTimeIncrement > System.currentTimeMillis()) {
             return;

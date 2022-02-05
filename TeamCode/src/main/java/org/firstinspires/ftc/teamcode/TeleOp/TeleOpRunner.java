@@ -211,7 +211,10 @@ public class TeleOpRunner extends OpMode {
             telemetry.addData( (i!=indexOfConfig ? "  " : ">"), frameWork.toString().split( "\\." )[frameWork.toString().split( "\\." ).length - 1] );
             i++;
         }
-        if (Template.canPress() && gamepad2.x) setConfig(indexOfConfig);
+        if (Template.canPress() && gamepad2.x) {
+            framework.stop();
+            setConfig(indexOfConfig);
+        }
 
         telemetry.update();
     }
