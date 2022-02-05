@@ -40,15 +40,12 @@ public class RedBarrierSide extends BaseAuto{
         }
 
         waitForStart();
-        sleep(500);
+        sleep(500); //Wait to collect data
         telemetry.addData("Position", pipeline.position.toString());
         telemetry.update();
 
         SynchronizedMovement position;
-        // change position - uppercase
-//        String pipehan = "LEFT";
-//
-        sleep(500);
+
         if (pipeline.position== FreightFrenzyDeterminationPipeline.DuckPosition.LEFT){
             position = SynchronizedMovement.LOW;
             telemetry.addData("Going with BOTTOM", "LEFT");
@@ -72,7 +69,7 @@ public class RedBarrierSide extends BaseAuto{
             encoderMecanumDrive(0.4, 20, 3, 1, 0);
             gyroTurn(0.4, startingAngle+120);
             SynchronizedMovement.move( position );
-            encoderMecanumDrive(0.4,55,3,0,-1);
+            encoderMecanumDrive(basePower,55,3,0,-1);
 
             //extend linear slidehan
 
@@ -86,16 +83,19 @@ public class RedBarrierSide extends BaseAuto{
                 telemetry.addData("Power", Slides.getPower());
                 telemetry.update();
             }
+
             Slides.update();
             Intake.update();
             Bucket_Servo.update();
-            encoderMecanumDrive( basePower, 69, 3, -1, 0 );
+
+            encoderMecanumDrive(basePower,55,3,0,1);
+            gyroTurn( 0.4, startingAngle+180 );
+            encoderMecanumDrive(0.4, 20, 3, 1, 0);
+
             gyroTurn(0.6, startingAngle+180);
-            gyroTurn(0.6, startingAngle+180);
-            encoderMecanumDrive( basePower, 80, 3, 1, 0.5 );
+            encoderMecanumDrive( basePower, 75, 3, 0, 1 );
             Intake.setPower( -1 );
             Intake.update();
-            encoderMecanumDrive( 0.6, 90, 3, 0, 1 );
 
             //go forward till detect
             int forward = 0;
@@ -112,6 +112,7 @@ public class RedBarrierSide extends BaseAuto{
             encoderMecanumDrive( 0.4, forward, 3, 0, -1 );
             Intake.setPower( 1 );
             Intake.update();
+
             gyroTurn(0.6, startingAngle+180);
             encoderMecanumDrive( basePower, 20, 3, 1, 0 );
             encoderMecanumDrive( basePower, 75, 3, 0, -1 );
@@ -132,8 +133,53 @@ public class RedBarrierSide extends BaseAuto{
             encoderMecanumDrive( basePower, 20, 3, 1, 0 );
             encoderMecanumDrive( basePower, 110, 3, 1, 0.5 );
             encoderMecanumDrive( basePower, 90, 3, 0, -1 );
-            encoderMecanumDrive( basePower, 90, 3, 0, 1 );
+            //End of the one block place, ends robot in the warehouse
+            
+            block();
+            block();
 
         }
+    }
+
+    public void block () {
+
+        //go forward till detect
+        int forward = 0;
+        while (!(robot.distanceSensor.getDistance( DistanceUnit.MM ) < 75) && opModeIsActive() && forward < 30) {
+            if (forward == 25) {
+                encoderMecanumDrive( 0.4, 10, 3, -1, 0 );
+                gyroTurn( 0.6, startingAngle+170 );
+                gyroTurn( 0.6, startingAngle+180 );
+                encoderMecanumDrive( 0.4, 10, 3, -1, 0 );
+            }
+            encoderMecanumDrive( 0.4, 5, 3, 0, 1 );
+            forward += 5;
+        }
+        encoderMecanumDrive( 0.4, forward, 3, 0, -1 );
+        Intake.setPower( 1 );
+        Intake.update();
+
+        gyroTurn(0.6, startingAngle+180);
+        encoderMecanumDrive( basePower, 20, 3, 1, 0 );
+        encoderMecanumDrive( basePower, 75, 3, 0, -1 );
+        encoderMecanumDrive( basePower, 95, 3, -1, -0.5 );
+        SynchronizedMovement.move( SynchronizedMovement.UP );
+        gyroTurn(0.7,startingAngle+90); //Turn to face it
+        while (SynchronizedMovement.getStage() != 6) {
+            SynchronizedMovement.run();
+            Slides.update();
+            Intake.update();
+            Bucket_Servo.update();
+            telemetry.addData("Stage", SynchronizedMovement.getStage());
+            telemetry.addData("Encoder", Slides.getEncoders());
+            telemetry.addData("Power", Slides.getPower());
+            telemetry.update();
+        }
+        gyroTurn(0.7,startingAngle+180);
+        encoderMecanumDrive( basePower, 20, 3, 1, 0 );
+        encoderMecanumDrive( basePower, 110, 3, 1, 0.5 );
+        encoderMecanumDrive( basePower, 90, 3, 0, -1 );
+        //End of the one block place, ends robot in the warehouse
+
     }
 }
