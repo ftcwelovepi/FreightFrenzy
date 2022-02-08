@@ -134,7 +134,7 @@ public class RedBarrierSide extends BaseAuto{
             encoderMecanumDrive( basePower, 110, 3, 1, 0.5 );
             encoderMecanumDrive( basePower, 90, 3, 0, -1 );
             //End of the one block place, ends robot in the warehouse
-            
+
             block();
             block();
 

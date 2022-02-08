@@ -24,6 +24,9 @@ public class HardwareFF {
     public DcMotor backRight;
 
     public DcMotorEx spinner;
+    public DcMotor grabberMotor;
+    public CRServo grabberExtender;
+    public Servo grabberClaw;
     public DcMotor slides;
     public DcMotor intake;
     public Servo bucket;
@@ -37,6 +40,7 @@ public class HardwareFF {
     private static boolean intakeB;
     private static boolean spinnerB;
     private static boolean bucketB;
+    private static boolean grabber;
 
     public DistanceSensor distanceSensor;
     public Rev2mDistanceSensor sensorTimeOfFlight;
@@ -55,6 +59,7 @@ public class HardwareFF {
         intakeB = false;
         spinnerB = false;
         bucketB = false;
+        grabber = false;
     }
 
     public void initSensor() {
@@ -80,6 +85,16 @@ public class HardwareFF {
         imu = hwMap.get(BNO055IMU.class, "imu");
 
         imu.initialize(parameters);
+    }
+
+    public void initGrabber() {
+        if (grabber) return;
+
+        grabberMotor = hwMap.get( DcMotor.class, "grabberM" );
+        grabberClaw = hwMap.get( Servo.class, "grabberC" );
+        grabberExtender = hwMap.get( CRServo.class, "grabberE" );
+
+        grabber = true;
     }
 
     public void initIntake() {

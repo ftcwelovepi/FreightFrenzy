@@ -189,6 +189,7 @@ public class TeleOpRunner extends OpMode {
     //Clear List once Opmode is stopped
     @Override
     public void stop() {
+        framework.stop();
         listOfTemplates = new ArrayList<>();
         SynchronizedMovement.move(SynchronizedMovement.STALL);
     }

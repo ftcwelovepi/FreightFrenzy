@@ -299,8 +299,7 @@ public abstract class BaseAuto extends OpenCVDetection{
         /*int sum = robot.realgyro.getIntegratedZValue() + robot.realgyro2.getIntegratedZValue();
         return sum/2;*/
         Orientation angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, DEGREES);
-        double heading = angles.firstAngle;
-        return heading;
+        return angles.firstAngle;
     }
 
     public void moveConstGyroandDist (double speed, double distance, double move_y, double distanceMM, double heading) {

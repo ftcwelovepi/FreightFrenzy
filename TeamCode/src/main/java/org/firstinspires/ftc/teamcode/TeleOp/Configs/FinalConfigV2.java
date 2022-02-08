@@ -15,6 +15,7 @@ public class FinalConfigV2 extends Template{
 
     String stage = "Nothing Yet";
     public boolean intakeStage = true;
+    public boolean unlock = true;
     public int spinnerFlip = 1;
 
     ThreadedWait wait = new ThreadedWait( 300 );
@@ -63,7 +64,9 @@ public class FinalConfigV2 extends Template{
     //TODO: Automatically move the slides to the top position when pressed
     @Override
     public void du(boolean pressed) {
+        if (pressed) {
 
+        }
     }
 
     //TODO: Automatically move the slides down to mid position (Between low and mid)
@@ -90,9 +93,16 @@ public class FinalConfigV2 extends Template{
     //Manual Control of the intake as long as it is during intake stage
     @Override
     public void rjoy(float x, float y) {
-        if (intakeStage) {
+        if (intakeStage && unlock) {
             Intake.setPower( y );
         }
+        if (intakeStage) Bucket_Servo.setPosition(0);
+    }
+
+    @Override
+    public void rjoyb(boolean pressed) {
+        if (pressed)
+            unlock = true;
     }
 
     //Starts a new threaded wait
@@ -117,14 +127,17 @@ public class FinalConfigV2 extends Template{
             Intake.setPower( -0.3 );
             Slides.setPower( 1 );
             intakeStage = false;
+            unlock = false;
             startWaitThread(300);
         } else if (!intakeStage && wait.get()) {
-            Bucket_Servo.glideToPosition( Math.max( Bucket_Servo.getTargetPosition(), 0.6 ) );
+            Intake.setPower( 0.3 );
+            Bucket_Servo.glideToPosition( Math.max( Bucket_Servo.getTargetPosition(), 0.4 ) );
         } else if (intakeStage && wait.get()) {
-            Bucket_Servo.setPosition(0);
+            Bucket_Servo.setPosition( (unlock ? 0 : 0.2) );
             Slides.setPower( -1 ); //TODO: if the slides are low and position of the bucket is high then move slides up
             //This is to make sure that the bucket does not hit the intake on the way down
             startWaitThread( 500 );
+
         }
     }
 
