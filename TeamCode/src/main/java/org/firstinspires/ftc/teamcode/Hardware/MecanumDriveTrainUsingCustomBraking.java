@@ -40,7 +40,7 @@ public class MecanumDriveTrainUsingCustomBraking {
     boolean malinDrive = false; //
     boolean malinPastState = false;
     double speedlimiter = 1;
-    private double CUM = -1; //Coefficient for Undoing Momentum
+    private double CUM = -0.2; //Coefficient for Undoing Momentum
     // WE NEED TO FINE TUNE THIS!
 
 
@@ -63,13 +63,18 @@ public class MecanumDriveTrainUsingCustomBraking {
         double backRightPower = backRight.getPower();
 
         double pauseTime = System.currentTimeMillis();
-
+//
         frontLeft.setPower(frontLeftPower * CUM);
         frontRight.setPower(frontRightPower * CUM);
         backLeft.setPower(backLeftPower * CUM);
         backRight.setPower(backRightPower * CUM);
-        while (System.currentTimeMillis() - 50 < pauseTime){ //there's probably an error here (Nathan R. Liu)
-            //wait 50 ms
+        while (System.currentTimeMillis() - 100 < pauseTime){ //there's probably an error here (Nathan R. Liu)
+//            CUM = -(System.currentTimeMillis() - 100) / pauseTime;
+//
+//            frontLeft.setPower(frontLeftPower * CUM);
+//            frontRight.setPower(frontRightPower * CUM);
+//            backLeft.setPower(backLeftPower * CUM);
+//            backRight.setPower(backRightPower * CUM);
         }
         frontLeft.setPower(0);
         frontRight.setPower(0);
@@ -129,12 +134,6 @@ public class MecanumDriveTrainUsingCustomBraking {
         }
         malinPastState = gamepad1.right_bumper;
 
-        if (gamepad1.a) {
-            Intake.flipSwitch();
-        } else if (gamepad1.b) {
-            Intake.flipSwitchREVERSE();
-        }
-
 //        if (gamepad1.dpad_up) {
 //            SynchronizedMovement.move( SynchronizedMovement.UP );
 //        } else if (gamepad1.dpad_right) {
@@ -159,8 +158,9 @@ public class MecanumDriveTrainUsingCustomBraking {
 //            backLeft.setPower(wheels.getRearLeftPower());
 //        }
 
-        if (Math.abs(gamepad1.left_stick_x) < 0.1 && Math.abs(gamepad1.left_stick_y) < 0.1)
+        if ((Math.abs(gamepad1.left_stick_x) < 0.1 && Math.abs(gamepad1.left_stick_y) < 0.1 && Math.abs(gamepad1.right_stick_x) < 0.1)) {
             stop();
+        }
 
         if (!malinDrive){
             frontLeft.setPower(wheels.getFrontLeftPower());
