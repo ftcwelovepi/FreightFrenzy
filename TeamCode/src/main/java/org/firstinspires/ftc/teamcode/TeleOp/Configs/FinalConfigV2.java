@@ -16,6 +16,7 @@ public class FinalConfigV2 extends Template{
     String stage = "Nothing Yet";
     public boolean intakeStage = true;
     public boolean unlock = true;
+    public String level = "high";
     public int spinnerFlip = 1;
 
     ThreadedWait wait = new ThreadedWait( 300 );
@@ -65,14 +66,14 @@ public class FinalConfigV2 extends Template{
     @Override
     public void du(boolean pressed) {
         if (pressed) {
-
+            level = "high";
         }
     }
 
     //TODO: Automatically move the slides down to mid position (Between low and mid)
     public void dr (boolean pressed) {
-        if (pressed) {
-
+        if (pressed && !intakeStage) {
+            level = "high";
         }
     }
 
@@ -128,10 +129,21 @@ public class FinalConfigV2 extends Template{
             Slides.setPower( 1 );
             intakeStage = false;
             unlock = false;
+            level = "none";
             startWaitThread(300);
         } else if (!intakeStage && wait.get()) {
             Intake.setPower( 0.3 );
             Bucket_Servo.glideToPosition( Math.max( Bucket_Servo.getTargetPosition(), 0.4 ) );
+
+            if (level.equals( "high" ) && Slides.getEncoders() < Slides.getHigh())
+                Slides.setPower( 0.7 );
+            else if (level.equals( "mid" ) && Slides.getEncoders() < Slides.getMid())
+                Slides.setPower( 0.7 );
+            else if (level.equals( "none" ) && Slides.getEncoders() < Slides.getLow())
+                Slides.setPower( 1 );
+            else
+                Slides.setPower( 0 );
+
         } else if (intakeStage && wait.get()) {
             Bucket_Servo.setPosition( (unlock ? 0 : 0.2) );
             Slides.setPower( -1 ); //TODO: if the slides are low and position of the bucket is high then move slides up
@@ -144,7 +156,6 @@ public class FinalConfigV2 extends Template{
     public void stop() {
         ThreadedComponents.run = false;
     }
-
 
     //Display all the necessary information
     @Override
