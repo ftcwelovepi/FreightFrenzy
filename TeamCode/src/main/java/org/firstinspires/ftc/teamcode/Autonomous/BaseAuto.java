@@ -59,6 +59,29 @@ public abstract class BaseAuto extends OpenCVDetection{
 
     }
 
+    double CUM = -0.2;
+
+    public void stopMotors() { //inverse the direction of the motor to apply a quick stopping force
+        double frontLeftPower = robot.frontLeft.getPower();
+        double frontRightPower = robot.frontRight.getPower();
+        double backLeftPower = robot.backLeft.getPower();
+        double backRightPower = robot.backRight.getPower();
+
+        double pauseTime = System.currentTimeMillis();
+
+        robot.frontLeft.setPower(frontLeftPower * CUM);
+        robot.frontRight.setPower(frontRightPower * CUM);
+        robot.backLeft.setPower(backLeftPower * CUM);
+        robot.backRight.setPower(backRightPower * CUM);
+        while (System.currentTimeMillis() - 100 < pauseTime){ //there's probably an error here (Nathan R. Liu)
+            //wait 100 ms
+        }
+        robot.frontLeft.setPower(0);
+        robot.frontRight.setPower(0);
+        robot.backLeft.setPower(0);
+        robot.backRight.setPower(0);
+    }
+
     public void testDrive(double speed, double distance, DcMotor input) {
         int newTarget;
         MecanumWheels wheels = new MecanumWheels();
@@ -211,10 +234,7 @@ public abstract class BaseAuto extends OpenCVDetection{
             }
 
             // Stop all motion;
-            robot.frontLeft.setPower(0);
-            robot.frontRight.setPower(0);
-            robot.backRight.setPower(0);
-            robot.backLeft.setPower(0);
+            stopMotors();
 
             // Turn off RUN_TO_POSITION
             robot.frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -224,8 +244,6 @@ public abstract class BaseAuto extends OpenCVDetection{
 
         }
     }
-
-
 
     public void gyroTurn (  double speed, double angle) {
         telemetry.addData("starting angle", getAverageGyro());
