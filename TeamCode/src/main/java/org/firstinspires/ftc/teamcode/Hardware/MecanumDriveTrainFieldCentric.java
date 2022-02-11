@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Hardware.MecanumWheels;
 import org.firstinspires.ftc.teamcode.ThreadedWait;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
+import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
 
 
 /**
@@ -46,7 +47,7 @@ public class MecanumDriveTrainFieldCentric {
     double speedlimiter = 1;
     public BNO055IMU imu;
     public double startingAngle;
-    private double CUM = -1; //Coefficient for Undoing Momentum
+    private double CUM = -0.2; //Coefficient for Undoing Momentum
     // WE NEED TO FINE TUNE THIS! AGREED
 
     // Constructors
@@ -75,8 +76,8 @@ public class MecanumDriveTrainFieldCentric {
         frontRight.setPower(frontRightPower * CUM);
         backLeft.setPower(backLeftPower * CUM);
         backRight.setPower(backRightPower * CUM);
-        while (System.currentTimeMillis() - 50 < pauseTime){ //there's probably an error here (Nathan R. Liu)
-            //wait 50 ms
+        while (System.currentTimeMillis() - 100 < pauseTime){ //there's probably an error here (Nathan R. Liu)
+            //wait 100 ms
         }
         frontLeft.setPower(0);
         frontRight.setPower(0);
@@ -91,7 +92,6 @@ public class MecanumDriveTrainFieldCentric {
         double right_x = 0.0;
         double left_toggle = 0.7;
         double right_toggle = 0.6;
-        double gamepadSum = gamepad1.left_stick_x + gamepad1.left_stick_y + gamepad1.right_stick_x;
 
         // dpad overrides other joysticks
         if (gamepad1.dpad_left) {
@@ -102,8 +102,7 @@ public class MecanumDriveTrainFieldCentric {
             left_y = max_stick;
         } else if (gamepad1.dpad_down) {
             left_y = min_stick;
-        }
-        else if(gamepad1.right_trigger >= 0.1){
+        } else if(gamepad1.right_trigger >= 0.1){
             left_x = gamepad1.left_stick_x * right_toggle;
             left_y = -gamepad1.left_stick_y * right_toggle;
             right_x = -gamepad1.right_stick_x * right_toggle * (gamepad1.left_trigger >= 0.1 ?  left_toggle : 1);
@@ -129,16 +128,13 @@ public class MecanumDriveTrainFieldCentric {
         }
         malinPastState = gamepad1.right_bumper;
 
-        if (gamepad1.a) {
-            Intake.flipSwitch();
-        } else if (gamepad1.b) {
-            Intake.flipSwitchREVERSE();
-        }
+        // Update the joystick input to calculate  wheel powers
+        Point p = translate( new Point( left_x, left_y ), getAverageGyro());
+        wheels.UpdateInput(p.x, p.y, right_x);
 
-        wheels.UpdateInput(left_x, left_y, right_x);
-
-        if (Math.abs(gamepad1.left_stick_x) < 0.1 && Math.abs(gamepad1.left_stick_y) < 0.1)
+        if ((Math.abs(gamepad1.left_stick_x) < 0.1 && Math.abs(gamepad1.left_stick_y) < 0.1 && Math.abs(gamepad1.right_stick_x) < 0.1)) {
             stop();
+        }
 
         if (!malinDrive){
             frontLeft.setPower(wheels.getFrontLeftPower());
@@ -154,10 +150,32 @@ public class MecanumDriveTrainFieldCentric {
 
     }
 
+    //Pass in desired direction from gpad controls
+    //Return power ratio to motors in x, y form
+    //Give current direction it is faced
+    public static Point translate(Point point, double theta) {
+
+        double desiredR = Math.sqrt(point.x*point.x + point.y*point.y);
+        double desiredAngle = Math.atan2(point.y, point.x);
+
+        double differenceAngle = desiredAngle - Math.toRadians(theta) + Math.PI/2;
+        point.x = Math.cos(differenceAngle)*desiredR;
+        point.y = Math.sin(differenceAngle)*desiredR;
+
+        return point;
+    }
+
     public double getAverageGyro(){
         /*int sum = robot.realgyro.getIntegratedZValue() + robot.realgyro2.getIntegratedZValue();
         return sum/2;*/
-        Orientation angles = imu.getAngularOrientation( AxesReference.INTRINSIC, AxesOrder.ZYX, DEGREES);
+        Orientation angles = imu.getAngularOrientation( AxesReference.INTRINSIC, AxesOrder.ZYX, RADIANS);
         return angles.firstAngle;
+    }
+
+    class Point {
+        double x, y;
+        Point (double x, double y) {
+            this.x = x; this.y = y;
+        }
     }
 }
