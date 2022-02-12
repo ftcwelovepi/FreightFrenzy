@@ -117,7 +117,7 @@ public class Slides {
     public static void update () {
         if (s.getCurrentPosition() > lowerboundHigh && power > 0) power = 0;
         if (s.getCurrentPosition() < 200 && power < 0) power = -0.1;
-        if (s.getCurrentPosition() < 20 && power < 0) power = 0;
+        if (s.getCurrentPosition() < 15 && power < 0) power = 0;
         s.setPower( power );
     }
 

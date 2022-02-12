@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Hardware.Components.Bucket_Servo;
 import org.firstinspires.ftc.teamcode.Hardware.Components.Slides;
 import org.firstinspires.ftc.teamcode.Hardware.Components.SynchronizedMovement;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareFF;
+import org.firstinspires.ftc.teamcode.Hardware.MecanumDriveTrainFieldCentric;
 import org.firstinspires.ftc.teamcode.Hardware.MecanumDriveTrainUsingCustomBraking;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.ComponentTesting_BS;
 import org.firstinspires.ftc.teamcode.TeleOp.Configs.ComponentTesting_SL;
@@ -45,7 +46,7 @@ public class TeleOpRunner extends OpMode {
     private DigitalChannel greenLED;
 
     // declaring variables
-    MecanumDriveTrainUsingCustomBraking vroom;
+    MecanumDriveTrainFieldCentric vroom;
 
 
     /* Declare OpMode members. */
@@ -103,7 +104,7 @@ public class TeleOpRunner extends OpMode {
         telemetry.update();
 
         //initializing GP1 Functions for driving
-        vroom = new MecanumDriveTrainUsingCustomBraking(robot, gamepad1,telemetry);
+        vroom = new MecanumDriveTrainFieldCentric(robot, gamepad1,telemetry);
 
         startingAngle = getAverageGyro();
 
@@ -173,6 +174,7 @@ public class TeleOpRunner extends OpMode {
                 telemetry.addData( key, framework.telemetryDM.get( key ) );
             }
             telemetry.addData( "Slides", String.valueOf( robot.slides.getPower() ) );
+            telemetry.addData( "Gyro", String.valueOf( vroom.getAverageGyro() ) );
             telemetry.update();
             Template.resetButton();
         }

@@ -46,9 +46,10 @@ public class MecanumDriveTrainFieldCentric {
     boolean malinPastState = false;
     double speedlimiter = 1;
     public BNO055IMU imu;
-    public double startingAngle;
+    public static double startingAngle = Math.PI/2;
     private double CUM = -0.2; //Coefficient for Undoing Momentum
-    // WE NEED TO FINE TUNE THIS! AGREED
+
+    private double measuredAngle;
 
     // Constructors
 
@@ -91,7 +92,7 @@ public class MecanumDriveTrainFieldCentric {
         double left_y = 0.0;
         double right_x = 0.0;
         double left_toggle = 0.7;
-        double right_toggle = 0.6;
+        double right_toggle = 0.4;
 
         // dpad overrides other joysticks
         if (gamepad1.dpad_left) {
@@ -126,15 +127,21 @@ public class MecanumDriveTrainFieldCentric {
         if (gamepad1.right_bumper && !malinPastState){
             malinDrive = !malinDrive;
         }
+
+        if (gamepad1.a) {
+            startingAngle = getAverageGyro();
+        }
+
         malinPastState = gamepad1.right_bumper;
 
         // Update the joystick input to calculate  wheel powers
         Point p = translate( new Point( left_x, left_y ), getAverageGyro());
         wheels.UpdateInput(p.x, p.y, right_x);
 
-        if ((Math.abs(gamepad1.left_stick_x) < 0.1 && Math.abs(gamepad1.left_stick_y) < 0.1 && Math.abs(gamepad1.right_stick_x) < 0.1)) {
-            stop();
-        }
+        //TODO Fix the stop condition, it stops way to fast, if the user wants to do small movements it will jitter badly
+//        if ((Math.abs(gamepad1.left_stick_x) < 0.1 && Math.abs(gamepad1.left_stick_y) < 0.1 && Math.abs(gamepad1.right_stick_x) < 0.1)) {
+//            stop();
+//        }
 
         if (!malinDrive){
             frontLeft.setPower(wheels.getFrontLeftPower());
@@ -158,7 +165,7 @@ public class MecanumDriveTrainFieldCentric {
         double desiredR = Math.sqrt(point.x*point.x + point.y*point.y);
         double desiredAngle = Math.atan2(point.y, point.x);
 
-        double differenceAngle = desiredAngle - Math.toRadians(theta) + Math.PI/2;
+        double differenceAngle = desiredAngle - theta + startingAngle;
         point.x = Math.cos(differenceAngle)*desiredR;
         point.y = Math.sin(differenceAngle)*desiredR;
 

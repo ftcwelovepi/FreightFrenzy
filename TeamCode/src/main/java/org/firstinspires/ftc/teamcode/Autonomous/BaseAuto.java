@@ -159,7 +159,7 @@ public abstract class BaseAuto extends OpenCVDetection{
     }
 
 
-    public void encoderMecanumDrive(double speed, double distance , double timeoutS, double move_x, double move_y) {
+    public void encoderMecanumDrive(double speed, double distance , double timeoutS, double move_x, double move_y, boolean brake) {
         int     newFrontLeftTarget;
         int     newFrontRightTarget;
         int     newBackLeftTarget;
@@ -234,7 +234,7 @@ public abstract class BaseAuto extends OpenCVDetection{
             }
 
             // Stop all motion;
-            stopMotors();
+            if(brake) stopMotors();
 
             // Turn off RUN_TO_POSITION
             robot.frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -243,6 +243,10 @@ public abstract class BaseAuto extends OpenCVDetection{
             robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         }
+    }
+
+    public void encoderMecanumDrive(double speed, double distance , double timeoutS, double move_x, double move_y){
+        encoderMecanumDrive( speed, distance, timeoutS, move_x, move_y, true );
     }
 
     public void gyroTurn (  double speed, double angle) {
